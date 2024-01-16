@@ -1,0 +1,170 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/animations.css">
+    <link rel="stylesheet" href="~/css/main.css">
+    <link rel="stylesheet" href="~/css/signup.css">
+
+    <title>Sign Up</title>
+
+</head>
+
+<body>
+    <center>
+        <h1>@ViewData["Title"]</h1>
+
+        <div class="container">
+            <table border="0">
+                <tr>
+                    <td colspan="2">
+                        <p class="header-text">Let's Get Started</p>
+                        <p class="sub-text">Add Your Personal Details to Continue</p>
+                    </td>
+                </tr>
+                <tr>
+                    @* <form action="" method="POST" > *@
+                    <td class="label-td" colspan="2">
+                        <label for="name" class="form-label">Name: </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-td">
+                        <input type="text" name="fname" class="input-text" placeholder="First Name" required>
+                    </td>
+                    <td class="label-td">
+                        <input type="text" name="lname" class="input-text" placeholder="Last Name" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-td" colspan="2">
+                        <label for="address" class="form-label">Address: </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-td" colspan="2">
+                        <input type="text" name="address" class="input-text" placeholder="Address" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-td" colspan="2">
+                        <label for="nic" class="form-label">NIC: </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-td" colspan="2">
+                        <input type="text" name="nic" class="input-text" placeholder="NIC Number" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-td" colspan="2">
+                        <label for="dob" class="form-label">Date of Birth: </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-td" colspan="2">
+                        <input type="date" name="dob" class="input-text" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-td" colspan="2">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="reset" value="Reset" class="login-btn btn-primary-soft btn">
+                    </td>
+                    <td>
+                        <input type="submit" value="Next" class="login-btn btn-primary btn">
+                    </td>
+
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <br>
+                        <label for="" class="sub-text" style="font-weight: 280;">Already have an account&#63; </label>
+                        <a href="login.php" class="hover-link1 non-style-link">Login</a>
+                        <br><br><br>
+                    </td>
+                </tr>
+
+                @* </form> *@
+                </tr>
+            </table>
+
+        </div>
+    </center>
+</body>
+</html>
+@* <div class="row">
+<div class="col-md-4">
+<form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+<h2>Create a new account.</h2>
+<hr />
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="form-floating">
+<input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+<label asp-for="Input.Email"></label>
+<span asp-validation-for="Input.Email" class="text-danger"></span>
+</div>
+<div class="form-floating">
+<input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+<label asp-for="Input.Password"></label>
+<span asp-validation-for="Input.Password" class="text-danger"></span>
+</div>
+<div class="form-floating">
+<input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+<label asp-for="Input.ConfirmPassword"></label>
+<span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+</div>
+<button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+</form>
+</div>
+<div class="col-md-6 col-md-offset-2">
+<section>
+<h3>Use another service to register.</h3>
+<hr />
+@{
+if ((Model.ExternalLogins?.Count ?? 0) == 0)
+{
+<div>
+<p>
+There are no external authentication services configured. See this <a
+href="https://go.microsoft.com/fwlink/?LinkID=532715">article
+about setting up this ASP.NET application to support logging in via external services</a>.
+</p>
+</div>
+}
+else
+{
+<form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post"
+class="form-horizontal">
+<div>
+<p>
+@foreach (var provider in Model.ExternalLogins)
+{
+<button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your
+@provider.DisplayName account">@provider.DisplayName</button>
+}
+</p>
+</div>
+</form>
+}
+}
+</section>
+</div>
+</div> *@
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
