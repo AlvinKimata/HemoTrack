@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HemoTrack.Controllers
 {
-    public class DoctorController : Controller
+    public class PatientsController : Controller
     {
         public IActionResult Index()
         {

@@ -10,8 +10,13 @@ public class ApplicationDbContext : IdentityDbContext
         : base(options)
     {
     }
-    
-        public DbSet<Patients> Patients { get; set; }
-        public DbSet<Doctors> Doctors { get; set; }
+
+        public DbSet<Administrator> Administrator {get; set;}
+        public DbSet <Appointment> Appointment {get; set;}
+        public DbSet<Doctor> Doctor {get; set;}
+        public DbSet<Patient> Patient { get; set; }
+        public DbSet<Schedule> Schedule {get; set;}
         public DbSet<Specialities> Specialities { get; set; }
+        public DbSet<Webuser> Webuser {get; set;}
+
 }

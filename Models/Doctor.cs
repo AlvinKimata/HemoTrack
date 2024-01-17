@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HemoTrack.Models
 {
-    public class Doctors 
+    public class Doctor
     {
         [Key]
         public int DoctorId { get; set; }

@@ -7,10 +7,7 @@ namespace HemoTrack.Models
     {
         [Key]
         public int SpecialityId { get; set; }
-
-
         public string? SpecialityName { get; set;}
-        public string? Description { get; set; }
 
     }
 }
