@@ -12,7 +12,7 @@ namespace HemoTrack.Models
         public DateTime? ScheduleDate { get; set; }
         public string? Title {get; set;}
         public TimeSpan? ScheduleTime { get; set; }
-        public int nop {get; set;}
-        public int docid {get; set;}
+        public int Nop {get; set;}
+        public int DocId {get; set;}
     }
 }
