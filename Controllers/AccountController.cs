@@ -101,24 +101,24 @@ namespace school_project.Controllers
             return View();
         }
 
-        // [HttpPost]
-        // [AllowAnonymous]
-        // public async Task<IActionResult> Login(LoginViewModel model)
-        // {
-        //     if (ModelState.IsValid)
-        //     {
-        //         var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
 
-        //         if (result.Succeeded)
-        //         {
-        //             return RedirectToAction("index", "home");
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("index", "home");
 
-        //         }
+                }
 
-        //         ModelState.AddModelError(string.Empty, "Invalid login attempt");
-        //     }
+                ModelState.AddModelError(string.Empty, "Invalid login attempt");
+            }
 
-        //     return View(model);
-        // }
+            return View(model);
+        }
     }
 }

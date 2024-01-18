@@ -11,7 +11,7 @@
 <center>
     <h1>@ViewData["Title"]</h1>
     <div class="container">
-        <form action="" method="POST">
+        <form method="post">
             <table border="0" style="margin: 0;padding: 0;width: 60%;">
                 <tr>
                     <td>
@@ -25,34 +25,43 @@
                         </td>
                     </tr>
                     <tr>
-                    
-                            <td class="label-td">
-                                <label for="useremail" class="form-label">Email: </label>
+
+                        <td class="label-td">
+                            <label asp-for="Email" class="form-label">Email: </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td">
+                            <input type="email" asp-for="Email" class="input-text" placeholder="Email Address"
+                                aria-required="true">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td">
+                            <label asp-for="Password" class="form-label">Password</label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label-td">
+                            <input type="Password" asp-for="Password" class="input-text" placeholder="Password"
+                                aria-required="true">
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <div class="checkbox">
+                        <tr>
+                            <td>
+                                <br>
+                                <label asp-for="RememberMe">
+                                    <input asp-for="RememberMe" />
+                                    @Html.DisplayNameFor(m => m.RememberMe)
+                                </label>
+                                <span asp-validation-for="RememberMe" class="text-danger"></span>
                             </td>
-                    </tr>
-                    <tr>
-                        <td class="label-td">
-                            <input type="email" name="useremail" class="input-text" placeholder="Email Address" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="label-td">
-                            <label for="userpassword" class="form-label">Password: </label>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="label-td">
-                            <input type="Password" name="userpassword" class="input-text" placeholder="Password" required>
-                        </td>
-                    </tr>
-
-
-                    <tr>
-                        <td><br>
-                            ?php echo $error ?
-                        </td>
-                    </tr>
+                        </tr>
+                    </div>
 
                     <tr>
                         <td>
@@ -60,16 +69,17 @@
                         </td>
                     </tr>
                 </div>
+
                 <tr>
                     <td>
                         <br>
                         <label for="" class="sub-text" style="font-weight: 280;">Don't have an account&#63; </label>
-                        <a href="signup.php" class="hover-link1 non-style-link">Sign Up</a>
+                        <a asp-controller="Account" asp-action="Register" class="hover-link1 non-style-link">Sign Up</a>
                         <br><br><br>
                     </td>
                 </tr>
             </table>
-            </form>
+        </form>
 
     </div>
 </center>

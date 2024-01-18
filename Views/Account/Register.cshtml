@@ -152,19 +152,16 @@
                             <input type="reset" value="Reset" class="login-btn btn-primary-soft btn">
                         </td>
                         <td>
-                            @* <input type="submit" value="Sign Up" id="registerSubmit" class="login-btn btn-primary btn"> *@
                             <button class="btn login-btn btn-primary w-100" type="submit">Sign Up</button>
-                            @* <a asp-controller="Home" class="login-btn btn btn-primary" asp-action="Create">Delete</a> *@
-                            @* <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary mt-3">Register</button> <br /> *@
                         </td>
 
                     </tr>
                     <tr>
                         <td colspan="2">
                             <br>
-                            <label for="" class="sub-text" style="font-weight: 280;">Already have an account&#63;
+                            <label class="sub-text" style="font-weight: 280;">Already have an account&#63;
                             </label>
-                            <a href="#" class="hover-link1 non-style-link">Login</a>
+                            <a asp-controller="Account" asp-action="Login" class="hover-link1 non-style-link">Login</a>
                             <br><br><br>
                         </td>
                     </tr>
