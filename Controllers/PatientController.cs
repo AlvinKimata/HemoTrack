@@ -23,7 +23,7 @@ namespace HemoTrack.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index(int id)
+        public async Task<IActionResult> Index()
         {
             // Get the current user ID from the user claims.
             string currentUserName = User.Identity.Name;
