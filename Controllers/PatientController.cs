@@ -16,8 +16,8 @@ namespace HemoTrack.Controllers
     public class PatientController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<Patient> _userManager;
-        public PatientController(ApplicationDbContext context, UserManager<Patient> userManager)
+        private readonly UserManager<User> _userManager;
+        public PatientController(ApplicationDbContext context, UserManager<User> userManager)
         {
             _context = context;
             _userManager = userManager;
