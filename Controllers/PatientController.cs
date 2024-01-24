@@ -13,11 +13,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HemoTrack.Controllers
 {
-    public class PatientsController : Controller
+    public class PatientController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<Patient> _userManager;
-        public PatientsController(ApplicationDbContext context, UserManager<Patient> userManager)
+        public PatientController(ApplicationDbContext context, UserManager<Patient> userManager)
         {
             _context = context;
             _userManager = userManager;
