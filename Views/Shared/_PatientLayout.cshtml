@@ -1,3 +1,9 @@
+@model PatientDashboardVM
+
+@{
+    var username = Model.UserName;
+    var useremail = Model.Email;
+}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,6 +33,90 @@
 </head>
 
 <body>
+    <div class="container">
+        <div class="menu">
+            <table class="menu-container" border="0">
+                <tr>
+                    <td style="padding:10px" colspan="2">
+                        <table border="0" class="profile-container">
+                            <tr>
+                                <td width="30%" style="padding-left:20px">
+                                    <img src="~/img/user.png" alt="" width="100%" style="border-radius:50%">
+                                </td>
+                                <td style="padding:0px;margin:0px;">
+                                    <p class="profile-title">
+                                        @username
+                                    </p>
+                                    <p class="profile-subtitle">
+                                        @useremail
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <a href="#"><input type="button" value="Log out"
+                                            class="logout-btn btn-primary-soft btn"></a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr class="menu-row">
+                    <td class="menu-btn menu-icon-home menu-active menu-icon-home-active">
+                        <a href="#" class="non-style-link-menu non-style-link-menu-active">
+                            <div>
+                                <p class="menu-text">Home</p>
+                        </a>
+        </div></a>
+        </td>
+        </tr>
+        <tr class="menu-row">
+            <td class="menu-btn menu-icon-doctor">
+                <a href="#" class="non-style-link-menu">
+                    <div>
+                        <p class="menu-text">All Doctors</p>
+                    </div>
+                </a>
+
+            </td>
+        </tr>
+
+
+        <tr class="menu-row">
+            <td class="menu-btn menu-icon-session">
+                <a href="#" class="non-style-link-menu">
+                    <div>
+                        <p class="menu-text">Scheduled Sessions</p>
+                    </div>
+                </a>
+            </td>
+        </tr>
+        <tr class="menu-row">
+            <td class="menu-btn menu-icon-appoinment">
+                <a href="#" class="non-style-link-menu">
+                    <div>
+                        <p class="menu-text">My Bookings</p>
+                    </div>
+                </a>
+            </td>
+        </tr>
+
+
+
+        <tr class="menu-row">
+            <td class="menu-btn menu-icon-settings">
+                <a href="settings.php" class="non-style-link-menu">
+                    <div>
+                        <p class="menu-text">Settings</p>
+                    </div>
+                </a>
+            </td>
+        </tr>
+
+        </table>
+    </div>
+
     @RenderBody()
 </body>
+
 </html>
