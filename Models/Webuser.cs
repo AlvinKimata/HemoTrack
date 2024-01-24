@@ -8,7 +8,11 @@ namespace HemoTrack.Models
         [Key]
         public int WebuserId { get; set; }
         public string? Email {get; set;}
-        public string? usertype { get; set;}
 
     }
+    public enum webuser
+    {
+        Admin,
+        Patient
+    } 
 }
