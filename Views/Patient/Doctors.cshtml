@@ -1,84 +1,18 @@
-<div class="container">
-    <div class="menu">
-        <table class="menu-container" border="0">
-            <tr>
-                <td style="padding:10px" colspan="2">
-                    <table border="0" class="profile-container">
-                        <tr>
-                            <td width="30%" style="padding-left:20px">
-                                <img src="~/img/user.png" alt="" width="100%" style="border-radius:50%">
-                            </td>
-                            <td style="padding:0px;margin:0px;">
-                                <p class="profile-title">
-                                    @Model.FirstName
-                                </p>
-                                <p class="profile-subtitle">
-                                    @Model.Email
-                                </p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <a href="../logout.php"><input type="button" value="Log out"
-                                        class="logout-btn btn-primary-soft btn"></a>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<Patient> signInManager;
 
-            </tr>
-            <tr class="menu-row">
-                <td class="menu-btn menu-icon-home ">
-                    <a asp-action="Index" asp-controller="Patient" class="non-style-link-menu ">
-                        <div>
-                            <p class="menu-text">Home</p>
-                    </a>
-    </div></a>
-    </td>
-    </tr>
-    <tr class="menu-row">
-        <td class="menu-btn menu-icon-doctor menu-active menu-icon-doctor-active">
-            <a href="doctors.php" class="non-style-link-menu non-style-link-menu-active">
-                <div>
-                    <p class="menu-text">All Doctors</p>
-            </a>
-</div>
-</td>
-</tr>
+@model PatientDashboardVM
 
-<tr class="menu-row">
-    <td class="menu-btn menu-icon-session">
-        <a href="schedule.php" class="non-style-link-menu">
-            <div>
-                <p class="menu-text">Scheduled Sessions</p>
-            </div>
-        </a>
-    </td>
-</tr>
-<tr class="menu-row">
-    <td class="menu-btn menu-icon-appoinment">
-        <a href="appointment.php" class="non-style-link-menu">
-            <div>
-                <p class="menu-text">My Bookings</p>
-        </a></div>
-    </td>
-</tr>
-<tr class="menu-row">
-    <td class="menu-btn menu-icon-settings">
-        <a href="settings.php" class="non-style-link-menu">
-            <div>
-                <p class="menu-text">Settings</p>
-        </a></div>
-    </td>
-</tr>
+@{
+    ViewData["Title"] = "Patient dashboard";
+    Layout = "~/Views/Shared/_PatientLayout.cshtml";
+}
 
-</table>
-</div>
 <div class="dash-body">
     <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
         <tr>
             <td width="13%">
-                <a href="doctors.php"><button class="login-btn btn-primary-soft btn btn-icon-back"
+                <a asp-action="Index" asp-controller="Patient"><button class="login-btn btn-primary-soft btn btn-icon-back"
                         style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px">
                         <font class="tn-in-text">Back</font>
                     </button></a>
@@ -90,21 +24,12 @@
                     <input type="search" name="search" class="input-text header-searchbar"
                         placeholder="Search Doctor name or Email" list="doctors">&nbsp;&nbsp;
 
-                    <?php
-                                echo '<datalist id="doctors">';
-                                $list11 = $database->query("select  docname,docemail from  doctor;");
-
-                                for ($y=0;$y<$list11->num_rows;$y++){
-                                    $row00=$list11->fetch_assoc();
-                                    $d=$row00["docname"];
-                                    $c=$row00["docemail"];
-                                    echo "<option value='$d'><br/>";
-                                    echo "<option value='$c'><br/>";
-                                };
-
-                            echo ' </datalist>';
-?>
-
+                        <datalist id="doctors">
+                            @foreach(var doctor in Model.Doctors)
+                            {
+                                <option value="@doctor"/>
+                                <br/>
+                            }
 
                     <input type="Submit" value="Search" class="login-btn btn-primary btn"
                         style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
@@ -117,17 +42,12 @@
                     Today's Date
                 </p>
                 <p class="heading-sub12" style="padding: 0;margin: 0;">
-                    <?php 
-                        date_default_timezone_set('Asia/Kolkata');
-
-                        $date = date('Y-m-d');
-                        echo $date;
-                        ?>
+                    @DateTime.Now
                 </p>
             </td>
             <td width="10%">
                 <button class="btn-label" style="display: flex;justify-content: center;align-items: center;"><img
-                        src="../img/calendar.svg" width="100%"></button>
+                        src="~/img/calendar.svg" width="100%"></button>
             </td>
 
 

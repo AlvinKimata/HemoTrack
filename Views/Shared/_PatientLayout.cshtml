@@ -63,7 +63,7 @@
                 </tr>
                 <tr class="menu-row">
                     <td class="menu-btn menu-icon-home menu-active menu-icon-home-active">
-                        <a href="#" class="non-style-link-menu non-style-link-menu-active">
+                        <a asp-action="Index" asp-controller="Patient" class="non-style-link-menu non-style-link-menu-active">
                             <div>
                                 <p class="menu-text">Home</p>
                         </a>
@@ -72,7 +72,7 @@
         </tr>
         <tr class="menu-row">
             <td class="menu-btn menu-icon-doctor">
-                <a href="#" class="non-style-link-menu">
+                <a asp-action="Doctors" asp-controller="Patient" class="non-style-link-menu">
                     <div>
                         <p class="menu-text">All Doctors</p>
                     </div>
@@ -84,7 +84,7 @@
 
         <tr class="menu-row">
             <td class="menu-btn menu-icon-session">
-                <a href="#" class="non-style-link-menu">
+                <a asp-action="Dotors" asp-controller="Patient" class="non-style-link-menu">
                     <div>
                         <p class="menu-text">Scheduled Sessions</p>
                     </div>
@@ -93,7 +93,7 @@
         </tr>
         <tr class="menu-row">
             <td class="menu-btn menu-icon-appoinment">
-                <a href="#" class="non-style-link-menu">
+                <a asp-action="Bookings" asp-controller="Patients" class="non-style-link-menu">
                     <div>
                         <p class="menu-text">My Bookings</p>
                     </div>
@@ -105,7 +105,7 @@
 
         <tr class="menu-row">
             <td class="menu-btn menu-icon-settings">
-                <a href="settings.php" class="non-style-link-menu">
+                <a asp-action="Settings" asp-controller="Patient" class="non-style-link-menu">
                     <div>
                         <p class="menu-text">Settings</p>
                     </div>
