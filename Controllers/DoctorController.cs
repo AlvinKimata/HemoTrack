@@ -21,7 +21,7 @@ namespace HemoTrack.Controllers
         public async Task<IActionResult> Index(int id)
         {
             // Get the current user ID from the user claims.
-            var doctor = await _context.Doctor.FirstOrDefaultAsync(m =>  m.DoctorId == id);
+            var doctor = await _context.Doctor.FirstOrDefaultAsync(m =>  m.UserId == id);
             var patients = await _context.Patient.ToListAsync();
             var doctors = await _context.Doctor.ToListAsync();
             var appointmentschedule = await _context.Appointment.ToListAsync();
@@ -49,7 +49,7 @@ namespace HemoTrack.Controllers
             {
                 DoctorDashboardVM doctorDashboardVM = new DoctorDashboardVM
                 {
-                    DoctorId = doctor.DoctorId,
+                    DoctorId = doctor.UserId,
                     FirstName = doctor.FirstName + " " + doctor.LastName,
                     Email = doctor.Email,
                     Doctors = doctors,

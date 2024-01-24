@@ -13,11 +13,9 @@ builder.Services.AddScoped<ApplicationDbContext>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddIdentity<Patient, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddIdentity<User, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddSignInManager<SignInManager<Patient>>();
-
-builder.Services.AddControllersWithViews();
+    .AddSignInManager<SignInManager<User>>();
 
 builder.Services.AddRazorPages();
 var app = builder.Build();

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace HemoTrack.Models
 {
-    public class Administrator : IdentityUser
+    public class Administrator
     {
         [Key]
         public int AdministratorId { get; set; }
