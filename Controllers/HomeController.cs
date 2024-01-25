@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using HemoTrack.Models;
+using HemoTrack.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HemoTrack.Controllers;
 
@@ -27,5 +29,20 @@ public class HomeController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    [HttpGet]
+    [AllowAnonymous]
+    public IActionResult Register()
+    {
+        return View();
+    }
+
+
+    [HttpGet]
+    [AllowAnonymous]
+    public IActionResult Login()
+    {
+        return View();
     }
 }

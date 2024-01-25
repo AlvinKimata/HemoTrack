@@ -111,7 +111,7 @@ namespace school_project.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("index", "home");
+                    return RedirectToAction("Index", "Patient");
 
                 }
 
