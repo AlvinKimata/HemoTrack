@@ -10961,24 +10961,26 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Alvin.Kimata\\.nuget\\packages\\": {}
+    "C:\\Users\\alvin\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Alvin.Kimata\\Documents\\web\\HemoTrack\\HemoTrack.csproj",
+      "projectUniqueName": "C:\\Users\\alvin\\Documents\\web\\HemoTrack\\HemoTrack.csproj",
       "projectName": "HemoTrack",
-      "projectPath": "C:\\Users\\Alvin.Kimata\\Documents\\web\\HemoTrack\\HemoTrack.csproj",
-      "packagesPath": "C:\\Users\\Alvin.Kimata\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Alvin.Kimata\\Documents\\web\\HemoTrack\\obj\\",
+      "projectPath": "C:\\Users\\alvin\\Documents\\web\\HemoTrack\\HemoTrack.csproj",
+      "packagesPath": "C:\\Users\\alvin\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\alvin\\Documents\\web\\HemoTrack\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Alvin.Kimata\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\alvin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

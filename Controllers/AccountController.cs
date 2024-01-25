@@ -13,11 +13,11 @@ namespace school_project.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<Patient> userManager;
-        private readonly SignInManager<Patient> signInManager;
+        private readonly UserManager<User> userManager;
+        private readonly SignInManager<User> signInManager;
 
-        public AccountController(UserManager<Patient> userManager, 
-            SignInManager<Patient> signInManager)
+        public AccountController(UserManager<User> userManager, 
+            SignInManager<User> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
