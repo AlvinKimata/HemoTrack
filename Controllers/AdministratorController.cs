@@ -90,23 +90,33 @@ namespace HemoTrack.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (_context.Administrator.Any(u => u.Email == model.Email))
+                {
+                    ModelState.AddModelError("Email", "Email is already registered");
+                    return View(model);
+                }
+
+                //Create a new admin.
                 var user = new Administrator
                 {
                     Email = model.Email,
                     Password = model.Password
                 };
+                _context.Add(model);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Login");
             
-                var result = await _userManager.CreateAsync(user, model.Password);
+                // var result = await _userManager.CreateAsync(user, model.Password);
 
-                if (result.Succeeded)
-                {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Administrator");
-                }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
+                // if (result.Succeeded)
+                // {
+                //     await _signInManager.SignInAsync(user, isPersistent: false);
+                //     return RedirectToAction("Index", "Administrator");
+                // }
+                // foreach (var error in result.Errors)
+                // {
+                //     ModelState.AddModelError("", error.Description);
+                // }
             }
             return View(model);
         }
@@ -116,7 +126,8 @@ namespace HemoTrack.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, 
+                                                                        model.RememberMe, false);
 
                 if (result.Succeeded)
                 {
