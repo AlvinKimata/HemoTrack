@@ -82,7 +82,7 @@ namespace school_project.Controllers
                 if (result.Succeeded)
                 {
                     await signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Login", "Account");
+                    return RedirectToAction("Index", "Account");
                 }
 
                 foreach (var error in result.Errors)

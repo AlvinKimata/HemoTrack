@@ -19,10 +19,14 @@ namespace HemoTrack.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
-        public AdministratorController(ApplicationDbContext context, UserManager<User> userManager)
+        private readonly SignInManager<User> _signInManager;
+        public AdministratorController(ApplicationDbContext context, 
+            UserManager<User> userManager,
+            SignInManager<User> signInManager)
         {
             _context = context;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public async Task<IActionResult> Index()
@@ -82,7 +86,7 @@ namespace HemoTrack.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(AdminRegisterVM model)
+        public async Task<IActionResult> Register(AdminRegisterVM model)
         {
             if (ModelState.IsValid)
             {
@@ -90,18 +94,19 @@ namespace HemoTrack.Controllers
                 {
                     Email = model.Email,
                     Password = model.Password
-                }
-            };
-            var result = await userManager.CreateAsync(user, model.Password);
+                };
+            
+                var result = await _userManager.CreateAsync(user, model.Password);
 
-            if (result.Succeeded)
-            {
-                await signInManager.SignInAsync(user, isPersistent: false);
-                return RedirectToAction("Index", "Administrator")
-            }
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError("", error.Description);
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Index", "Administrator");
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
             }
             return View(model);
         }
@@ -111,7 +116,7 @@ namespace HemoTrack.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
 
                 if (result.Succeeded)
                 {
