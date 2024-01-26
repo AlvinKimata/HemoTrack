@@ -27,37 +27,6 @@ namespace HemoTrack.ViewModels
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string? ConfirmPassword { get; set; }
 
-        [Required]
-        [Display(Name = "First name")]
-        public string? FirstName { get; set; }
-
-        [Required]
-        [Display(Name = "Last name")]
-        public string? LastName { get; set; }
-
-        [Required]
-        [Display(Name = "Username")]
-        public string? UserName {get; set;}
-
-        [Required]
-        [Display(Name = "Date of Birth")]
-        public DateTime DateOfBirth {get; set;}
-
-        [Required]
-        [Display(Name = "Phone Number")]
-        public string? PhoneNumber {get; set;}
-
-        [Required]
-        [Display(Name = "NIC Number")]
-        public string? Nic {get; set;}
-
-        [Required]
-        [Display(Name = "NIC")]
-        public string? Address {get; set;}
-
-        // [Required]
-        // [Display(Name = "Web user type")]
-        // public webuser? webuser {get; set;}
 
     }
 }

@@ -16,8 +16,8 @@ namespace HemoTrack.Controllers
     public class AdministratorController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<Administrator> _userManager;
-        public AdministratorController(ApplicationDbContext context, UserManager<Administrator> userManager)
+        private readonly UserManager<User> _userManager;
+        public AdministratorController(ApplicationDbContext context, UserManager<User> userManager)
         {
             _context = context;
             _userManager = userManager;
