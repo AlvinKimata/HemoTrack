@@ -26,8 +26,6 @@ public class ApplicationDbContext :  IdentityDbContext<Patient>
         builder.Entity<IdentityUserLogin<string>>().HasKey(e => new { e.LoginProvider, e.ProviderKey });
         builder.Entity<IdentityUserRole<string>>().HasKey(e => new { e.UserId, e.RoleId});
         builder.Entity<IdentityUserToken<string>>().HasKey(e => new {e.UserId, e.LoginProvider, e.Name});
-        // builder.Entity<Patient>().HasKey(m => m.Id);
-        // builder.Entity<Patient>().HasKey(m => m.Id);
     }
 
 }
