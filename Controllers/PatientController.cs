@@ -27,7 +27,9 @@ namespace HemoTrack.Controllers
         {
             // Get the current user ID from the user claims.
             string currentUserName = User.Identity.Name;
-            var patients = await _context.Patient.ToListAsync();
+            // var patients = await _context.User.OfType<Patient>().ToListAsync();
+            var patients = await _context.User.OfType<Patient>().ToListAsync();
+
             var doctors = await _context.Doctor.ToListAsync();
             var appointmentschedule = await _context.Appointment.ToListAsync();
             var schedule = await _context.Schedule.ToListAsync();
@@ -45,12 +47,12 @@ namespace HemoTrack.Controllers
                     {
                         AppointmentDate = date,
                         Title = $"Appointment on {date.ToShortDateString()}",
-                        Patients = new List<Patient> { _context.Patient.FirstOrDefault() },
+                        Patients = new List<Patient> { _context.User.OfType<Patient>().FirstOrDefault() },
                     });
                 }
             }
 
-            var currentUser = _context.Patient.FirstOrDefault(u => u.UserName == currentUserName);
+            var currentUser = _context.User.OfType<Patient>().FirstOrDefault(u => u.UserName == currentUserName);
             if (currentUser != null)
             {
                 PatientDashboardVM patientDashboardVM = new PatientDashboardVM
@@ -72,7 +74,7 @@ namespace HemoTrack.Controllers
         {
             // Get the current user ID from the user claims.
             string currentUserName = User.Identity.Name;
-            var patients = await _context.Patient.ToListAsync();
+            var patients = await _context.User.OfType<Patient>().ToListAsync();
             var doctors = await _context.Doctor.ToListAsync();
             var appointmentschedule = await _context.Appointment.ToListAsync();
             var schedule = await _context.Schedule.ToListAsync();
@@ -90,12 +92,12 @@ namespace HemoTrack.Controllers
                     {
                         AppointmentDate = date,
                         Title = $"Appointment on {date.ToShortDateString()}",
-                        Patients = new List<Patient> { _context.Patient.FirstOrDefault() },
+                        Patients = new List<Patient> { _context.User.OfType<Patient>().FirstOrDefault() },
                     });
                 }
             }
 
-            var currentUser = _context.Patient.FirstOrDefault(u => u.UserName == currentUserName);
+            var currentUser = _context.User.OfType<Patient>().FirstOrDefault(u => u.UserName == currentUserName);
             if (currentUser != null)
             {
                 PatientDashboardVM patientDashboardVM = new PatientDashboardVM

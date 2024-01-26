@@ -22,7 +22,7 @@ namespace HemoTrack.Controllers
         {
             // Get the current user ID from the user claims.
             var doctor = await _context.Doctor.FirstOrDefaultAsync(m =>  m.UserId == id);
-            var patients = await _context.Patient.ToListAsync();
+            var patients = await _context.User.OfType<Patient>().ToListAsync();
             var doctors = await _context.Doctor.ToListAsync();
             var appointmentschedule = await _context.Appointment.ToListAsync();
             var schedule = await _context.Schedule.ToListAsync();
@@ -40,7 +40,7 @@ namespace HemoTrack.Controllers
                     {
                         AppointmentDate = date,
                         Title = $"Appointment on {date.ToShortDateString()}",
-                        Patients = new List<Patient> { _context.Patient.FirstOrDefault() },
+                        Patients = new List<Patient> { _context.User.OfType<Patient>().FirstOrDefault() },
                     });
                 }
             }
