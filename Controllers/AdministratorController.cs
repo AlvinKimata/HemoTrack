@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using HemoTrack.ViewModels;
 using System.Security.Principal;
 using System.Security.Claims;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HemoTrack.Controllers
 {
@@ -63,6 +65,64 @@ namespace HemoTrack.Controllers
                 return View(administratorDashboardVM);
             }
             return NotFound();
+        }
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Register(AdminRegisterVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new Administrator
+                {
+                    Email = model.Email,
+                    Password = model.Password
+                }
+            };
+            var result = await userManager.CreateAsync(user, model.Password);
+
+            if (result.Succeeded)
+            {
+                await signInManager.SignInAsync(user, isPersistent: false);
+                return RedirectToAction("Index", "Administrator")
+            }
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+            return View(model);
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Administrator");
+
+                }
+
+                ModelState.AddModelError(string.Empty, "Invalid login attempt");
+            }
+
+            return View(model);
         }
     }
 }

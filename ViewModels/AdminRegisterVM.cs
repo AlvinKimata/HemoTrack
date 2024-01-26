@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HemoTrack.ViewModels
 {
-    public class RegisterViewModel
+    public class AdminRegisterVM
     {     
         [Required]
         [EmailAddress]
