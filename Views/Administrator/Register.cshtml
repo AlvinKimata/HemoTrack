@@ -1,4 +1,102 @@
-@using Microsoft.AspNetCore.Identity;
-@inject SignInManager<User> signInManager;
 @model AdminRegisterVM
 
+@{
+    ViewData["Title"] = "Admin Registration page";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/animations.css">
+    <link rel="stylesheet" href="~/css/main.css">
+    <link rel="stylesheet" href="~/css/signup.css">
+
+    <title>Sign Up</title>
+
+</head>
+
+<body>
+    <center>
+        <h1>@ViewData["Title"]</h1>
+
+        <div class="container">
+            <form id="registerForm" method="post">
+                <table border="0">
+                    <tr>
+                        <td colspan="2">
+                            <p class="header-text">Let's Get Started</p>
+                            <p class="sub-text">Add Your Personal Details to Continue</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <label asp-for="Email" class="form-label">Email</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <input type="email" asp-for="Email" class="input-text" placeholder="Email Address"
+                                aria-required="true" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <label asp-for="Password" class="form-label">Create New Password</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <input type="password" asp-for="Password" class="input-text"
+                                placeholder="New Password" aria-required="true" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <input type="password" asp-for="ConfirmPassword" class="input-text"
+                                placeholder="Confirm Password" aria-required="true" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <input type="reset" value="Reset" class="login-btn btn-primary-soft btn">
+                        </td>
+                        <td>
+                            <button class="btn login-btn btn-primary w-100" type="submit">Sign Up</button>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <br>
+                            <label class="sub-text" style="font-weight: 280;">Already have an account&#63;
+                            </label>
+                            <a asp-controller="Administrator" asp-action="Login" class="hover-link1 non-style-link">Login</a>
+                            <br><br><br>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </center>
+</body>
+
+</html>
