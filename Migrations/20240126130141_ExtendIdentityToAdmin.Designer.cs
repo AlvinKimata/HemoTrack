@@ -65,10 +65,10 @@ namespace HemoTrack.Migrations
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneNumber")
+                    b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("PhoneNumberConfirmed")
+                    b.Property<bool>("PhoneConfirmed")
                         .HasColumnType("bit");
 
                     b.Property<string>("SecurityStamp")
@@ -211,10 +211,10 @@ namespace HemoTrack.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneNumber")
+                    b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("PhoneNumberConfirmed")
+                    b.Property<bool>("PhoneConfirmed")
                         .HasColumnType("bit");
 
                     b.Property<string>("SecurityStamp")

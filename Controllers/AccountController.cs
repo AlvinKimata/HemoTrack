@@ -73,7 +73,7 @@ namespace school_project.Controllers
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     DateOfBirth = model.DateOfBirth,
-                    PhoneNumber = model.PhoneNumber,
+                    Phone = model.Phone,
                     Nic = model.Nic,
                     Address = model.Address
                 };

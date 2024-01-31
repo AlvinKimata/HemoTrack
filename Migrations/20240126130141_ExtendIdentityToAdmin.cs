@@ -76,13 +76,13 @@ namespace HemoTrack.Migrations
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
-                name: "PhoneNumber",
+                name: "Phone",
                 table: "Administrator",
                 type: "nvarchar(max)",
                 nullable: true);
 
             migrationBuilder.AddColumn<bool>(
-                name: "PhoneNumberConfirmed",
+                name: "PhoneConfirmed",
                 table: "Administrator",
                 type: "bit",
                 nullable: false,
@@ -147,11 +147,11 @@ namespace HemoTrack.Migrations
                 table: "Administrator");
 
             migrationBuilder.DropColumn(
-                name: "PhoneNumber",
+                name: "Phone",
                 table: "Administrator");
 
             migrationBuilder.DropColumn(
-                name: "PhoneNumberConfirmed",
+                name: "PhoneConfirmed",
                 table: "Administrator");
 
             migrationBuilder.DropColumn(

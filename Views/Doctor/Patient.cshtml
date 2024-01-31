@@ -168,7 +168,7 @@
                                 <tr>
                                     <td> &nbsp;'.
                                         @Model.FirstName
-                                        </td>
+                                    </td>
                                     <td>
                                         @Model.Nic
                                     </td>
@@ -207,114 +207,114 @@
     </table>
 </div>
 </div>
-@(if Model.Patients.Count > 0)
+@if (Model.Patients.Count > 0)
 {
-<div id="popup1" class="overlay">
-    <div class="popup">
-        <center>
-            <a class="close" asp-controller="Doctor" asp-action="Patient">&times;</a>
-            <div class="content">
+    <div id="popup1" class="overlay">
+        <div class="popup">
+            <center>
+                <a class="close" asp-controller="Doctor" asp-action="Patient">&times;</a>
+                <div class="content">
 
-            </div>
-            <div style="display: flex;justify-content: center;">
-                <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+                </div>
+                <div style="display: flex;justify-content: center;">
+                    <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
 
-                    <tr>
-                        <td>
-                            <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">View
-                                Details</p><br><br>
-                        </td>
-                    </tr>
-                    <tr>
+                        <tr>
+                            <td>
+                                <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">View
+                                    Details</p><br><br>
+                            </td>
+                        </tr>
+                        <tr>
 
-                        <td class="label-td" colspan="2">
-                            <label for="name" class="form-label">Patient ID: </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="label-td" colspan="2">
-                            @Model.id<br><br>
-                        </td>
+                            <td class="label-td" colspan="2">
+                                <label for="name" class="form-label">Patient ID: </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label-td" colspan="2">
+                                @Model.id<br><br>
+                            </td>
 
-                    </tr>
+                        </tr>
 
-                    <tr>
+                        <tr>
 
-                        <td class="label-td" colspan="2">
-                            <label for="name" class="form-label">Name: </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="label-td" colspan="2">
-                            @Model.FirstName<br><br>
-                        </td>
+                            <td class="label-td" colspan="2">
+                                <label for="name" class="form-label">Name: </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label-td" colspan="2">
+                                @Model.FirstName<br><br>
+                            </td>
 
-                    </tr>
-                    <tr>
-                        <td class="label-td" colspan="2">
-                            <label for="Email" class="form-label">Email: </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="label-td" colspan="2">
-                            @Model.Email'<br><br>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="label-td" colspan="2">
-                            <label for="nic" class="form-label">NIC: </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="label-td" colspan="2">
-                            @Model.Nic'<br><br>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="label-td" colspan="2">
-                            <label for="Tele" class="form-label">Telephone: </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="label-td" colspan="2">
-                            @Model.Phone<br><br>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="label-td" colspan="2">
-                            <label for="spec" class="form-label">Address: </label>
+                        </tr>
+                        <tr>
+                            <td class="label-td" colspan="2">
+                                <label for="Email" class="form-label">Email: </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label-td" colspan="2">
+                                @Model.Email'<br><br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label-td" colspan="2">
+                                <label for="nic" class="form-label">NIC: </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label-td" colspan="2">
+                                @Model.Nic'<br><br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label-td" colspan="2">
+                                <label for="Tele" class="form-label">Telephone: </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label-td" colspan="2">
+                                @Model.Phone<br><br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label-td" colspan="2">
+                                <label for="spec" class="form-label">Address: </label>
 
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="label-td" colspan="2">
-                            @Model.Address<br><br>
-                        </td>
-                    </tr>
-                    <tr>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label-td" colspan="2">
+                                @Model.Address<br><br>
+                            </td>
+                        </tr>
+                        <tr>
 
-                        <td class="label-td" colspan="2">
-                            <label for="name" class="form-label">Date of Birth: </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="label-td" colspan="2">
-                            @Model.DateOfBirth<br><br>
-                        </td>
+                            <td class="label-td" colspan="2">
+                                <label for="name" class="form-label">Date of Birth: </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label-td" colspan="2">
+                                @Model.DateOfBirth<br><br>
+                            </td>
 
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <a asp-controller="Doctor" asp-action="Patient"><input type="button" value="OK"
-                                    class="login-btn btn-primary-soft btn"></a>
-                        </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <a asp-controller="Doctor" asp-action="Patient"><input type="button" value="OK"
+                                        class="login-btn btn-primary-soft btn"></a>
+                            </td>
 
-                    </tr>
-                </table>
-            </div>
-        </center>
-        <br><br>
+                        </tr>
+                    </table>
+                </div>
+            </center>
+            <br><br>
+        </div>
     </div>
-</div>
 }
 </div>
