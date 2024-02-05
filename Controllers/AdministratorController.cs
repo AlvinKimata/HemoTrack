@@ -84,12 +84,6 @@ namespace HemoTrack.Controllers
         {
             return View();
         }
-
-        [HttpGet]
-        public IActionResult Doctors()
-        {
-            return View();
-        }
         
 
         [HttpPost]
@@ -138,6 +132,40 @@ namespace HemoTrack.Controllers
         }
 
         [HttpGet]
-        public IActionResult 
+        public IActionResult Doctors()
+        {
+            var doctors =  _context.User.OfType<Doctor>().ToListAsync();
+            return View(doctors);
+        }
+
+        [HttpGet]
+        public IActionResult Patient()
+        {
+            var patients =  _context.User.OfType<Patient>().ToListAsync();
+            return View(patients);
+        }
+
+
+        [HttpGet]
+        public IActionResult Appointments()
+        {
+            var appointments = _context.Appointment.ToListAsync();
+            return View(appointments);
+        }
+
+        [HttpGet]
+        public IActionResult Settings()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Schedule()
+        {
+            var schedules = _context.Schedule.ToListAsync();
+            return View(schedules);
+        }
+
+
     }
 }
