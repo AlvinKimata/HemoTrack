@@ -45,7 +45,7 @@ namespace HemoTrack.ViewModels
 
         [Required]
         [Display(Name = "Phone Number")]
-        public string Phone {get; set;}
+        public string PhoneNumber {get; set;}
 
         [Required]
         [Display(Name = "NIC Number")]

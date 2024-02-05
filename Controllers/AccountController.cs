@@ -73,16 +73,17 @@ namespace school_project.Controllers
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     DateOfBirth = model.DateOfBirth,
-                    Phone = model.Phone,
+                    PhoneNumber = model.PhoneNumber,
                     Nic = model.Nic,
-                    Address = model.Address
+                    Address = model.Address,
+                    Password = model.Password
                 };
                 var result = await userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
                     await signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Account");
+                    return RedirectToAction("Index", "Patient");
                 }
 
                 foreach (var error in result.Errors)

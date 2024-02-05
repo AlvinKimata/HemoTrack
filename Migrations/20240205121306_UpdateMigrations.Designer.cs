@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HemoTrack.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240126131128_AlterAdminToUseUserAttributes")]
-    partial class AlterAdminToUseUserAttributes
+    [Migration("20240205121306_UpdateMigrations")]
+    partial class UpdateMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,20 @@ namespace HemoTrack.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("HemoTrack.Models.Administrator", b =>
+                {
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Email");
+
+                    b.ToTable("Administrator");
+                });
 
             modelBuilder.Entity("HemoTrack.Models.Appointment", b =>
                 {
@@ -48,6 +62,7 @@ namespace HemoTrack.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -76,6 +91,7 @@ namespace HemoTrack.Migrations
                         .HasColumnType("time");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -92,6 +108,7 @@ namespace HemoTrack.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SpecialityId"), 1L, 1);
 
                     b.Property<string>("SpecialityName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("SpecialityId");
@@ -121,9 +138,11 @@ namespace HemoTrack.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -133,6 +152,7 @@ namespace HemoTrack.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Nic")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
@@ -142,18 +162,17 @@ namespace HemoTrack.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Phone")
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneConfirmed")
+                    b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
                     b.Property<string>("SecurityStamp")
@@ -162,13 +181,11 @@ namespace HemoTrack.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("WebUser")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -176,22 +193,6 @@ namespace HemoTrack.Migrations
                     b.ToTable("User");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("User");
-                });
-
-            modelBuilder.Entity("HemoTrack.Models.Webuser", b =>
-                {
-                    b.Property<int>("WebuserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WebuserId"), 1L, 1);
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("WebuserId");
-
-                    b.ToTable("Webuser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -308,18 +309,12 @@ namespace HemoTrack.Migrations
                     b.ToTable("UserTokens");
                 });
 
-            modelBuilder.Entity("HemoTrack.Models.Administrator", b =>
-                {
-                    b.HasBaseType("HemoTrack.Models.User");
-
-                    b.HasDiscriminator().HasValue("Administrator");
-                });
-
             modelBuilder.Entity("HemoTrack.Models.Doctor", b =>
                 {
                     b.HasBaseType("HemoTrack.Models.User");
 
                     b.Property<string>("Speciality")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue("Doctor");
@@ -330,6 +325,7 @@ namespace HemoTrack.Migrations
                     b.HasBaseType("HemoTrack.Models.User");
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("AppointmentId")
