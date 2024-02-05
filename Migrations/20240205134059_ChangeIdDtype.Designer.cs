@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HemoTrack.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240205125533_ChangeIdDtype")]
+    [Migration("20240205134059_ChangeIdDtype")]
     partial class ChangeIdDtype
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
