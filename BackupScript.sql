@@ -25,3 +25,8 @@ GO
 RESTORE DATABASE [HemoTrack]
 FROM DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\HemoTrack.bak'
 WITH REPLACE
+
+USE [master]
+GO
+ALTER DATABASE [HemoTrack]
+SET SINGLE_USER
