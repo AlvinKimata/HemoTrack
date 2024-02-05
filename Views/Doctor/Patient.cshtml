@@ -140,8 +140,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @var totalPatients = Model.Patients.Count()
-                            if (totalPatients == 0)
+                            @{var totalPatients = Model.Patients.Count();}
+                            @if (totalPatients == 0)
                             {
                             <tr>
                                 <td colspan="4">
@@ -156,14 +156,14 @@
                                         <a class="non-style-link" sap-action="Doctor" asp-action="Patient"><button
                                                 class="login-btn btn-primary-soft btn"
                                                 style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp;
-                                                Show all Patients &nbsp;</font></button>
+                                                Show all Patients &nbsp;</button>
                                         </a>
                                     </center>
                                     <br><br><br><br>
                                 </td>
                             </tr>
                             }
-                            @for (int i = 0; Model.Patients.Count(); i++)
+                            @for (int i = 0; i < Model.Patients.Count(); i++)
                             {
                                 <tr>
                                     <td> &nbsp;'.
@@ -179,7 +179,7 @@
                                         @Model.Email
                                     </td>
                                     <td>
-                                        @Mode.DateOfBirth
+                                        @Model.DateOfBirth
                                     </td>
                                     <td>
                                         <div style="display:flex;justify-content: center;">
@@ -228,12 +228,12 @@
                         <tr>
 
                             <td class="label-td" colspan="2">
-                                <label for="name" class="form-label">Patient ID: </label>
+                                <label asp-for="Id" class="form-label">Patient ID: </label>
                             </td>
                         </tr>
                         <tr>
                             <td class="label-td" colspan="2">
-                                @Model.id<br><br>
+                                @Model.Id<br><br>
                             </td>
 
                         </tr>
@@ -241,7 +241,7 @@
                         <tr>
 
                             <td class="label-td" colspan="2">
-                                <label for="name" class="form-label">Name: </label>
+                                <label asp-for="FirstName" class="form-label">Name: </label>
                             </td>
                         </tr>
                         <tr>
@@ -252,7 +252,7 @@
                         </tr>
                         <tr>
                             <td class="label-td" colspan="2">
-                                <label for="Email" class="form-label">Email: </label>
+                                <label asp-for="Email" class="form-label">Email: </label>
                             </td>
                         </tr>
                         <tr>
@@ -262,7 +262,7 @@
                         </tr>
                         <tr>
                             <td class="label-td" colspan="2">
-                                <label for="nic" class="form-label">NIC: </label>
+                                <label asp-for="Nic" class="form-label">NIC: </label>
                             </td>
                         </tr>
                         <tr>
@@ -272,7 +272,7 @@
                         </tr>
                         <tr>
                             <td class="label-td" colspan="2">
-                                <label for="Tele" class="form-label">Telephone: </label>
+                                <label asp-for="Phone" class="form-label">Telephone: </label>
                             </td>
                         </tr>
                         <tr>
@@ -282,7 +282,7 @@
                         </tr>
                         <tr>
                             <td class="label-td" colspan="2">
-                                <label for="spec" class="form-label">Address: </label>
+                                <label asp-for="Address" class="form-label">Address: </label>
 
                             </td>
                         </tr>
@@ -294,7 +294,7 @@
                         <tr>
 
                             <td class="label-td" colspan="2">
-                                <label for="name" class="form-label">Date of Birth: </label>
+                                <label asp-for="DateOfBirth" class="form-label">Date of Birth: </label>
                             </td>
                         </tr>
                         <tr>

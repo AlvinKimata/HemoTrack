@@ -95,7 +95,7 @@
 
                                     </tr>
                                 </thead>
-                                @{var totalDoctors = Model.Doctors.Count()};
+                                @{var totalDoctors = Model.Doctors.Count();}
 
                                 @if (totalDoctors == 0)
                                 {
@@ -129,7 +129,7 @@
                                             @Model.Doctors[i].Email
                                         </td>
                                         <td>
-                                            @Model.Doctors[i].Specialties
+                                            @Model.Doctors[i].Speciality
                                         </td>
 
                                         <td>

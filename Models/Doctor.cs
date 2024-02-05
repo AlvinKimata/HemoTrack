@@ -6,7 +6,7 @@ namespace HemoTrack.Models
 {
     public class Doctor : User
     {
-        public string? Speciality { get; set; }
+        public string Speciality { get; set; }
 
     }
 }

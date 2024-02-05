@@ -21,8 +21,8 @@
                             @for (int i = 0; i < Model.Doctors.Count(); i++)
                             {
                                 <datalist id="@Model.Doctors[i]">
-                                    <option value='@Model.Doctors[i].FirstName'><br/>";
-                                    <option value='@Model.Doctors[i].Email'><br/>";
+                                    <option value='@Model.Doctors[i].FirstName'/><br/>";
+                                    <option value='@Model.Doctors[i].Email'/><br/>";
                                 </datalist>
                             }
                             
@@ -88,7 +88,7 @@
                                 </tr>
                         </thead>
                         <tbody>
-                            totalDoctors = Model.Doctors.Count()
+                            @{var totalDoctors = Model.Doctors.Count();}
 
                             @if(totalDoctors==0){
                                 <tr>
@@ -107,51 +107,48 @@
                                 </tr>
                                 
                             }
-                                else{
-                                @for (int i = 0; i > totalDoctors; i++){
-                                    <tr>
-                                        <td> &nbsp;
-                                            @Model.Doctors[i].FirstName
-                                        </td>
-                                        <td>
-                                            @Model.Doctors[i].Email
-                                        </td>
-                                        <td>
-                                            @Model.Doctors[i].Specialties
-                                        </td>
+                            @for (int i = 0; i > totalDoctors; i++){
+                                <tr>
+                                    <td> &nbsp;
+                                        @Model.Doctors[i].FirstName
+                                    </td>
+                                    <td>
+                                        @Model.Doctors[i].Email
+                                    </td>
+                                    <td>
+                                        @Model.Doctors[i].Speciality
+                                    </td>
 
-                                        <td>
-                                        <div style="display:flex;justify-content: center;">
-                                            <!--View-->
-                                            <form asp-action="EditUser" asp-route-id="@user.Id" method="post" class="non-style-link">
-                                                @* <a href="?action=edit&id='.$docid.'&error=0" class="non-style-link"> *@
-                                                    <button  class="btn-primary-soft btn button-icon btn-edit"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
-                                                        <font class="tn-in-text">Edit</font>
-                                                    </button>
-                                                @* </a> *@
-                                            </form>
+                                    <td>
+                                    <div style="display:flex;justify-content: center;">
+                                        <!--View-->
+                                        <form asp-action="EditUser" asp-route-id="@Model.Doctors[i].Id" method="post" class="non-style-link">
+                                            @* <a href="?action=edit&id='.$docid.'&error=0" class="non-style-link"> *@
+                                                <button  class="btn-primary-soft btn button-icon btn-edit"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
+                                                    <font class="tn-in-text">Edit</font>
+                                                </button>
+                                            @* </a> *@
+                                        </form>
 
-                                            <!--Edit-->
-                                            <form asp-action="DeleteUser" asp-route-id="@user.Id" method="post" class="non-style-link">
-                                                @* <a href="?action=edit&id='.$docid.'&error=0" class="non-style-link"> *@
-                                                    <button  class="btn-primary-soft btn button-icon btn-edit"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
-                                                        <font class="tn-in-text">Edit</font>
-                                                    </button>
-                                                @* </a> *@
-                                            </form>
-                                        @* <td>
-                                        <div style="display:flex;justify-content: center;">
-                                        <a href="?action=edit&id='.$docid.'&error=0" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-edit"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Edit</font></button></a>
-                                        &nbsp;&nbsp;&nbsp;
-                                        <a href="?action=view&id='.$docid.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">View</font></button></a>
-                                       &nbsp;&nbsp;&nbsp;
-                                        </div>
-                                        </td> *@
-                                    </tr>
-                                    
-                                }
-                            }   
-                            ?>
+                                        <!--Edit-->
+                                        <form asp-action="DeleteUser" asp-route-id="@Model.Doctors[i].Id" method="post" class="non-style-link">
+                                            @* <a href="?action=edit&id='.$docid.'&error=0" class="non-style-link"> *@
+                                                <button  class="btn-primary-soft btn button-icon btn-edit"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
+                                                    <font class="tn-in-text">Edit</font>
+                                                </button>
+                                            @* </a> *@
+                                        </form>
+                                    @* <td>
+                                    <div style="display:flex;justify-content: center;">
+                                    <a href="?action=edit&id='.$docid.'&error=0" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-edit"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Edit</font></button></a>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <a href="?action=view&id='.$docid.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">View</font></button></a>
+                                    &nbsp;&nbsp;&nbsp;
+                                    </div>
+                                    </td> *@
+                                </tr>
+                                
+                            }
                             </tbody>
                         </table>
                         </div>

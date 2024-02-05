@@ -1,4 +1,4 @@
-@model User
+@model Doctor
 
 <div id="popup1" class="overlay">
     <div class="popup">
@@ -10,8 +10,8 @@
                     <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
                         <tr>
                             <td class="label-td" colspan="2">'.
-                                $errorlist[$error_1]
-                                .'</td>
+                                @* $errorlist[$error_1] *@
+                            </td>
                         </tr>
                         <tr>
                             <td>
@@ -19,111 +19,113 @@
                                     New Doctor.</p><br><br>
                             </td>
                         </tr>
-
-                        <tr>
-                            <form action="add-new.php" method="POST" class="add-new-form">
+                        <form action="add-new.php" method="POST" class="add-new-form">
+                            <tr>
                                 <td class="label-td" colspan="2">
-                                    <label asp-for="name" class="form-label">Name: </label>
+                                    <label asp-for="FirstName" class="form-label">Name: </label>
                                 </td>
-                        </tr>
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <input type="text" name="name" class="input-text" placeholder="Doctor Name"
-                                    required><br>
-                            </td>
+                            </tr>
 
-                        </tr>
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <label asp-for="Email" class="form-label">Email: </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <input type="email" name="email" class="input-text" placeholder="Email Address"
-                                    required><br>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <label asp-for="nic" class="form-label">NIC: </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <input type="text" name="nic" class="input-text" placeholder="NIC Number" required><br>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <label asp-for="Tele" class="form-label">Telephone: </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <input type="tel" name="Tele" class="input-text" placeholder="Telephone Number"
-                                    required><br>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <label asp-for="spec" class="form-label">Choose specialties: </label>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <input type="text" name="name" class="input-text" placeholder="Doctor Name"
+                                        required><br>
+                                </td>
+                            </tr>
 
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <select name="spec" id="" class="box">';
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label asp-for="Email" class="form-label">Email: </label>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <input type="email" name="email" class="input-text" placeholder="Email Address"
+                                        required><br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label asp-for="Nic" class="form-label">NIC: </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <input type="text" name="Nic" class="input-text" placeholder="NIC Number"
+                                        required><br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label asp-for="Phone" class="form-label">Telephone: </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <input type="tel" name="Phone" class="input-text" placeholder="Telephone Number"
+                                        required><br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label asp-for="Speciality" class="form-label">Choose specialties: </label>
 
-
-                                    $list11 = $database->query("select * from specialties;");
-
-                                    for ($y=0;$y<$list11->num_rows;$y++){
-                                        $row00=$list11->fetch_assoc();
-                                        $sn=$row00["sname"];
-                                        $id00=$row00["id"];
-                                        echo "<option value=".$id00.">$sn</option><br />";
-                                        };
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <select name="spec" id="" class="box">';
 
 
+                                        $list11 = $database->query("select * from specialties;");
+
+                                        for ($y=0;$y<$list11->num_rows;$y++){
+                                            $row00=$list11->fetch_assoc();
+                                            $sn=$row00["sname"];
+                                            $id00=$row00["id"];
+                                            echo "<option value=".$id00.">$sn</option><br />";
+                                            };
 
 
-                                        echo ' </select><br>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <label asp-for="password" class="form-label">Password: </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <input type="password" name="password" class="input-text"
-                                    placeholder="Defind a Password" required><br>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <label asp-for="cpassword" class="form-label">Conform Password: </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                <input type="password" name="cpassword" class="input-text"
-                                    placeholder="Conform Password" required><br>
-                            </td>
-                        </tr>
 
 
-                        <tr>
-                            <td colspan="2">
-                                <input type="reset" value="Reset"
-                                    class="login-btn btn-primary-soft btn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            echo ' </select><br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label asp-for="Password" class="form-label">Password: </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <input type="password" name="password" class="input-text"
+                                        placeholder="Defind a Password" required><br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label asp-for="Password" class="form-label">Confirm Password: </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <input type="password" name="cpassword" class="input-text"
+                                        placeholder="Confirm Password" required><br>
+                                </td>
+                            </tr>
 
-                                <input type="submit" value="Add" class="login-btn btn-primary btn">
-                            </td>
 
-                        </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <input type="reset" value="Reset"
+                                        class="login-btn btn-primary-soft btn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                    <input type="submit" value="Add" class="login-btn btn-primary btn">
+                                </td>
+
+                            </tr>
 
                         </form>
                         </tr>

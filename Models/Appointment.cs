@@ -13,6 +13,6 @@ namespace HemoTrack.Models
         public List<Patient> Patients {get; set;}
         public int AppointmentNumber { get; set; }
         public int ScheduleId {get; set;}
-        public string? Title {get; set;}
+        public string Title {get; set;}
     }
 }
