@@ -6,7 +6,7 @@ namespace HemoTrack.Models
 {
     public class Appointment
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public DateTime? AppointmentDate { get; set; }
         public TimeSpan AppointmentTime {get; set;}
         public int PatientId {get; set;}

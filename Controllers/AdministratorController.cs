@@ -85,6 +85,13 @@ namespace HemoTrack.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Doctors()
+        {
+            return View();
+        }
+        
+
         [HttpPost]
         public async Task<IActionResult> Register(AdminRegisterVM model)
         {

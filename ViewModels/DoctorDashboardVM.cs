@@ -10,7 +10,7 @@ namespace HemoTrack.ViewModels
 {
     public class DoctorDashboardVM
     {
-        public int Id {get; set;}
+        public string Id {get; set;}
         public string FirstName {get; set;}
         public string Email {get; set;}
         public string Nic {get; set;}

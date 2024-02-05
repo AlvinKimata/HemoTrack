@@ -7,7 +7,7 @@ namespace HemoTrack.Models
 {
     public class Schedule
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public DateTime? ScheduleDate { get; set; }
         public string Title {get; set;}
         public TimeSpan? ScheduleTime { get; set; }

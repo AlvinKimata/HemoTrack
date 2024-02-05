@@ -87,7 +87,7 @@ body{
 .header-container{
     margin-top: 25px;
     margin-bottom: 5%;
-    background-image: url(~/img/bg01.jpg);
+    background-image: url(../img/bg01.jpg);
     
     background-repeat: no-repeat;
     background-size:cover;
