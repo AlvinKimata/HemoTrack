@@ -136,5 +136,8 @@ namespace HemoTrack.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        public IActionResult 
     }
 }
