@@ -195,8 +195,43 @@ namespace HemoTrack.Controllers
         //     return View(model);
         // }
         [HttpPost]
-        public async Task<IActionResult> AddDoctor()
+        public async Task<IActionResult> RegisterDoctor()
+        {
+            if (ModelState.IsValid)
+            {
+                if (userManager.Doctor.Any(u => u.Email == model.Email))
+                {
+                    ModelState.AddModelError("Doctor", "Doctor is already registered");
+                    return View(model);
+                }
+                //Register a new doctor
+                var doctorRegisterVM = new DoctorRegisterVM{
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Email = model.Email,
+                    Nic = model.Nic,
+                    PhoneNumber = model.PhoneNumber,
+                    Speciality = model.Speciality,
+                    Password = model.Password,
+                    ConfirmPassword = model.ConfirmPassword
+                };
 
+                var result = userManager.CreateAsync(user, Model.Password);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Doctors", "Administrator");
+                }
+
+                foreach(var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+                return RedirectToAction("Doctors");
+            }
+            return View(model);
+        }
 
     }
 }

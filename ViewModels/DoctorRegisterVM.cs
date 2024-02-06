@@ -16,5 +16,16 @@ namespace HemoTrack.ViewModels
         public string Nic {get; set;}
         public string PhoneNumber {get; set;}
         public Specialities? Speciality { get; set; }
+
+        [Required]
+        [Display(Name = "Password")]
+        public string Password {get; set;}
+
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm Password")]
+        [Compare("Password", ErrorMessage="Password and Confirm Password do not match")]
+        public string ConfirmPassword {get; set;}
+
     }
 }
