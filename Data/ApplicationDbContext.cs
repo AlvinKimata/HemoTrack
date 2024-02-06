@@ -17,7 +17,6 @@ public class ApplicationDbContext :  IdentityDbContext<Patient>
         public DbSet<Administrator> Administrator {get; set;}
         public DbSet<Schedule> Schedule {get; set;}
         public DbSet<Patient> Patient {get; set;}
-        public DbSet<Specialities> Specialities { get; set; }
         public DbSet<User> User { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)

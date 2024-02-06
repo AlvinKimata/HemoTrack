@@ -3,11 +3,12 @@ using System.Numerics;
 
 namespace HemoTrack.Models
 {
-    public class Specialities
+     public enum Specialities
     {
-        [Key]
-        public int SpecialityId { get; set; }
-        public string SpecialityName { get; set;}
-
+        AccidentAndEmergencyMedicine,
+        PediatricHematology,
+        BiologicalHematology,
+        LaboratoryMedicine,
+        PhysicalMedicineAndRehabilitation
     }
 }
