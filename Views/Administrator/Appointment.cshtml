@@ -1,9 +1,9 @@
 @{
     ViewData["Title"] = "Doctor dashboard";
-    Layout = "~/Views/Shared/_DoctorLayout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-@model DoctorDashboardVM
+@model AdministratorDashboardVM
 
 <div class="dash-body">
     <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
@@ -86,7 +86,7 @@
 
         </tr>
 
-        <?php
+        @* <?php
 
 
                     $sqlmain= "select appointment.appoid,schedule.scheduleid,schedule.title,doctor.docname,patient.pname,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where  doctor.docid=$userid ";
@@ -109,7 +109,7 @@
                     }
 
 
-                ?>
+                ?> *@
 
         <tr>
             <td colspan="4">
@@ -183,7 +183,7 @@
                                     <tr>
                                         <td style="font-weight:600;"> &nbsp;'.
                                             @Model.Schedules[i].Title
-                                            .'</td>
+                                            </td>
                                         <td
                                             style="text-align:center;font-size:23px;font-weight:500; color: var(--btnnicetext);">
                                             @Model.Appointments[i].AppointmentNumber

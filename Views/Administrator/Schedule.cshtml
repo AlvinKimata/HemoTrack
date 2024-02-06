@@ -1,10 +1,9 @@
+@model AdministratorDashboardVM
+
 @{
     ViewData["Title"] = "Doctor dashboard";
-    Layout = "~/Views/Shared/_DoctorLayout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
-@model DoctorDashboardVM
-
 
 
 <div class="dash-body">
@@ -283,7 +282,7 @@ echo ' *@
                         </tr>
                         <tr>
                             <td class="label-td" colspan="2">
-                                @Model.FirstName<br><br>
+                                @Model.Doctors[i].FirstName<br><br>
                             </td>
                         </tr>
                         <tr>

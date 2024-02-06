@@ -1,5 +1,4 @@
-@model Doctor
-
+@model AdministratorDashboardVM
 @{
     ViewData["Title"] = "Admin dashboard";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -63,7 +62,7 @@
             <tr>
                 <td colspan="4" style="padding-top:10px;">
                     <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">All Doctors
-                        @Model.Count()</p>
+                        @Model.Doctors.Count()</p>
                 </td>
 
             </tr>
@@ -95,7 +94,7 @@
 
                                     </tr>
                                 </thead>
-                                @{var totalDoctors = Model.Doctor.Count();}
+                                @{var totalDoctors = Model.Doctors.Count();}
 
                                 @if (totalDoctors == 0)
                                 {
@@ -123,40 +122,40 @@
                                 {
                                     <tr>
                                         <td> &nbsp;
-                                            @Model[i].FirstName
+                                            @Model.Doctors[i].FirstName
                                         </td>
                                         <td>
-                                            @Model[i].Email
+                                            @Model.Doctors[i].Email
                                         </td>
                                         <td>
-                                            @Model[i].Speciality
+                                            @Model.Doctors[i].Speciality
                                         </td>
 
                                         <td>
                                             <div style="display:flex;justify-content: center;">
-                                                <a href="?action=edit&id='.$docid.'&error=0" class="non-style-link">
+                                                <a href="" class="non-style-link">
                                                     <button class="btn-primary-soft btn button-icon btn-edit"
                                                         style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                                         <font class="tn-in-text">Edit</font>
-                                                        @await Html.PartialAsync("_EditInfoPartial")
+                                                        @await Html.PartialAsync("_EditInfoPartial", Model.Doctors[i])
                                                     </button>
                                                 </a>
                                                 &nbsp;&nbsp;&nbsp;
 
-                                                <a href="?action=view&id='.$docid.'" class="non-style-link">
+                                                <a href="" class="non-style-link">
                                                     <button class="btn-primary-soft btn button-icon btn-view"
                                                         style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                                         <font class="tn-in-text">View</font>
-                                                        @await Html.PartialAsync("_ViewInfoPartial")
+                                                        @await Html.PartialAsync("_ViewInfoPartial",  Model.Doctors[i])
                                                     </button>
                                                 </a>
                                                 &nbsp;&nbsp;&nbsp;
 
-                                                <a href="?action=drop&id='.$docid.'&name='.$name.'" class="non-style-link">
+                                                <a href="" class="non-style-link">
                                                     <button class="btn-primary-soft btn button-icon btn-delete"
                                                         style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                                         <font class="tn-in-text">Remove</font>
-                                                        @await Html.PartialAsync("_DeleteInfoPartial")
+                                                        @await Html.PartialAsync("_DeleteInfoPartial",  Model.Doctors[i])
                                                     </button>
                                                 </a>
 
@@ -174,7 +173,7 @@
         </table>
     </div>
     </div>
-    @await Html.PartialAsync("_DeleteInfoPartial")
+    @* @await Html.PartialAsync("_DeleteInfoPartial",  Model.Doctors[i]) *@
     <!--List contents as a table here-->
     </div>
 

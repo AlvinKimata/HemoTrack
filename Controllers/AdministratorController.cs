@@ -134,23 +134,26 @@ namespace HemoTrack.Controllers
         [HttpGet]
         public IActionResult Doctors()
         {
-            var doctors =  _context.User.OfType<Doctor>().ToListAsync();
-            return View(doctors);
+            var administratorDashboardVM = new AdministratorDashboardVM();
+            administratorDashboardVM.Doctors =  _context.User.OfType<Doctor>().ToList();
+            return View(administratorDashboardVM);
         }
 
         [HttpGet]
         public IActionResult Patient()
         {
-            var patients =  _context.User.OfType<Patient>().ToListAsync();
-            return View(patients);
+            var administratorDashboardVM = new AdministratorDashboardVM();
+            administratorDashboardVM.Patients = _context.User.OfType<Patient>().ToList();
+            return View(administratorDashboardVM);
         }
 
 
         [HttpGet]
-        public IActionResult Appointments()
+        public IActionResult Appointment()
         {
-            var appointments = _context.Appointment.ToListAsync();
-            return View(appointments);
+            var administratorDashboardVM = new AdministratorDashboardVM();
+            administratorDashboardVM.Appointments = _context.Appointment.ToList();
+            return View(administratorDashboardVM);
         }
 
         [HttpGet]
@@ -162,8 +165,9 @@ namespace HemoTrack.Controllers
         [HttpGet]
         public IActionResult Schedule()
         {
-            var schedules = _context.Schedule.ToListAsync();
-            return View(schedules);
+            var administratorDashboardVM = new AdministratorDashboardVM();
+            administratorDashboardVM.Schedules = _context.Schedule.ToList();
+            return View(administratorDashboardVM);
         }
 
 
