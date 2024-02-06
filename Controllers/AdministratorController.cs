@@ -208,7 +208,7 @@ namespace HemoTrack.Controllers
 
                 return RedirectToAction("Doctors");
             }
-            return PartialView("_AddInfoPartial", model);
+            return View(model);
         }
 
     }
