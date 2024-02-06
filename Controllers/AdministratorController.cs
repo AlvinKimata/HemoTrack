@@ -170,6 +170,33 @@ namespace HemoTrack.Controllers
             return View(administratorDashboardVM);
         }
 
+        //         [HttpPost]
+        // public async Task<IActionResult> Register(AdminRegisterVM model)
+        // {
+        //     if (ModelState.IsValid)
+        //     {
+        //         if (_context.Administrator.Any(u => u.Email == model.Email))
+        //         {
+        //             ModelState.AddModelError("Email", "Email is already registered");
+        //             return View(model);
+        //         }
+
+        //         //Create a new admin.
+        //         var user = new Administrator
+        //         {
+        //             Email = model.Email,
+        //             Password = model.Password
+        //         };
+        //         _context.Add(user);
+        //         await _context.SaveChangesAsync();
+        //         return RedirectToAction("Login");
+        
+        //     }
+        //     return View(model);
+        // }
+        [HttpPost]
+        public async Task<IActionResult> AddDoctor()
+
 
     }
 }
