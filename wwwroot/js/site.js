@@ -2,3 +2,12 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+
+function togglePartialView(){
+    var popup = document.getElementById('myPopup');
+    popup.classList.toggle("show");
+}
+
+$(document).ready(function () {
+    $("#partialviews").load('/Administrator/RegisterDoctor');
+});

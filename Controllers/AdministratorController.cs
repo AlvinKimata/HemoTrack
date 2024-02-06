@@ -1,17 +1,19 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Security.Principal;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
 using Microsoft.AspNetCore.Mvc;
-using HemoTrack.Models;
-using HemoTrack.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using HemoTrack.ViewModels;
-using System.Security.Principal;
-using System.Security.Claims;
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
+
+using HemoTrack.Data;
+using HemoTrack.Models;
+using HemoTrack.ViewModels;
 
 namespace HemoTrack.Controllers
 {
@@ -170,42 +172,19 @@ namespace HemoTrack.Controllers
             return View(administratorDashboardVM);
         }
 
-        //         [HttpPost]
-        // public async Task<IActionResult> Register(AdminRegisterVM model)
-        // {
-        //     if (ModelState.IsValid)
-        //     {
-        //         if (_context.Administrator.Any(u => u.Email == model.Email))
-        //         {
-        //             ModelState.AddModelError("Email", "Email is already registered");
-        //             return View(model);
-        //         }
-
-        //         //Create a new admin.
-        //         var user = new Administrator
-        //         {
-        //             Email = model.Email,
-        //             Password = model.Password
-        //         };
-        //         _context.Add(user);
-        //         await _context.SaveChangesAsync();
-        //         return RedirectToAction("Login");
-        
-        //     }
-        //     return View(model);
-        // }
         [HttpPost]
-        public async Task<IActionResult> RegisterDoctor()
+        public async Task<IActionResult> RegisterDoctor(DoctorRegisterVM model)
         {
             if (ModelState.IsValid)
             {
-                if (userManager.Doctor.Any(u => u.Email == model.Email))
+                var existingDoctor = await _userManager.FindByEmailAsync(model.Email);
+                if (existingDoctor != null)
                 {
                     ModelState.AddModelError("Doctor", "Doctor is already registered");
-                    return View(model);
+                    return PartialView("_AddInfoPartial", model);
                 }
                 //Register a new doctor
-                var doctorRegisterVM = new DoctorRegisterVM{
+                var doctorRegisterVM = new Doctor{
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     Email = model.Email,
@@ -213,10 +192,9 @@ namespace HemoTrack.Controllers
                     PhoneNumber = model.PhoneNumber,
                     Speciality = model.Speciality,
                     Password = model.Password,
-                    ConfirmPassword = model.ConfirmPassword
                 };
 
-                var result = userManager.CreateAsync(user, Model.Password);
+                var result =  await _userManager.CreateAsync(doctorRegisterVM, model.Password);
 
                 if (result.Succeeded)
                 {
@@ -230,7 +208,7 @@ namespace HemoTrack.Controllers
 
                 return RedirectToAction("Doctors");
             }
-            return View(model);
+            return PartialView("_AddInfoPartial", model);
         }
 
     }

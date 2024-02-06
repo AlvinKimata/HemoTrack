@@ -1,16 +1,16 @@
-@model Doctor
+@model AdministratorDashboardVM
+
+
 
 <div id="popup1" class="overlay">
     <div class="popup">
         <center>
-
-            <a class="close" href="doctors.php">&times;</a>
+            <a class="close" href="#">&times;</a>
             <div style="display: flex;justify-content: center;">
                 <div class="abc">
                     <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
                         <tr>
-                            <td class="label-td" colspan="2">'.
-                                @* $errorlist[$error_1] *@
+                            <td class="label-td" colspan="2">'
                             </td>
                         </tr>
                         <tr>
@@ -19,7 +19,9 @@
                                     New Doctor.</p><br><br>
                             </td>
                         </tr>
-                        <form action="add-new.php" method="POST" class="add-new-form">
+                        <p>Registration form</p>
+                        @* <form asp-action="RegisterDoctor" asp-controller="Administrator" method="POST"
+                            class="add-new-form">
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <label asp-for="FirstName" class="form-label">Name: </label>
@@ -28,8 +30,9 @@
 
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="text" name="name" class="input-text" placeholder="Doctor Name"
+                                    <input type="text" name="FirstName" class="input-text" placeholder="Doctor Name"
                                         required><br>
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
                                 </td>
                             </tr>
 
@@ -38,11 +41,12 @@
                                     <label asp-for="Email" class="form-label">Email: </label>
                                 </td>
                             </tr>
-                            
+
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <input type="email" name="email" class="input-text" placeholder="Email Address"
                                         required><br>
+                                    <span asp-validation-for="Email" class="text-danger"></span>
                                 </td>
                             </tr>
                             <tr>
@@ -54,6 +58,7 @@
                                 <td class="label-td" colspan="2">
                                     <input type="text" name="Nic" class="input-text" placeholder="NIC Number"
                                         required><br>
+                                    <span asp-validation-for="Nic" class="text-danger"></span>
                                 </td>
                             </tr>
                             <tr>
@@ -63,34 +68,28 @@
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="tel" name="Phone" class="input-text" placeholder="Telephone Number"
-                                        required><br>
+                                    <input type="tel" name="PhoneNumber" class="input-text"
+                                        placeholder="Telephone Number" required><br>
+                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                                 </td>
                             </tr>
+
+
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <label asp-for="Speciality" class="form-label">Choose specialties: </label>
 
                                 </td>
                             </tr>
+
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <select name="spec" id="" class="box">';
+                                    <select asp-for="Speciality" asp-items="Html.GetEnumSelectList<Specialities>()" 
+                                        name="spec" id="" class="box">
+                                            <option value="">Select speciality</option>
+                                    </select>
 
-
-                                        $list11 = $database->query("select * from specialties;");
-
-                                        for ($y=0;$y<$list11->num_rows;$y++){
-                                            $row00=$list11->fetch_assoc();
-                                            $sn=$row00["sname"];
-                                            $id00=$row00["id"];
-                                            echo "<option value=".$id00.">$sn</option><br />";
-                                            };
-
-
-
-
-                                            echo ' </select><br>
+                                    <span asp-validation-for="Speciality" class="text-danger"></span>
                                 </td>
                             </tr>
                             <tr>
@@ -102,6 +101,7 @@
                                 <td class="label-td" colspan="2">
                                     <input type="password" name="password" class="input-text"
                                         placeholder="Defind a Password" required><br>
+                                    <span asp-validation-for="Password" class="text-danger"></span>
                                 </td>
                             </tr>
                             <tr>
@@ -113,6 +113,7 @@
                                 <td class="label-td" colspan="2">
                                     <input type="password" name="cpassword" class="input-text"
                                         placeholder="Confirm Password" required><br>
+                                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                                 </td>
                             </tr>
 
@@ -126,39 +127,13 @@
                                 </td>
 
                             </tr>
-
-                        </form>
+                        </form> *@
                         </tr>
                     </table>
                 </div>
             </div>
-        </center>
+        </center>        
         <br><br>
     </div>
-</div>
+</div>  
 
-
-@* Confirm user has added user. *@
-@* 
-<div id="popup1" class="overlay">
-    <div class="popup">
-        <center>
-            <br><br><br><br>
-            <h2>Edit Successfully!</h2>
-            <a class="close" href="doctors.php">&times;</a>
-            <div class="content">
-
-
-            </div>
-            <div style="display: flex;justify-content: center;">
-
-                <a href="doctors.php" class="non-style-link"><button class="btn-primary btn"
-                        style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;">
-                        <font class="tn-in-text">&nbsp;&nbsp;OK&nbsp;&nbsp;</font>
-                    </button></a>
-
-            </div>
-            <br><br>
-        </center>
-    </div>
-</div> *@
