@@ -1,4 +1,4 @@
-@model AdministratorDashboardVM
+@model DoctorRegisterVM
 @{
     ViewData["Title"] = "Admin dashboard";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -63,11 +63,11 @@
 <tr>
     <td colspan="4" style="padding-top:10px;">
         <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">All Doctors
-            @Model.Doctors.Count()</p>
+            @* @Model.Doctors.Count()</p> *@
     </td>
 
 </tr>
-
+@* 
 <tr>
     <td colspan="4">
         <center>
@@ -175,7 +175,7 @@
 </tr>
 </table>
 </div>
-</div>
+</div> *@
 @* @await Html.PartialAsync("_DeleteInfoPartial", Model.Doctors[i]) *@
 <!--List contents as a table here-->
 </div>

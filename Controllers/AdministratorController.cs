@@ -136,41 +136,41 @@ namespace HemoTrack.Controllers
         [HttpGet]
         public IActionResult Doctors()
         {
-            var administratorDashboardVM = new AdministratorDashboardVM();
-            administratorDashboardVM.Doctors =  _context.User.OfType<Doctor>().ToList();
-            return View(administratorDashboardVM);
+            var doctorRegisterVM = new DoctorRegisterVM();
+            doctorRegisterVM.Doctors =  _context.User.OfType<Doctor>().ToList();
+            return View(doctorRegisterVM);
         }
 
-        [HttpGet]
-        public IActionResult Patient()
-        {
-            var administratorDashboardVM = new AdministratorDashboardVM();
-            administratorDashboardVM.Patients = _context.User.OfType<Patient>().ToList();
-            return View(administratorDashboardVM);
-        }
+        // [HttpGet]
+        // public IActionResult Patient()
+        // {
+        //     var administratorDashboardVM = new AdministratorDashboardVM();
+        //     administratorDashboardVM.Patients = _context.User.OfType<Patient>().ToList();
+        //     return View(administratorDashboardVM);
+        // }
 
 
-        [HttpGet]
-        public IActionResult Appointment()
-        {
-            var administratorDashboardVM = new AdministratorDashboardVM();
-            administratorDashboardVM.Appointments = _context.Appointment.ToList();
-            return View(administratorDashboardVM);
-        }
+        // [HttpGet]
+        // public IActionResult Appointment()
+        // {
+        //     var administratorDashboardVM = new AdministratorDashboardVM();
+        //     administratorDashboardVM.Appointments = _context.Appointment.ToList();
+        //     return View(administratorDashboardVM);
+        // }
 
-        [HttpGet]
-        public IActionResult Settings()
-        {
-            return View();
-        }
+        // [HttpGet]
+        // public IActionResult Settings()
+        // {
+        //     return View();
+        // }
 
-        [HttpGet]
-        public IActionResult Schedule()
-        {
-            var administratorDashboardVM = new AdministratorDashboardVM();
-            administratorDashboardVM.Schedules = _context.Schedule.ToList();
-            return View(administratorDashboardVM);
-        }
+        // [HttpGet]
+        // public IActionResult Schedule()
+        // {
+        //     var administratorDashboardVM = new AdministratorDashboardVM();
+        //     administratorDashboardVM.Schedules = _context.Schedule.ToList();
+        //     return View(administratorDashboardVM);
+        // }
 
         [HttpPost]
         public async Task<IActionResult> RegisterDoctor(DoctorRegisterVM model)
