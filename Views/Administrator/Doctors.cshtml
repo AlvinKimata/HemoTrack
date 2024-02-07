@@ -53,7 +53,7 @@
                     style="display: flex;justify-content: center;align-items: center;margin-left:75px;background-image: url('../img/icons/add.svg');">
                     Add New
                 </button>
-                <span id="myPopup" style="display: none;">
+                <span id="myPopup" style="display: none;" asp-action="RegisterDoctor" asp-controller="Administrator">
                     @await Html.PartialAsync("_AddInfoPartial")
                 </span>
             </td>
@@ -63,7 +63,7 @@
 <tr>
     <td colspan="4" style="padding-top:10px;">
         <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">All Doctors
-            @* @Model.Doctors.Count()</p> *@
+            @Model.Doctors.Count()</p>
     </td>
 
 </tr>

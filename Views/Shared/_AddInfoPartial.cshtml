@@ -16,22 +16,35 @@
                         <tr>
                             <td>
                                 <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Add
-                                    New Doctor.</p><br><br>
+                                    New Doctor</p><br><br>
                             </td>
                         </tr>
-                        <form asp-action="RegisterDoctor" asp-controller="Administrator" method="POST"
-                            class="add-new-form">
+                        <form method="POST" class="add-new-form">
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label asp-for="FirstName" class="form-label">Name: </label>
+                                    <label asp-for="FirstName" class="form-label">FirstName: </label>
                                 </td>
                             </tr>
 
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="text" name="FirstName" class="input-text" placeholder="Doctor Name"
+                                    <input type="text" name="FirstName" class="input-text" placeholder="First Name"
                                         required><br>
                                     <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label asp-for="LastName" class="form-label">Last Name: </label>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <input type="text" name="LastName" class="input-text" placeholder="Last Name"
+                                        required><br>
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
                                 </td>
                             </tr>
 
@@ -83,9 +96,9 @@
 
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <select asp-for="Speciality" asp-items="Html.GetEnumSelectList<Specialities>()" 
+                                    <select asp-for="Speciality" asp-items="Html.GetEnumSelectList<Specialities>()"
                                         name="spec" id="" class="box">
-                                            <option value="">Select speciality</option>
+                                        <option value="">Select speciality</option>
                                     </select>
 
                                     <span asp-validation-for="Speciality" class="text-danger"></span>
@@ -131,8 +144,7 @@
                     </table>
                 </div>
             </div>
-        </center>        
+        </center>
         <br><br>
     </div>
-</div>  
-
+</div>
