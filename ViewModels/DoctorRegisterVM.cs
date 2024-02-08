@@ -27,6 +27,6 @@ namespace HemoTrack.ViewModels
         [Compare("Password", ErrorMessage="Password and Confirm Password do not match")]
         public string ConfirmPassword {get; set;}
 
-        public List<Doctor> Doctors {get; set;}
+        // public List<Doctor> Doctors {get; set;}
     }
 }

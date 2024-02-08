@@ -1,6 +1,8 @@
 @model DoctorRegisterVM
-
-
+@{
+    ViewData["Title"] = "Admin dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
 
 <div id="popup1" class="overlay">
     <div class="popup">
@@ -19,7 +21,7 @@
                                     New Doctor</p><br><br>
                             </td>
                         </tr>
-                        <form method="POST" class="add-new-form">
+                        <form method="post" class="add-new-form" id="registerForm">
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <label asp-for="FirstName" class="form-label">FirstName: </label>
@@ -29,7 +31,7 @@
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <input type="text" name="FirstName" class="input-text" placeholder="First Name"
-                                        required><br>
+                                        aria-required="true"><br>
                                     <span asp-validation-for="FirstName" class="text-danger"></span>
                                 </td>
                             </tr>
@@ -43,7 +45,7 @@
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <input type="text" name="LastName" class="input-text" placeholder="Last Name"
-                                        required><br>
+                                        aria-required="true"><br>
                                     <span asp-validation-for="LastName" class="text-danger"></span>
                                 </td>
                             </tr>
@@ -57,7 +59,7 @@
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <input type="email" name="email" class="input-text" placeholder="Email Address"
-                                        required><br>
+                                        aria-required="true"><br>
                                     <span asp-validation-for="Email" class="text-danger"></span>
                                 </td>
                             </tr>
@@ -69,7 +71,7 @@
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <input type="text" name="Nic" class="input-text" placeholder="NIC Number"
-                                        required><br>
+                                        aria-required="true"><br>
                                     <span asp-validation-for="Nic" class="text-danger"></span>
                                 </td>
                             </tr>
@@ -81,7 +83,7 @@
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <input type="tel" name="PhoneNumber" class="input-text"
-                                        placeholder="Telephone Number" required><br>
+                                        placeholder="Telephone Number" aria-required="true"><br>
                                     <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                                 </td>
                             </tr>
@@ -97,10 +99,9 @@
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <select asp-for="Speciality" asp-items="Html.GetEnumSelectList<Specialities>()"
-                                        name="spec" id="" class="box">
+                                        name="Speciality" id="Speciality" class="box" aria-required="true">
                                         <option value="">Select speciality</option>
                                     </select>
-
                                     <span asp-validation-for="Speciality" class="text-danger"></span>
                                 </td>
                             </tr>
@@ -109,10 +110,11 @@
                                     <label asp-for="Password" class="form-label">Password: </label>
                                 </td>
                             </tr>
+
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <input type="password" name="password" class="input-text"
-                                        placeholder="Defind a Password" required><br>
+                                        placeholder="Defind a Password" aria-required="true"><br>
                                     <span asp-validation-for="Password" class="text-danger"></span>
                                 </td>
                             </tr>
@@ -121,10 +123,11 @@
                                     <label asp-for="Password" class="form-label">Confirm Password: </label>
                                 </td>
                             </tr>
+
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="password" name="cpassword" class="input-text"
-                                        placeholder="Confirm Password" required><br>
+                                    <input type="password" name="ConfirmPassword" class="input-text"
+                                        placeholder="Confirm Password" aria-required="true"><br>
                                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                                 </td>
                             </tr>

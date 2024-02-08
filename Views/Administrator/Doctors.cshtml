@@ -1,4 +1,4 @@
-@model DoctorRegisterVM
+@model DoctorDashboardVM
 @{
     ViewData["Title"] = "Admin dashboard";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -50,11 +50,12 @@
             <!--Add new doctor-->
             <td colspan="2">
                 <button onclick="togglePartialView()" class="login-btn btn-primary btn button-icon"
-                    style="display: flex;justify-content: center;align-items: center;margin-left:75px;background-image: url('../img/icons/add.svg');">
-                    Add New
-                </button>
-                <span id="myPopup" style="display: none;" asp-action="RegisterDoctor" asp-controller="Administrator">
-                    @await Html.PartialAsync("_AddInfoPartial")
+                style="display: flex;justify-content: center;align-items: center;margin-left:75px;background-image:
+                url('../img/icons/add.svg');">
+                Add New
+                </button> 
+                <span id="myPopup" style="display: none;">
+                    @await Html.PartialAsync("_AddInfoPartial", @Model.doctorRegisterVM)
                 </span>
             </td>
 </div>
@@ -67,7 +68,7 @@
     </td>
 
 </tr>
-@* 
+
 <tr>
     <td colspan="4">
         <center>
@@ -140,7 +141,7 @@
                                         <button class="btn-primary-soft btn button-icon btn-edit"
                                             style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                             <font class="tn-in-text">Edit</font>
-                                            @await Html.PartialAsync("_EditInfoPartial", Model.Doctors[i])
+                                            @* @await Html.PartialAsync("_EditInfoPartial", Model.Doctors[i]) *@
                                         </button>
                                     </a>
                                     &nbsp;&nbsp;&nbsp;
@@ -149,7 +150,7 @@
                                         <button class="btn-primary-soft btn button-icon btn-view"
                                             style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                             <font class="tn-in-text">View</font>
-                                            @await Html.PartialAsync("_ViewInfoPartial", Model.Doctors[i])
+                                            @* @await Html.PartialAsync("_ViewInfoPartial", Model.Doctors[i]) *@
                                         </button>
                                     </a>
                                     &nbsp;&nbsp;&nbsp;
@@ -158,7 +159,7 @@
                                         <button class="btn-primary-soft btn button-icon btn-delete"
                                             style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                             <font class="tn-in-text">Remove</font>
-                                            @await Html.PartialAsync("_DeleteInfoPartial", Model.Doctors[i])
+                                            @* @await Html.PartialAsync("_DeleteInfoPartial", Model.Doctors[i]) *@
                                         </button>
                                     </a>
 
@@ -175,7 +176,7 @@
 </tr>
 </table>
 </div>
-</div> *@
+</div>
 @* @await Html.PartialAsync("_DeleteInfoPartial", Model.Doctors[i]) *@
 <!--List contents as a table here-->
 </div>

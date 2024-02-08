@@ -22,6 +22,7 @@ namespace HemoTrack.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+
         public AdministratorController(ApplicationDbContext context, 
             UserManager<User> userManager,
             SignInManager<User> signInManager)
@@ -32,7 +33,7 @@ namespace HemoTrack.Controllers
         }
 
         public async Task<IActionResult> Index()
-        {// Get the current user ID from the user claims.
+        {   // Get the current user ID from the user claims.
             string currentUserName = User.Identity.Name;
             var patients = await _context.User.OfType<Patient>().ToListAsync();
             var doctors = await _context.Doctor.ToListAsync();
@@ -136,44 +137,51 @@ namespace HemoTrack.Controllers
         [HttpGet]
         public IActionResult Doctors()
         {
-            var doctorRegisterVM = new DoctorRegisterVM();
-            doctorRegisterVM.Doctors =  _context.User.OfType<Doctor>().ToList();
-            return View(doctorRegisterVM);
+            var doctorDashboardVM = new DoctorDashboardVM();
+            doctorDashboardVM.Doctors =  _context.User.OfType<Doctor>().ToList();
+            return View(doctorDashboardVM);
         }
 
-        // [HttpGet]
-        // public IActionResult Patient()
-        // {
-        //     var administratorDashboardVM = new AdministratorDashboardVM();
-        //     administratorDashboardVM.Patients = _context.User.OfType<Patient>().ToList();
-        //     return View(administratorDashboardVM);
-        // }
+        [HttpGet]
+        public IActionResult Patient()
+        {
+            var administratorDashboardVM = new AdministratorDashboardVM();
+            administratorDashboardVM.Patients = _context.User.OfType<Patient>().ToList();
+            return View(administratorDashboardVM);
+        }
 
 
-        // [HttpGet]
-        // public IActionResult Appointment()
-        // {
-        //     var administratorDashboardVM = new AdministratorDashboardVM();
-        //     administratorDashboardVM.Appointments = _context.Appointment.ToList();
-        //     return View(administratorDashboardVM);
-        // }
+        [HttpGet]
+        public IActionResult Appointment()
+        {
+            var administratorDashboardVM = new AdministratorDashboardVM();
+            administratorDashboardVM.Appointments = _context.Appointment.ToList();
+            return View(administratorDashboardVM);
+        }
 
-        // [HttpGet]
-        // public IActionResult Settings()
-        // {
-        //     return View();
-        // }
+        [HttpGet]
+        public IActionResult Settings()
+        {
+            return View();
+        }
 
-        // [HttpGet]
-        // public IActionResult Schedule()
-        // {
-        //     var administratorDashboardVM = new AdministratorDashboardVM();
-        //     administratorDashboardVM.Schedules = _context.Schedule.ToList();
-        //     return View(administratorDashboardVM);
-        // }
+        [HttpGet]
+        public IActionResult RegisterDoctor()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Schedule()
+        {
+            var administratorDashboardVM = new AdministratorDashboardVM();
+            administratorDashboardVM.Schedules = _context.Schedule.ToList();
+            return View(administratorDashboardVM);
+        }
+
 
         [HttpPost]
-        public async Task<IActionResult> RegisterDoctor(DoctorRegisterVM model)
+        public async Task<IActionResult> Doctors(DoctorRegisterVM model)
         {
             if (ModelState.IsValid)
             {
@@ -181,12 +189,13 @@ namespace HemoTrack.Controllers
                 if (existingDoctor != null)
                 {
                     ModelState.AddModelError("Doctor", "Doctor is already registered");
-                    return PartialView("_AddInfoPartial", model);
+                    return View(model);
                 }
                 //Register a new doctor
                 var doctorRegisterVM = new Doctor{
                     FirstName = model.FirstName,
                     LastName = model.LastName,
+                    UserName = model.FirstName,
                     Email = model.Email,
                     Nic = model.Nic,
                     PhoneNumber = model.PhoneNumber,
@@ -198,7 +207,7 @@ namespace HemoTrack.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Doctors", "Administrator");
+                    return RedirectToAction("Doctors");
                 }
 
                 foreach(var error in result.Errors)
@@ -208,6 +217,8 @@ namespace HemoTrack.Controllers
 
                 return RedirectToAction("Doctors");
             }
+
+
             return View(model);
         }
 
