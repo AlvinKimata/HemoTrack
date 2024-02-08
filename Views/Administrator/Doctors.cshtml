@@ -49,11 +49,13 @@
 
             <!--Add new doctor-->
             <td colspan="2">
-                <button onclick="togglePartialView()" class="login-btn btn-primary btn button-icon"
-                style="display: flex;justify-content: center;align-items: center;margin-left:75px;background-image:
-                url('../img/icons/add.svg');">
-                <font class="tn-in-text">Add New</font>
-                </button> 
+                <a href="#" class="non-style-link">
+                    <button onclick="togglePartialView()" class="login-btn btn-primary btn button-icon"
+                        style="display: flex;justify-content: center;align-items: center;margin-left:75px;background-image:url('../img/icons/add.svg');">
+                        <font class="tn-in-text">Add New</font>
+                    </button>
+
+                </a>
                 <span id="myPopup" style="display: none;">
                     @await Html.PartialAsync("_AddInfoPartial", @Model.doctorRegisterVM)
                 </span>
@@ -137,34 +139,38 @@
 
                             <td>
                                 <div style="display:flex;justify-content: center;">
-                                    <a href="" class="non-style-link">
-                                        <button onclick="togglePartialView()" class="btn-primary-soft btn button-icon btn-edit"
+                                    <div>
+                                        <button onclick="togglePartialView()"
+                                            class="btn-primary-soft btn button-icon btn-edit"
                                             style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                             <font class="tn-in-text">Edit</font>
-                                            <span id="myPopup" style="display: none;">
-                                                @* @await Html.PartialAsync("_EditInfoPartial", Model.Doctors[i]) *@
-                                                @* @await Html.PartialAsync("_EditInfoPartial", @Model.Doctors[i]) *@
-                                            </span>
                                         </button>
-                                    </a>
+                                        <span id="myPopup" style="display: none;">
+                                            @* @await Html.PartialAsync("_EditInfoPartial", @Model.Doctors[i]) *@
+                                        </span>
+                                    </div>
                                     &nbsp;&nbsp;&nbsp;
 
-                                    <a href="" class="non-style-link">
+                                    <div>
                                         <button class="btn-primary-soft btn button-icon btn-view"
                                             style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                             <font class="tn-in-text">View</font>
-                                            @* @await Html.PartialAsync("_ViewInfoPartial", Model.Doctors[i]) *@
                                         </button>
-                                    </a>
+                                        <span id="myPopup" style="display: none;">
+                                            @* @await Html.PartialAsync("_EditInfoPartial", @Model.Doctors[i]) *@
+                                        </span>
+                                    </div>
                                     &nbsp;&nbsp;&nbsp;
 
-                                    <a href="" class="non-style-link">
+                                    <div>
                                         <button class="btn-primary-soft btn button-icon btn-delete"
                                             style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                             <font class="tn-in-text">Remove</font>
-                                            @* @await Html.PartialAsync("_DeleteInfoPartial", Model.Doctors[i]) *@
                                         </button>
-                                    </a>
+                                        <span id="myPopup" style="display: none;">
+                                            @* @await Html.PartialAsync("_EditInfoPartial", @Model.Doctors[i]) *@
+                                        </span>
+                                    </div>
 
                                 </div>
                             </td>
@@ -177,9 +183,3 @@
         </center>
     </td>
 </tr>
-</table>
-</div>
-</div>
-@* @await Html.PartialAsync("_DeleteInfoPartial", Model.Doctors[i]) *@
-<!--List contents as a table here-->
-</div>

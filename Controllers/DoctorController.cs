@@ -75,11 +75,6 @@ namespace HemoTrack.Controllers
             return View();
         }
 
-        // [HttpPost]
-        // public IActionResult Appointment()
-        // {
-        //     return View();
-        // }
 
         [HttpGet]
         public IActionResult Patient()
@@ -87,23 +82,12 @@ namespace HemoTrack.Controllers
             return View();
         }
 
-        // [HttpPost]
-        // public IActionResult Patient()
-        // {
-        //     return View();
-        // }
-
         [HttpGet]
         public IActionResult Schedule()
         {
             return View();
         }
 
-        // [HttpPost]
-        // public IActionResult Schedule()
-        // {
-        //     return View();
-        // }
         
     }
 }
