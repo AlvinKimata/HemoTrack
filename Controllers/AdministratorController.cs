@@ -165,11 +165,6 @@ namespace HemoTrack.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult RegisterDoctor()
-        {
-            return View();
-        }
 
         [HttpGet]
         public IActionResult Schedule()
@@ -220,6 +215,30 @@ namespace HemoTrack.Controllers
 
 
             return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult EditDoctor()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult EditDoctor()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult DeleteDoctor()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult DeleteDoctor()
+        {
+            return View();
         }
 
     }

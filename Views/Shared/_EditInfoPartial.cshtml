@@ -1,52 +1,68 @@
-@model Doctor
+@model EditDoctorVM
+@{
+    ViewData["Title"] = "Admin dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
 
 <div id="popup1" class="overlay">
     <div class="popup">
         <center>
-
-            <a class="close" href="doctors.php">&times;</a>
+            <a class="close" href="#">&times;</a>
             <div style="display: flex;justify-content: center;">
                 <div class="abc">
                     <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
                         <tr>
-                            <td class="label-td" colspan="2">'.
-                                $errorlist[$error_1]
-                                .'</td>
+                            <td class="label-td" colspan="2">
+                            </td>
                         </tr>
                         <tr>
                             <td>
-                                <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Edit
-                                    Doctor Details.</p>
-                                Doctor ID : '.$id.' (Auto Generated)<br><br>
+                                <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Add
+                                    Edit Doctor's details</p><br><br>
                             </td>
                         </tr>
-                        <form action="edit-doc.php" method="POST" class="add-new-form">
+                        <form method="post" class="add-new-form" id="registerForm">
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label asp-for="FirstName" class="form-label">FirstName: </label>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <input type="text" name="FirstName" class="input-text" placeholder="First Name"
+                                        aria-required="true"><br>
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label asp-for="LastName" class="form-label">Last Name: </label>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <input type="text" name="LastName" class="input-text" placeholder="Last Name"
+                                        aria-required="true"><br>
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </td>
+                            </tr>
+
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <label asp-for="Email" class="form-label">Email: </label>
-                                    <input type="hidden" value="'.$id.'" name="id00">
                                 </td>
                             </tr>
+
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <input type="email" name="email" class="input-text" placeholder="Email Address"
-                                        value="'.$email.'" required><br>
+                                        aria-required="true"><br>
+                                    <span asp-validation-for="Email" class="text-danger"></span>
                                 </td>
                             </tr>
-                            <tr>
-
-                                <td class="label-td" colspan="2">
-                                    <label asp-for="FirstName" class="form-label">Name: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="text" name="name" class="input-text" placeholder="Doctor Name"
-                                        value="'.$name.'" required><br>
-                                </td>
-
-                            </tr>
-
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <label asp-for="Nic" class="form-label">NIC: </label>
@@ -54,8 +70,9 @@
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="text" name="nic" class="input-text" placeholder="NIC Number"
-                                        value="'.$nic.'" required><br>
+                                    <input type="text" name="Nic" class="input-text" placeholder="NIC Number"
+                                        aria-required="true"><br>
+                                    <span asp-validation-for="Nic" class="text-danger"></span>
                                 </td>
                             </tr>
                             <tr>
@@ -65,35 +82,27 @@
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="tel" name="Tele" class="input-text" placeholder="Telephone Number"
-                                        value="'.$tele.'" required><br>
+                                    <input type="tel" name="PhoneNumber" class="input-text"
+                                        placeholder="Telephone Number" aria-required="true"><br>
+                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                                 </td>
                             </tr>
+
+
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label asp-for="Speciality" class="form-label">Choose specialties:
-                                        (Current'.$spcil_name.')</label>
+                                    <label asp-for="Speciality" class="form-label">Choose specialties: </label>
 
                                 </td>
                             </tr>
+
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <select name="spec" id="" class="box">';
-
-
-                                        $list11 = $database->query("select * from specialties;");
-
-                                        for ($y=0;$y<$list11->num_rows;$y++){
-                                            $row00=$list11->fetch_assoc();
-                                            $sn=$row00["sname"];
-                                            $id00=$row00["id"];
-                                            echo "<option value=".$id00.">$sn</option><br />";
-                                            };
-
-
-
-
-                                            echo ' </select><br><br>
+                                    <select asp-for="Speciality" asp-items="Html.GetEnumSelectList<Specialities>()"
+                                        name="Speciality" id="Speciality" class="box" aria-required="true">
+                                        <option value="">Select speciality</option>
+                                    </select>
+                                    <span asp-validation-for="Speciality" class="text-danger"></span>
                                 </td>
                             </tr>
                             <tr>
@@ -101,21 +110,25 @@
                                     <label asp-for="Password" class="form-label">Password: </label>
                                 </td>
                             </tr>
+
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <input type="password" name="password" class="input-text"
-                                        placeholder="Defind a Password" required><br>
+                                        placeholder="Defind a Password" aria-required="true"><br>
+                                    <span asp-validation-for="Password" class="text-danger"></span>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label asp-for="Password" class="form-label">Conform Password: </label>
+                                    <label asp-for="Password" class="form-label">Confirm Password: </label>
                                 </td>
                             </tr>
+
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="password" name="cpassword" class="input-text"
-                                        placeholder="Conform Password" required><br>
+                                    <input type="password" name="ConfirmPassword" class="input-text"
+                                        placeholder="Confirm Password" aria-required="true"><br>
+                                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                                 </td>
                             </tr>
 
@@ -125,41 +138,16 @@
                                     <input type="reset" value="Reset"
                                         class="login-btn btn-primary-soft btn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-                                    <input type="submit" value="Save" class="login-btn btn-primary btn">
+                                    <input type="submit" value="Add" class="login-btn btn-primary btn">
                                 </td>
 
                             </tr>
-
                         </form>
-                        @* </tr> *@
+                        </tr>
                     </table>
                 </div>
             </div>
         </center>
         <br><br>
-    </div>
-</div>
-
-
-<div id="popup1" class="overlay">
-    <div class="popup">
-        <center>
-            <br><br><br><br>
-            <h2>Edit Successfully!</h2>
-            <a class="close" href="doctors.php">&times;</a>
-            <div class="content">
-
-
-            </div>
-            <div style="display: flex;justify-content: center;">
-
-                <a href="doctors.php" class="non-style-link"><button class="btn-primary btn"
-                        style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;">
-                        <font class="tn-in-text">&nbsp;&nbsp;OK&nbsp;&nbsp;</font>
-                    </button></a>
-
-            </div>
-            <br><br>
-        </center>
     </div>
 </div>

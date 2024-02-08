@@ -52,7 +52,7 @@
                 <button onclick="togglePartialView()" class="login-btn btn-primary btn button-icon"
                 style="display: flex;justify-content: center;align-items: center;margin-left:75px;background-image:
                 url('../img/icons/add.svg');">
-                Add New
+                <font class="tn-in-text">Add New</font>
                 </button> 
                 <span id="myPopup" style="display: none;">
                     @await Html.PartialAsync("_AddInfoPartial", @Model.doctorRegisterVM)
@@ -63,7 +63,7 @@
 
 <tr>
     <td colspan="4" style="padding-top:10px;">
-        <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">All Doctors
+        <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">All Doctors :
             @Model.Doctors.Count()</p>
     </td>
 
@@ -138,10 +138,13 @@
                             <td>
                                 <div style="display:flex;justify-content: center;">
                                     <a href="" class="non-style-link">
-                                        <button class="btn-primary-soft btn button-icon btn-edit"
+                                        <button onclick="togglePartialView()" class="btn-primary-soft btn button-icon btn-edit"
                                             style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                             <font class="tn-in-text">Edit</font>
-                                            @* @await Html.PartialAsync("_EditInfoPartial", Model.Doctors[i]) *@
+                                            <span id="myPopup" style="display: none;">
+                                                @* @await Html.PartialAsync("_EditInfoPartial", Model.Doctors[i]) *@
+                                                @* @await Html.PartialAsync("_EditInfoPartial", @Model.Doctors[i]) *@
+                                            </span>
                                         </button>
                                     </a>
                                     &nbsp;&nbsp;&nbsp;

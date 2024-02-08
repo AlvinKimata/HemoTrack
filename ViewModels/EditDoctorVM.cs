@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HemoTrack.ViewModels
 {
-    public class DoctorRegisterVM
+    public class EditDoctorVM
     {
         public string FirstName {get; set;}
         public string LastName {get; set;}
