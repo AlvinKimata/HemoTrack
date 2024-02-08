@@ -223,11 +223,11 @@ namespace HemoTrack.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult EditDoctor()
-        {
-            return View();
-        }
+        // [HttpPost]
+        // public IActionResult EditDoctor()
+        // {
+        //     return View();
+        // }
 
         [HttpGet]
         public IActionResult DeleteDoctor()
@@ -235,11 +235,11 @@ namespace HemoTrack.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult DeleteDoctor()
-        {
-            return View();
-        }
+        // [HttpPost]
+        // public IActionResult DeleteDoctor()
+        // {
+        //     return View();
+        // }
 
     }
 }

@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-@* @model AdministratorDashboardVM *@
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -43,7 +41,6 @@
                                 </td>
                                 <td style="padding:0px;margin:0px;">
                                     <p class="profile-title">Administrator</p>
-                                    @* <p class="profile-subtitle">@Model.Email</p> *@
                                 </td>
                             </tr>
                             <tr>
@@ -57,7 +54,7 @@
                 </tr>
                 <tr class="menu-row">
                     <td class="menu-btn menu-icon-dashbord menu-active menu-icon-dashbord-active">
-                        <a href="#" class="non-style-link-menu non-style-link-menu-active">
+                        <a asp-action = "Index" asp-controller = "Administrator" class="non-style-link-menu non-style-link-menu-active">
                             <div>
                                 <p class="menu-text">Dashboard</p>
                         </a>
