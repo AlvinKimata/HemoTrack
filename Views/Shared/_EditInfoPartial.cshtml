@@ -1,4 +1,4 @@
-@model EditDoctorVM
+@model Doctor
 @{
     ViewData["Title"] = "Edit doctor's details";
     Layout = null;
@@ -116,7 +116,7 @@
                                     <span asp-validation-for="Password" class="text-danger"></span>
                                 </td>
                             </tr>
-                            <tr>
+                            @* <tr>
                                 <td class="label-td" colspan="2">
                                     <label asp-for="Password" class="form-label">Confirm Password: </label>
                                 </td>
@@ -128,7 +128,7 @@
                                         placeholder="Confirm Password" aria-required="true"><br>
                                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                                 </td>
-                            </tr>
+                            </tr> *@
 
 
                             <tr>

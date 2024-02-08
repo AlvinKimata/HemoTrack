@@ -14,12 +14,12 @@ namespace HemoTrack.Controllers
     public class DoctorController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<User> userManager;
+        private readonly UserManager<User> _userManager;
 
-        public DoctorController(ApplicationDbContext context, UserManager<User> userManager)
+        public DoctorController(ApplicationDbContext context, UserManager<User> _userManager)
         {
             _context = context;
-            userManager = userManager;
+            _userManager = _userManager;
         }
 
 
@@ -27,9 +27,9 @@ namespace HemoTrack.Controllers
         {
             // Get the current user ID from the user claims.
 
-            var doctor = await userManager.FindByIdAsync(id);
+            var doctor = await _userManager.FindByIdAsync(id);
             var patients = await _context.User.OfType<Patient>().ToListAsync();
-            var doctors = await _context.Doctor.ToListAsync();
+            var doctors = await _context.User.OfType<Doctor>().ToListAsync();
             var appointmentschedule = await _context.Appointment.ToListAsync();
             var schedule = await _context.Schedule.ToListAsync();
             var today = DateTime.Today;

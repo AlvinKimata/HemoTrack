@@ -56,9 +56,9 @@
                     </button>
 
                 </a>
-                <span id="myPopup" style="display: none;">
+                <div id="myPopup" style="display: none;">
                     @await Html.PartialAsync("_AddInfoPartial", @Model.doctorRegisterVM)
-                </span>
+                </div>
             </td>
 </div>
 </td>
@@ -124,17 +124,17 @@
                             </td>
                         </tr>
                     }
-                    @for (int i = 0; i < totalDoctors; i++)
+                    @foreach(var doctor in Model.Doctors)
                     {
                         <tr>
                             <td> &nbsp;
-                                @Model.Doctors[i].FirstName
+                                @doctor.FirstName
                             </td>
                             <td>
-                                @Model.Doctors[i].Email
+                                @doctor.Email
                             </td>
                             <td>
-                                @Model.Doctors[i].Speciality
+                                @doctor.Speciality
                             </td>
 
                             <td>
@@ -145,9 +145,9 @@
                                             style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                             <font class="tn-in-text">Edit</font>
                                         </button>
-                                        <span id="myPopup" style="display: none;">
-                                            @* @await Html.PartialAsync("_EditInfoPartial", @Model.Doctors[i]) *@
-                                        </span>
+                                        <div id="myPopup" style="display: none;">
+                                            @await Html.PartialAsync("_EditInfoPartial", @doctor)
+                                        </div>
                                     </div>
                                     &nbsp;&nbsp;&nbsp;
 
@@ -156,9 +156,9 @@
                                             style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                             <font class="tn-in-text">View</font>
                                         </button>
-                                        <span id="myPopup" style="display: none;">
-                                            @* @await Html.PartialAsync("_EditInfoPartial", @Model.Doctors[i]) *@
-                                        </span>
+                                        <div id="myPopup" style="display: none;">
+                                            @await Html.PartialAsync("_ViewInfoPartial", @doctor)
+                                        </div>
                                     </div>
                                     &nbsp;&nbsp;&nbsp;
 
@@ -167,9 +167,9 @@
                                             style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                             <font class="tn-in-text">Remove</font>
                                         </button>
-                                        <span id="myPopup" style="display: none;">
+                                        <div id="myPopup" style="display: none;">
                                             @* @await Html.PartialAsync("_EditInfoPartial", @Model.Doctors[i]) *@
-                                        </span>
+                                        </div>
                                     </div>
 
                                 </div>
