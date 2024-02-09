@@ -38,9 +38,14 @@
                     <div class="heading-main12"
                         style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49);margin-top: 5px;">Schedule a
                         Session</div>
-                    <a href="#" class="non-style-link"><button class="login-btn btn-primary btn button-icon"
+                    <a href="#" class="non-style-link">
+                        <button class="login-btn btn-primary btn button-icon" onclick="togglePartialView()"
                             style="margin-left:25px;background-image: url('../img/icons/add.svg');">Add a Session</font>
                         </button>
+
+                        <span id="myPopup" style="display: none;">
+                            @await Html.PartialAsync("_AddAppointment", @Model.appointmentRegisterVM)
+                        </span>
                     </a>
                 </div>
             </td>

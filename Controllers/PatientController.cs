@@ -204,5 +204,42 @@ namespace HemoTrack.Controllers
             }
             return NotFound();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddAppointment(AppointmentRegisterVM model)
+        {
+            if (ModelState.IsValid){
+                var patient = await _userManager.FindByEmailAsync(model.Patient.Email);
+                
+                if(patient == null)
+                {
+                    ModelState.AddModelError("Patient", "Patient does not exist");
+                    return View(model);
+                }
+
+                //Add a new appointment.
+                var appointmentRegisterVM = new Appointment{
+                    AppointmentNumber = Guid, //New GUID
+                    Title = model.Title,
+                    AppointmentDate = model.AppointmentDate,
+                    AppointmentTime = model.AppointmentTime,
+                    Patient = model.Patient,
+                    Doctor = model.Doctor
+                };
+                var result = _context.Add(appointmentRegisterVM);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Patient");
+                }
+
+                foreach(var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return RedirectToAction("Patient");
+            }
+            return View(model);
+        }
     };
 }
