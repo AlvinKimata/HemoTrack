@@ -12,6 +12,7 @@ namespace HemoTrack.Models
         public string Title {get; set;}
         public TimeSpan? ScheduleTime { get; set; }
         public int Nop {get; set;}
-        public int DoctorId {get; set;}
+        public string DoctorId {get; set;} //Associate a schedule with a doctor
+        public string PatientId {get; set;} //Associate a schedule with a patient
     }
 }

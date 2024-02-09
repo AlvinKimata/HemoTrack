@@ -28,7 +28,6 @@ namespace HemoTrack.Controllers
         {
             // Get the current user ID from the user claims.
             string currentUserName = User.Identity.Name;
-            // var patients = await _context.User.OfType<Patient>().ToListAsync();
             var patients = await _context.User.OfType<Patient>().ToListAsync();
 
             var doctors = await _context.User.OfType<Doctor>().ToListAsync();
