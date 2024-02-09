@@ -206,7 +206,7 @@ namespace HemoTrack.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddAppointment(AppointmentRegisterVM model)
+        public async Task<IActionResult> ListAppointments(AppointmentRegisterVM model)
         {
             if (ModelState.IsValid){
                 var patient = await _userManager.FindByEmailAsync(model.Patient.Email);
@@ -241,17 +241,6 @@ namespace HemoTrack.Controllers
                     ModelState.AddModelError("", $"Unexpected error occurred while adding appointment - Error details: {ex.Message}");
                     return View(model);
                 }
-
-                // if (result.Succeeded)
-                // {
-                //     return RedirectToAction("Patient");
-                // }
-
-                // foreach(var error in result.Errors)
-                // {
-                //     ModelState.AddModelError("", error.Description);
-                // }
-                // return RedirectToAction("Patient");
             }
             return View(model);
         }

@@ -1,7 +1,7 @@
 @model AppointmentRegisterVM
 @{
     ViewData["Title"] = "Schedule appointment page";
-    Layout = "~/Views/Shared/_PatientLayout.cshtml";
+    Layout = null;
 }
 
 <div id="popup1" class="overlay">
@@ -22,33 +22,48 @@
                                     New Session.</p><br>
                             </td>
                         </tr>
-                        <form action="add-session.php" method="POST" class="add-new-form">
+                        <form method="post" class="add-new-form">
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="title" class="form-label">Session Title : </label>
+                                    <label asp-for="Title" class="form-label">Session Title : </label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <input type="text" name="title" class="input-text"
-                                        placeholder="Name of this Session" required><br>
+                                        placeholder="Name of this Session" aria-required="true"><br>
                                 </td>
                             </tr>
                             <tr>
 
                                 <td class="label-td" colspan="2">
-                                    <label for="docid" class="form-label">Select Doctor: </label>
+                                    <label asp-for="@Model.Doctor.FirstName" class="form-label">Select Doctor: </label>
                                 </td>
                             </tr>
-                            <tr>
+                            @* <tr>
+                            <td class="label-td" colspan="2">
+                            <select asp-for="Doctor" id="Doctor" class="box"
+                            asp-items="Html.GetEnumSelectList<Doctor>()" aria-required="true">
+                            <option value="" disabled selected hidden>Choose Doctor Name from the list
+                            </option>
+                            <br />';
+                            </select><br><br>
+                            </td>
+                            </tr> *@
+                            @* <tr>
                                 <td class="label-td" colspan="2">
-                                    <select name="docid" id="" class="box">
+                                    <select asp-for="Doctor" id="Doctor" class="box"
+                                        aria-required="true">
                                         <option value="" disabled selected hidden>Choose Doctor Name from the list
                                         </option>
-                                        <br />';
-                                    </select><br><br>
+                                        @foreach (var doctor in Model.Doctors)
+                                        {
+                                            <option value="@doctor.Id">@doctor.FirstName</option>
+                                        }
+                                    </select>
+                                    <br /><br />
                                 </td>
-                            </tr>
+                            </tr> *@
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <label for="nop" class="form-label">Number of Patients/Appointment Numbers :
@@ -59,7 +74,7 @@
                                 <td class="label-td" colspan="2">
                                     <input type="number" name="nop" class="input-text" min="0"
                                         placeholder="The final appointment number for this session depends on this number"
-                                        required><br>
+                                        aria-required="true"><br>
                                 </td>
                             </tr>
                             <tr>
@@ -70,7 +85,7 @@
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <input type="date" name="date" class="input-text" min="'.date('Y-m-d').'"
-                                        required><br>
+                                        aria-required="true"><br>
                                 </td>
                             </tr>
                             <tr>
@@ -80,7 +95,8 @@
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="time" name="time" class="input-text" placeholder="Time" required><br>
+                                    <input type="time" name="time" class="input-text" placeholder="Time"
+                                        aria-required="true"><br>
                                 </td>
                             </tr>
 

@@ -163,16 +163,6 @@ namespace HemoTrack.Controllers
             return View();
         }
 
-
-        // [HttpGet]
-        // public IActionResult Schedule()
-        // {
-        //     var administratorDashboardVM = new AdministratorDashboardVM();
-        //     administratorDashboardVM.Schedules = _context.Schedule.ToList();
-        //     return View(administratorDashboardVM);
-        // }
-
-
         [HttpPost]
         public async Task<IActionResult> Doctors(DoctorRegisterVM model)
         {

@@ -9,7 +9,7 @@
     <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
         <tr>
             <td width="13%">
-                <a href="schedule.php"><button class="login-btn btn-primary-soft btn btn-icon-back"
+                <a href="#"><button class="login-btn btn-primary-soft btn btn-icon-back"
                         style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px">
                         <font class="tn-in-text">Back</font>
                     </button></a>
@@ -40,13 +40,13 @@
                         Session</div>
                     <a href="#" class="non-style-link">
                         <button class="login-btn btn-primary btn button-icon" onclick="togglePartialView()"
-                            style="margin-left:25px;background-image: url('../img/icons/add.svg');">Add a Session</font>
+                            style="margin-left:25px;background-image: url('../img/icons/add.svg');">
+                            <font>Add a Session</font>
                         </button>
-
-                        <span id="myPopup" style="display: none;">
-                            @await Html.PartialAsync("_AddAppointment", @Model.appointmentRegisterVM)
-                        </span>
                     </a>
+                    <div id="myPopup" style="display: none;">
+                        @await Html.PartialAsync("_AddAppointmentPartial", @Model.appointmentRegisterVM)
+                    </div>
                 </div>
             </td>
         </tr>
