@@ -153,7 +153,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @{var totalSchedules = Model.Schedules.Count();}
+                                @{var totalSchedules = Model.Appointments.Count();}
 
                                 @if (totalSchedules == 0)
                                 {
@@ -182,7 +182,7 @@
                                 {
                                     <tr>
                                         <td style="font-weight:600;"> &nbsp;'.
-                                            @Model.Appointment[i].Title
+                                            @Model.Appointments[i].Title
                                             .'</td>
                                         <td
                                             style="text-align:center;font-size:23px;font-weight:500; color: var(--btnnicetext);">

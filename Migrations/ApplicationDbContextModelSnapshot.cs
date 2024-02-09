@@ -38,57 +38,35 @@ namespace HemoTrack.Migrations
 
             modelBuilder.Entity("HemoTrack.Models.Appointment", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("AppointmentNumber")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AppointmentNumber"), 1L, 1);
 
                     b.Property<DateTime?>("AppointmentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("AppointmentNumber")
-                        .HasColumnType("int");
-
                     b.Property<TimeSpan>("AppointmentTime")
                         .HasColumnType("time");
 
-                    b.Property<int>("PatientId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ScheduleId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Appointment");
-                });
-
-            modelBuilder.Entity("HemoTrack.Models.Schedule", b =>
-                {
-                    b.Property<string>("Id")
+                    b.Property<string>("DoctorId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("DoctorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Nop")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ScheduleDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<TimeSpan?>("ScheduleTime")
-                        .HasColumnType("time");
+                    b.Property<string>("PatientId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("AppointmentNumber");
 
-                    b.ToTable("Schedule");
+                    b.HasIndex("DoctorId");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("Appointment");
                 });
 
             modelBuilder.Entity("HemoTrack.Models.User", b =>
@@ -298,27 +276,25 @@ namespace HemoTrack.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("AppointmentId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime2");
-
-                    b.HasIndex("AppointmentId");
 
                     b.HasDiscriminator().HasValue("Patient");
                 });
 
-            modelBuilder.Entity("HemoTrack.Models.Patient", b =>
-                {
-                    b.HasOne("HemoTrack.Models.Appointment", null)
-                        .WithMany("Patients")
-                        .HasForeignKey("AppointmentId");
-                });
-
             modelBuilder.Entity("HemoTrack.Models.Appointment", b =>
                 {
-                    b.Navigation("Patients");
+                    b.HasOne("HemoTrack.Models.Doctor", "Doctor")
+                        .WithMany()
+                        .HasForeignKey("DoctorId");
+
+                    b.HasOne("HemoTrack.Models.Patient", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId");
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("Patient");
                 });
 #pragma warning restore 612, 618
         }

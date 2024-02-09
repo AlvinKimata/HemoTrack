@@ -41,7 +41,7 @@
             <td colspan="4" style="padding-top:10px;width: 100%;">
 
                 <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">My Sessions (
-                    @Model.Appointment.Count())
+                    @Model.Appointments.Count())
                 </p>
             </td>
 
@@ -112,7 +112,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @{var totalSchedules = Model.Schedules.Count();}
+                                @{var totalSchedules = Model.Appointments.Count();}
 
                                 @if (totalSchedules == 0)
                                 {
@@ -142,18 +142,18 @@
                                     </tr>
 
                                 }
-                                @for (int i = 0; i < Model.Schedules.Count(); i++)
+                                @for (int i = 0; i < Model.Appointments.Count(); i++)
                                 {
                                     <tr>
                                         <td> &nbsp;'.
-                                            @Model.Appointment[i].Title
+                                            @Model.Appointments[i].Title
                                             .'</td>
 
                                         <td style="text-align:center;">
-                                            '.substr($scheduledate,0,10).' '.substr($scheduletime,0,5).'
+                                            @* '.substr($scheduledate,0,10).' '.substr($scheduletime,0,5).' *@
                                         </td>
                                         <td style="text-align:center;">
-                                            '.$nop.'
+                                            @* '.$nop.' *@
                                         </td>
 
                                         <td>
@@ -271,7 +271,7 @@ echo ' *@
                         </tr>
                         <tr>
                             <td class="label-td" colspan="2">
-                                @Model.Appointment[i].Title<br><br>
+                                @Model.Appointments[i].Title<br><br>
                             </td>
 
                         </tr>
@@ -292,7 +292,7 @@ echo ' *@
                         </tr>
                         <tr>
                             <td class="label-td" colspan="2">
-                                @Model.Appointment[i].ScheduleDate<br><br>
+                                @Model.Appointments[i].AppointmentDate<br><br>
                             </td>
                         </tr>
                         <tr>
@@ -302,7 +302,7 @@ echo ' *@
                         </tr>
                         <tr>
                             <td class="label-td" colspan="2">
-                                @Model.Appointment[i].ScheduleTime<br><br>
+                                @Model.Appointments[i].AppointmentTime<br><br>
                             </td>
                         </tr>
                         <tr>
@@ -366,7 +366,7 @@ echo ' *@
                                                 { *@
                                                     <tr style="text-align:center;">
                                                         <td>
-                                                            @Model.Appointments[i].Id
+                                                            @Model.Appointments[i].AppointmentNumber
                                                         </td>
                                                         <td style="font-weight:600;padding:25px">
                                                             @Model.Appointments[i].Title
@@ -375,10 +375,6 @@ echo ' *@
                                                             style="text-align:center;font-size:23px;font-weight:500; color: var(--btnnicetext);">
                                                             @Model.Appointments[i].AppointmentNumber
                                                         </td>
-                                                        <td>
-                                                            @Model.Patients[i].PhoneNumber (Not sure, WIP)
-                                                        </td>
-
                                                     </tr>
                                                 @* } *@
                                             </tbody>

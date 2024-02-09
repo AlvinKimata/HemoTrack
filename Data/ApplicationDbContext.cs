@@ -15,7 +15,6 @@ public class ApplicationDbContext :  IdentityDbContext<Patient>
         public DbSet<Appointment> Appointment {get; set;}
         public DbSet<Doctor> Doctor {get; set;}
         public DbSet<Administrator> Administrator {get; set;}
-        public DbSet<Schedule> Schedule {get; set;}
         public DbSet<Patient> Patient {get; set;}
         public DbSet<User> User { get; set; }
 

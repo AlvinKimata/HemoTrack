@@ -18,7 +18,5 @@ namespace HemoTrack.ViewModels
         public List<Doctor> Doctors { get; set; }
         public List<Patient> Patients {get; set;}
         public int PatientCount { get; set; }
-         public List<Appointment> Appointments { get; set; }
-        public List<Schedule> Schedules { get; set; }
-    }
+         public List<Appointment> Appointments { get; set; }    }
 }

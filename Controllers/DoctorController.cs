@@ -31,7 +31,6 @@ namespace HemoTrack.Controllers
             var patients = await _context.User.OfType<Patient>().ToListAsync();
             var doctors = await _context.User.OfType<Doctor>().ToListAsync();
             var appointmentschedule = await _context.Appointment.ToListAsync();
-            var schedule = await _context.Schedule.ToListAsync();
             var today = DateTime.Today;
             var currentTime = DateTime.Now;
 
@@ -46,7 +45,7 @@ namespace HemoTrack.Controllers
                     {
                         AppointmentDate = date,
                         Title = $"Appointment on {date.ToShortDateString()}",
-                        Patients = new List<Patient> { _context.User.OfType<Patient>().FirstOrDefault() },
+                        Patient = _context.User.OfType<Patient>().FirstOrDefault(),
                     });
                 }
             }
@@ -60,8 +59,7 @@ namespace HemoTrack.Controllers
                     Email = doctor.Email,
                     Doctors = doctors,
                     Patients = patients,
-                    Appointments = appointments,
-                    Schedules = schedule
+                    Appointments = appointments
                 };
                 return View(doctorDashboardVM);
             }
