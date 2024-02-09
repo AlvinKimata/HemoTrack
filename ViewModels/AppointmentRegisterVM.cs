@@ -1,12 +1,13 @@
+using System.Data;
+using HemoTrack.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace HemoTrack.Models
+namespace HemoTrack.ViewModels
 {
-    public class appointmentRegisterVM
+    public class AppointmentRegisterVM
     {
-        // public int AppointmentNumber { get; set; }
         public string Title {get; set;}
         public DateTime? AppointmentDate { get; set; }
         public TimeSpan AppointmentTime {get; set;}

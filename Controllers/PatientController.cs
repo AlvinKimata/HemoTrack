@@ -219,25 +219,39 @@ namespace HemoTrack.Controllers
 
                 //Add a new appointment.
                 var appointmentRegisterVM = new Appointment{
-                    AppointmentNumber = Guid, //New GUID
                     Title = model.Title,
                     AppointmentDate = model.AppointmentDate,
                     AppointmentTime = model.AppointmentTime,
                     Patient = model.Patient,
                     Doctor = model.Doctor
                 };
-                var result = _context.Add(appointmentRegisterVM);
-
-                if (result.Succeeded)
+                var result =  _context.Appointment.Add(appointmentRegisterVM);
+                try
                 {
-                    return RedirectToAction("Patient");
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Patinet");
+                }
+                catch (DbUpdateException ex)
+                {
+                    ModelState.AddModelError("", $"Unable to add appointment. Error details : {ex.Message}");
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", $"Unexpected error occurred while adding appointment - Error details: {ex.Message}");
+                    return View(model);
                 }
 
-                foreach(var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-                return RedirectToAction("Patient");
+                // if (result.Succeeded)
+                // {
+                //     return RedirectToAction("Patient");
+                // }
+
+                // foreach(var error in result.Errors)
+                // {
+                //     ModelState.AddModelError("", error.Description);
+                // }
+                // return RedirectToAction("Patient");
             }
             return View(model);
         }
