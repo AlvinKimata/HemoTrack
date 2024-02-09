@@ -6,13 +6,11 @@ namespace HemoTrack.Models
 {
     public class Appointment
     {
-        public string Id { get; set; }
+        public int AppointmentNumber { get; set; }
+        public string Title {get; set;}
         public DateTime? AppointmentDate { get; set; }
         public TimeSpan AppointmentTime {get; set;}
-        public int PatientId {get; set;}
-        public List<Patient> Patients {get; set;}
-        public int AppointmentNumber { get; set; }
-        public int ScheduleId {get; set;}
-        public string Title {get; set;}
+        public Patient Patient {get; set;} //Associate a schedule with a doctor
+        public Doctor Doctor {get; set;} //Associate a schedule with a patient
     }
 }

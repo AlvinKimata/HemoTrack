@@ -41,7 +41,7 @@
             <td colspan="4" style="padding-top:10px;width: 100%;">
 
                 <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">My Sessions (
-                    @Model.Schedules.Count())
+                    @Model.Appointment.Count())
                 </p>
             </td>
 
@@ -146,7 +146,7 @@
                                 {
                                     <tr>
                                         <td> &nbsp;'.
-                                            @Model.Schedules[i].Title
+                                            @Model.Appointment[i].Title
                                             .'</td>
 
                                         <td style="text-align:center;">
@@ -271,7 +271,7 @@ echo ' *@
                         </tr>
                         <tr>
                             <td class="label-td" colspan="2">
-                                @Model.Schedules[i].Title<br><br>
+                                @Model.Appointment[i].Title<br><br>
                             </td>
 
                         </tr>
@@ -292,7 +292,7 @@ echo ' *@
                         </tr>
                         <tr>
                             <td class="label-td" colspan="2">
-                                @Model.Schedules[i].ScheduleDate<br><br>
+                                @Model.Appointment[i].ScheduleDate<br><br>
                             </td>
                         </tr>
                         <tr>
@@ -302,7 +302,7 @@ echo ' *@
                         </tr>
                         <tr>
                             <td class="label-td" colspan="2">
-                                @Model.Schedules[i].ScheduleTime<br><br>
+                                @Model.Appointment[i].ScheduleTime<br><br>
                             </td>
                         </tr>
                         <tr>
