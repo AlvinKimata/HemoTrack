@@ -161,14 +161,14 @@ namespace HemoTrack.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ListAppointments()
+        public IActionResult ListAppointments()
         {
             // Get the current user ID from the user claims.
             string currentUserName = User.Identity.Name;
-            var patients = await _context.User.OfType<Patient>().ToListAsync();
+            var patients =  _context.User.OfType<Patient>().ToList();
 
-            var doctors = await _context.User.OfType<Doctor>().ToListAsync();
-            var appointmentschedule = await _context.Appointment.ToListAsync();
+            var doctors =  _context.User.OfType<Doctor>().ToList();
+            var appointmentschedule =  _context.Appointment.ToList();
             var today = DateTime.Today;
             var currentTime = DateTime.Now;
 
@@ -191,15 +191,33 @@ namespace HemoTrack.Controllers
             var currentUser = _context.User.OfType<Patient>().FirstOrDefault(u => u.UserName == currentUserName);
             if (currentUser != null)
             {
-                PatientDashboardVM patientDashboardVM = new PatientDashboardVM
+                // var appointment = new Appointment{
+                //     Title = model.Title,
+                //     AppointmentDate = model.AppointmentDate,
+                //     AppointmentTime = model.AppointmentTime,
+                //     Patient = model.Patient,
+                //     Doctor = model.Doctor,
+                // };
+
+                //Add a new appointment.
+                AppointmentRegisterVM patientDashboardVM = new AppointmentRegisterVM
                 {
-                    FirstName = currentUser.FirstName + " " + currentUser.LastName,
-                    Doctors = doctors,
-                    Patients = patients,
-                    Email = currentUser.Email,
-                    UserName = currentUser.UserName,
-                    Appointments = appointmentschedule
+                    Doctors = model.Doctors,
+                    Title = 'appointment.Title,'
+                    AppointmentDate = '04/03/2023',
+                    AppointmentTime = '12:20'
+                    // Patient = appointment.Patient,
+                    // Doctor = appointment.Doctor,
                 };
+                // AppointmentRegisterVM appointmentRegisterVM = new AppointmentRegisterVM
+                // {
+                //     FirstName = currentUser.FirstName + " " + currentUser.LastName,
+                //     Doctors = doctors,
+                //     Patients = patients,
+                //     Email = currentUser.Email,
+                //     UserName = currentUser.UserName,
+                //     Appointments = appointmentschedule
+                // };
                 return View(patientDashboardVM);
             }
             return NotFound();
@@ -217,19 +235,31 @@ namespace HemoTrack.Controllers
                     return View(model);
                 }
 
-                //Add a new appointment.
-                var appointmentRegisterVM = new Appointment{
+                var appointment = new Appointment{
                     Title = model.Title,
                     AppointmentDate = model.AppointmentDate,
                     AppointmentTime = model.AppointmentTime,
                     Patient = model.Patient,
-                    Doctor = model.Doctor
+                    Doctor = model.Doctor,
                 };
-                var result =  _context.Appointment.Add(appointmentRegisterVM);
+
+                //Add a new appointment.
+                AppointmentRegisterVM patientDashboardVM = new AppointmentRegisterVM
+                {
+                    Doctors = model.Doctors,
+                    Title = appointment.Title,
+                    AppointmentDate = appointment.AppointmentDate,
+                    AppointmentTime = appointment.AppointmentTime,
+                    Patient = appointment.Patient,
+                    Doctor = appointment.Doctor,
+                };
+                
+                var result =   _context.Appointment.Add(appointment);
+                
                 try
                 {
                     await _context.SaveChangesAsync();
-                    return RedirectToAction("Patinet");
+                    return RedirectToAction("Patient");
                 }
                 catch (DbUpdateException ex)
                 {
