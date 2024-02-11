@@ -12,7 +12,7 @@ namespace HemoTrack.ViewModels
         public DateTime? AppointmentDate { get; set; }
         public List<Doctor>? Doctors {get; set;}
         public TimeSpan AppointmentTime {get; set;}
-        public Patient Patient {get; set;} //Associate a schedule with a doctor
+        // public Patient Patient {get; set;} //Associate a schedule with a doctor
         public Doctor Doctor {get; set;} //Associate a schedule with a patient
     }
 }

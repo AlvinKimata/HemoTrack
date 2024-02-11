@@ -40,62 +40,40 @@
                                     <label asp-for="@Model.Doctor.FirstName" class="form-label">Select Doctor: </label>
                                 </td>
                             </tr>
-                            @* <tr>
-                            <td class="label-td" colspan="2">
-                            <select asp-for="Doctor" id="Doctor" class="box"
-                            asp-items="Html.GetEnumSelectList<Doctor>()" aria-required="true">
-                            <option value="" disabled selected hidden>Choose Doctor Name from the list
-                            </option>
-                            <br />';
-                            </select><br><br>
-                            </td>
-                            </tr> *@
+
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <select asp-for="Doctor" id="Doctor" class="box"
+                                    <select asp-for="@Model.Doctor.FirstName" id="Doctor" class="box"
                                         aria-required="true">
                                         <option value="" disabled selected hidden>Choose Doctor Name from the list
                                         </option>
                                         @foreach (var doctor in Model.Doctors)
                                         {
-                                            <option value="@doctor.Id">@doctor.FirstName</option>
+                                            <option value="@doctor.FirstName">@doctor.FirstName</option>
                                         }
                                     </select>
                                     <br /><br />
                                 </td>
                             </tr>
+
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="nop" class="form-label">Number of Patients/Appointment Numbers :
-                                    </label>
+                                    <label asp-for="AppointmentDate" class="form-label">Session Date: </label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="number" name="nop" class="input-text" min="0"
-                                        placeholder="The final appointment number for this session depends on this number"
-                                        aria-required="true"><br>
+                                    <input type="date" asp-for="AppointmentDate"  placeholder="Date" class="input-text" aria-required="true"><br>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="date" class="form-label">Session Date: </label>
+                                    <label asp-for="AppointmentTime" class="form-label">Schedule Time: </label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="date" name="date" class="input-text" min="'.date('Y-m-d').'"
-                                        aria-required="true"><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="time" class="form-label">Schedule Time: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="time" name="time" class="input-text" placeholder="Time"
+                                    <input type="time" asp-for="AppointmentTime" class="input-text" placeholder="Time"
                                         aria-required="true"><br>
                                 </td>
                             </tr>

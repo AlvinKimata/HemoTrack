@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "C:\\Users\\Alvin.Kimata\\Documents\\web\\HemoTrack\\bin\\Debug\\net6.0\\HemoTrack.dll",
+            "program": "C:\\Users\\alvin\\Documents\\web\\HemoTrack\\bin\\Debug\\net6.0\\HemoTrack.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,

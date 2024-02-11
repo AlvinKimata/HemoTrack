@@ -2,14 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HemoTrack.Data;
-using HemoTrack.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using HemoTrack.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Principal;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
+
+using HemoTrack.Data;
+using HemoTrack.Models;
+using HemoTrack.ViewModels;
 
 namespace HemoTrack.Controllers
 {
@@ -161,98 +162,44 @@ namespace HemoTrack.Controllers
         }
 
         [HttpGet]
-        public IActionResult ListAppointments()
+        public async Task<IActionResult> ListAppointments()
         {
-            // Get the current user ID from the user claims.
-            string currentUserName = User.Identity.Name;
-            var patients =  _context.User.OfType<Patient>().ToList();
-
-            var doctors =  _context.User.OfType<Doctor>().ToList();
-            var appointmentschedule =  _context.Appointment.ToList();
-            var today = DateTime.Today;
-            var currentTime = DateTime.Now;
-
-            var endOfMonth = new DateTime(today.Year, today.Month, DateTime.DaysInMonth(today.Year, today.Month));
-            var appointments = new List<Appointment>();
-            for (var date = today; date <= endOfMonth; date = date.AddDays(1))
-            {
-                var dayOfWeek = date.DayOfWeek;
-                if (dayOfWeek != DayOfWeek.Saturday && dayOfWeek != DayOfWeek.Sunday)
-                {
-                    appointments.Add(new Appointment
-                    {
-                        AppointmentDate = date,
-                        Title = $"Appointment on {date.ToShortDateString()}",
-                        Patient = _context.User.OfType<Patient>().FirstOrDefault(),
-                    });
-                }
-            }
-
-            var currentUser = _context.User.OfType<Patient>().FirstOrDefault(u => u.UserName == currentUserName);
-            if (currentUser != null)
-            {
-                // var appointment = new Appointment{
-                //     Title = model.Title,
-                //     AppointmentDate = model.AppointmentDate,
-                //     AppointmentTime = model.AppointmentTime,
-                //     Patient = model.Patient,
-                //     Doctor = model.Doctor,
-                // };
-
-                //Add a new appointment.
-                AppointmentRegisterVM patientDashboardVM = new AppointmentRegisterVM
-                {
-                    Doctors = model.Doctors,
-                    Title = 'appointment.Title,'
-                    AppointmentDate = '04/03/2023',
-                    AppointmentTime = '12:20'
-                    // Patient = appointment.Patient,
-                    // Doctor = appointment.Doctor,
-                };
-                // AppointmentRegisterVM appointmentRegisterVM = new AppointmentRegisterVM
-                // {
-                //     FirstName = currentUser.FirstName + " " + currentUser.LastName,
-                //     Doctors = doctors,
-                //     Patients = patients,
-                //     Email = currentUser.Email,
-                //     UserName = currentUser.UserName,
-                //     Appointments = appointmentschedule
-                // };
-                return View(patientDashboardVM);
-            }
-            return NotFound();
+            var patientDashboardVM = new PatientDashboardVM();
+            patientDashboardVM.Appointments = await _context.Appointment.ToListAsync();
+            patientDashboardVM.appointmentRegisterVM.Doctors = await _context.User.OfType<Doctor>().ToListAsync();
+            return View(patientDashboardVM);
         }
 
         [HttpPost]
         public async Task<IActionResult> ListAppointments(AppointmentRegisterVM model)
         {
-            if (ModelState.IsValid){
-                var patient = await _userManager.FindByEmailAsync(model.Patient.Email);
-                
-                if(patient == null)
-                {
-                    ModelState.AddModelError("Patient", "Patient does not exist");
-                    return View(model);
-                }
+            string currentUserName = User.Identity.Name;
+            var currentUser = _context.User.OfType<Patient>().FirstOrDefault(u => u.UserName == currentUserName);
+            var doctors = await _context.User.OfType<Doctor>().ToListAsync();
+            model.Doctors = await _context.User.OfType<Doctor>().ToListAsync();
 
+
+            if (ModelState.IsValid){
                 var appointment = new Appointment{
                     Title = model.Title,
                     AppointmentDate = model.AppointmentDate,
                     AppointmentTime = model.AppointmentTime,
-                    Patient = model.Patient,
+                    Patient = currentUser,
                     Doctor = model.Doctor,
                 };
 
                 //Add a new appointment.
-                AppointmentRegisterVM patientDashboardVM = new AppointmentRegisterVM
+                AppointmentRegisterVM appointmentRegisterVM = new AppointmentRegisterVM
                 {
                     Doctors = model.Doctors,
                     Title = appointment.Title,
                     AppointmentDate = appointment.AppointmentDate,
                     AppointmentTime = appointment.AppointmentTime,
-                    Patient = appointment.Patient,
                     Doctor = appointment.Doctor,
                 };
+
+                appointmentRegisterVM.Doctors = await _context.User.OfType<Doctor>().ToListAsync();
+
                 
                 var result =   _context.Appointment.Add(appointment);
                 
