@@ -158,30 +158,6 @@ namespace HemoTrack.Controllers
             return View(patientDashboardVM);
         }
 
-        // public async Task<IActionResult> ListAppointments()
-        // {
-        //     var currentUser = await GetCurrentPatientAsync();
-        //     if (currentUser == null)
-        //     {
-        //         return NotFound();
-        //     }
-
-        //     var doctors = await GetAllDoctorsAsync();
-        //     var patients = await GetAllPatientsAsync();
-
-        //     var patientDashboardVM = new PatientDashboardVM
-        //     {
-        //         FirstName = currentUser.FirstName + " " + currentUser.LastName,
-        //         // Doctors = doctors,
-        //         Patients = patients,
-        //         Email = currentUser.Email,
-        //         UserName = currentUser.UserName
-        //     };
-        //     patientDashboardVM.Appointments = await GetAppointmentsAsync();
-        //     patientDashboardVM.appointmentRegisterVM.Doctors = await GetAllDoctorsAsync();
-        //     return View(patientDashboardVM);
-        // }
-
         [HttpPost]
         public async Task<IActionResult> ListAppointments(AppointmentRegisterVM model)
         {
