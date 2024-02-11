@@ -168,7 +168,6 @@ namespace HemoTrack.Controllers
             if (!ModelState.IsValid)
             {
                 var doctorName = model.Doctor; //Get the name of the doctor
-                // var doctor = await _userManager.FindByNameAsync(doctorName.FirstName);
                 var doctor = await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.FirstName == doctorName.FirstName);
 
                 // var doctor = _userManager.FindByNa
