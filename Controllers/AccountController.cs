@@ -110,7 +110,7 @@ namespace school_project.Controllers
             {
                 var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
 
-                if (result.Succeeded)
+                if (!result.Succeeded)
                 {
                     return RedirectToAction("Index", "Patient");
 

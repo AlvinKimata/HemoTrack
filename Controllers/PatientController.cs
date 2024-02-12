@@ -144,7 +144,8 @@ namespace HemoTrack.Controllers
                 FirstName = currentUser.FirstName + " " + currentUser.LastName,
                 Patients = patients,
                 Email = currentUser.Email,
-                UserName = currentUser.UserName
+                UserName = currentUser.UserName,
+                Doctors = doctors,
             };
 
             var appointmentRegisterVM = new AppointmentRegisterVM
@@ -185,7 +186,7 @@ namespace HemoTrack.Controllers
                 try
                 {
                     await _context.SaveChangesAsync();
-                    return RedirectToAction("Patient");
+                    return RedirectToAction("Index");
                 }
                 catch (DbUpdateException ex)
                 {

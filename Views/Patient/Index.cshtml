@@ -235,19 +235,17 @@
                                             }
                                             else
                                             {
-                                                @for (int i = 0; i < appointments.Count; i++)
+                                                @foreach (var appointment in Model.Appointments)
                                                 {
-                                                    var appointment = appointments[i];
-                                                    var doctor = Model.Doctors[i];
+                                                    var doctorName = appointment.Doctor.FirstName + " " + appointment.Doctor.LastName;
 
                                                     <tr>
-                                                        <td style="padding:30px; font-size:25px; font-weight:700;"> &nbsp;
+                                                        <td style="padding:30px; font-size:25px; font-weight:700;">
                                                             @appointment.Id </td>
-                                                        <td style="padding:20px;"> &nbsp; @appointment.Title.Substring(0,
-                                                    30) </td>
-                                                        <td> @doctor.FirstName.Substring(0, 20) </td>
+                                                        <td style="padding:20px;"> &nbsp; @appointment.Title</td>
+                                                        <td> @doctorName </td>
                                                         <td style="text-align:center;">
-                                                            @appointment.AppointmentDate.ToString()
+                                                            @appointment.AppointmentDate.ToString("d")
                                                             @appointment.AppointmentTime.ToString()
                                                         </td>
                                                     </tr>
