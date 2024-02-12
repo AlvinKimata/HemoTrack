@@ -13,29 +13,27 @@ namespace school_project.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        private readonly RoleManager<User> _roleManager;
+        private readonly UserManager<User> userManager;
+        private readonly SignInManager<User> signInManager;
 
         public AccountController(UserManager<User> userManager, 
-            SignInManager<User> signInManager, RoleManager<User> roleManager)
+            SignInManager<User> signInManager)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _roleManager = roleManager;
+            this.userManager = userManager;
+            this.signInManager = signInManager;
         }
 
         [HttpGet]
         public IActionResult ListUsers()
         {
-            var users = _userManager.Users;
+            var users = userManager.Users;
             return View(users);
         }
 
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
+            await signInManager.SignOutAsync();
             return RedirectToAction("index", "home");
         }
 
@@ -50,7 +48,7 @@ namespace school_project.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> IsEmailInUse(string email)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await userManager.FindByEmailAsync(email);
 
             if (user == null)
             {
@@ -80,11 +78,11 @@ namespace school_project.Controllers
                     Address = model.Address,
                     Password = model.Password
                 };
-                var result = await _userManager.CreateAsync(user, model.Password);
+                var result = await userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    await signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Patient");
                 }
 
@@ -110,9 +108,9 @@ namespace school_project.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
 
-                if (!result.Succeeded)
+                if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Patient");
 

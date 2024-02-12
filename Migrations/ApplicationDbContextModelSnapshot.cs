@@ -47,8 +47,8 @@ namespace HemoTrack.Migrations
                     b.Property<DateTime?>("AppointmentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan?>("AppointmentTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime?>("AppointmentTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DoctorId")
                         .HasColumnType("nvarchar(450)");

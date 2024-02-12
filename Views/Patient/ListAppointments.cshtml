@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_PatientLayout.cshtml";
 }
 
+
 <div class="dash-body">
     <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
         <tr>
@@ -52,8 +53,8 @@
         <tr>
             <td colspan="4" style="padding-top:10px;width: 100%;">
 
-                <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">All Sessions
-                    (@Model.Appointments.Count())
+                <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">All Sessions (
+                    @Model.Appointments.Count())
                 </p>
             </td>
 
@@ -63,30 +64,40 @@
                 <center>
                     <table class="filter-container" border="0">
                         <tr>
-                            @* Filter form WIP *@
-                            @* <form action="" method="post">
-                                <div asp-validation-summary="All" class="text-danger"></div>
+                            <form action="" method="post">
+                                <td width="10%">
+
+                                </td>
                                 <td width="5%" style="text-align: center;">
-                                    Doctor:
+                                    Date:
                                 </td>
                                 <td width="30%">
-                                    <select name="docid" id="docid" class="box filter-container-items"
-                                        style="width:90%; height: 37px; margin: 0;">
+
+
+                                    <input type="date" name="sheduledate" id="date"
+                                        class="input-text filter-container-items" style="margin: 0;width: 95%;">
+
+                                </td>
+                                <td width="5%" style="text-align: center;">
+                                    Doctor: <WIP>
+                                </td>
+                                <td width="30%">
+                                    <select name="docid" id="" class="box filter-container-items"
+                                        style="width:90% ;height: 37px;margin: 0;">
                                         <option value="" disabled selected hidden>Choose Doctor Name from the list
                                         </option>
-                                        @foreach (var doctor in Model.Doctors)
-                                        {
-                                            var dotctorName = doctor.FirstName + " "  + doctor.LastName;
-                                            <option value="@doctor.Id">@dotctorName</option>
-                                        }
+                                        <br />
+                                        <option value=""></option><br />
                                     </select>
                                 </td>
                                 <td width="12%">
-                                    <input type="submit" name="filter" value="Filter"
-                                        class="btn-primary-soft btn button-icon btn-filter"
-                                        style="padding: 15px; margin: 0; width:100%">
+                                    <input type="submit" name="filter" value=" Filter"
+                                        class=" btn-primary-soft btn button-icon btn-filter"
+                                        style="padding: 15px; margin :0;width:100%">
+
                                 </td>
-                            </form> *@
+                            </form>
+
                         </tr>
                     </table>
 
@@ -155,17 +166,15 @@
 
                                 @foreach (var appointment in Model.Appointments)
                                 {
-                                    var doctorName = appointment.Doctor.FirstName + " " + appointment.Doctor.LastName;
                                     <tr>
-                                        <td> &nbsp;
+                                        <td> &nbsp;'
                                             @appointment.Title
                                         </td>
                                         <td>
-                                            @doctorName
+                                            @appointment.Doctor.FirstName
                                         </td>
                                         <td style="text-align:center;">
-                                            @appointment.AppointmentDate.ToString("d")
-                                            @appointment.AppointmentTime.ToString()
+                                            @appointment.AppointmentDate' '@appointment.AppointmentTime'
                                         </td>
 
                                         <td>
@@ -194,4 +203,5 @@
             </td>
         </tr>
     </table>
+</div>
 </div>
