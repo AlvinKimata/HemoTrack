@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HemoTrack.ViewModels
 {
-    public class EditRoleViewModel
+    public class EditRoleVM
     {
-        public EditRoleViewModel()
+        public EditRoleVM()
         {
             Users = new List<string>();
         }

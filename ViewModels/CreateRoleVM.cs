@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HemoTrack.ViewModels
 {
-    public class CreateRoleViewModel
+    public class CreateRoleVM
     {
         [Required]
         [Display(Name = "Role")]

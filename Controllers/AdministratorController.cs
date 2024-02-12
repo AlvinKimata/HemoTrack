@@ -27,7 +27,7 @@ namespace HemoTrack.Controllers
         public AdministratorController(ApplicationDbContext context, 
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            RoleManager<User> roleManager)
+            RoleManager<IdentityRole> roleManager)
         {
             _context = context;
             _userManager = userManager;
@@ -137,7 +137,7 @@ namespace HemoTrack.Controllers
                 }
                 foreach(IdentityError error in result.Errors)
                 {
-                    ModelState.AddModelError("", error.Description)
+                    ModelState.AddModelError("", error.Description);
                 }
             }
             return View(model);
