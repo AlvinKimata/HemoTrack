@@ -37,25 +37,7 @@ namespace HemoTrack.Controllers
             string currentUserName = User.Identity.Name;
             var patients = await _context.User.OfType<Patient>().ToListAsync();
             var doctors = await _context.Doctor.ToListAsync();
-            var appointmentschedule = await _context.Appointment.ToListAsync();
-            var today = DateTime.Today;
-            var currentTime = DateTime.Now;
-
-            var endOfMonth = new DateTime(today.Year, today.Month, DateTime.DaysInMonth(today.Year, today.Month));
-            var appointments = new List<Appointment>();
-            for (var date = today; date <= endOfMonth; date = date.AddDays(1))
-            {
-                var dayOfWeek = date.DayOfWeek;
-                if (dayOfWeek != DayOfWeek.Saturday && dayOfWeek != DayOfWeek.Sunday)
-                {
-                    appointments.Add(new Appointment
-                    {
-                        AppointmentDate = date,
-                        Title = $"Appointment on {date.ToShortDateString()}",
-                        Patient = _context.User.OfType<Patient>().FirstOrDefault(),
-                    });
-                }
-            }
+            var appointments = await _context.Appointment.ToListAsync();
 
             var currentUser = _context.User.OfType<Patient>().FirstOrDefault(u => u.UserName == currentUserName);
             if (currentUser != null)
@@ -65,12 +47,13 @@ namespace HemoTrack.Controllers
                     Doctors = doctors,
                     Patients = patients,
                     Email = currentUser.Email,
-                    Appointments = appointmentschedule
+                    Appointments = appointments
                 };
                 return View(administratorDashboardVM);
             }
             return NotFound();
         }
+
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Register()
@@ -78,14 +61,13 @@ namespace HemoTrack.Controllers
             return View();
         }
 
-
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Login()
         {
             return View();
         }
-        
+
 
         [HttpPost]
         public async Task<IActionResult> Register(AdminRegisterVM model)

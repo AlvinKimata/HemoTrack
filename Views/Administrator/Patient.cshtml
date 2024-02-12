@@ -20,6 +20,7 @@
             </td>
             <td>
                 <form action="" method="post" class="header-search">
+                    <div asp-validation-summary="All" class="text-danger"></div>
 
                     <input type="search" name="search12" class="input-text header-searchbar"
                         placeholder="Search Patient name or Email" list="patient">&nbsp;&nbsp;
@@ -69,6 +70,7 @@
                     <table class="filter-container" border="0">
 
                         <form action="" method="post">
+                            <div asp-validation-summary="All" class="text-danger"></div>
 
                             <td style="text-align: right;">
                                 Show Details About : &nbsp;

@@ -15,6 +15,7 @@
             </td>
             <td>
                 <form action="" method="post" class="header-search">
+                    <div asp-validation-summary="All" class="text-danger"></div>
 
                     <input type="search" name="search" class="input-text header-searchbar"
                         placeholder="Search Doctor name" list="doctors" value="<?php  echo $insertkey ?>">&nbsp;&nbsp;
