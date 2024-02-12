@@ -16,7 +16,8 @@ using HemoTrack.Models;
 using HemoTrack.ViewModels;
 
 namespace HemoTrack.Controllers
-{
+{   
+    [Authorize(Roles = "Admin")]
     public class AdministratorController : Controller
     {
         private readonly ApplicationDbContext _context;
