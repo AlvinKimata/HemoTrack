@@ -15,10 +15,10 @@ namespace HemoTrack.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly RoleManager<User> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public AccountController(UserManager<User> userManager, 
-            SignInManager<User> signInManager, RoleManager<User> roleManager)
+            SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -99,7 +99,8 @@ namespace HemoTrack.Controllers
         [HttpGet]
         public async Task<IActionResult> EditUsersInRole(string roleId)
         {
-            ViewData["roleId"] = roleId;
+            // ViewData["roleId"] = roleId;
+            ViewBag.roleId = roleId;
 
             var role = await _roleManager.FindByIdAsync(roleId);
 
@@ -119,7 +120,7 @@ namespace HemoTrack.Controllers
                     UserName = user.UserName
                 };
 
-                if (await _userManager.IsInRoleAsync(user, role.FirstName))
+                if (await _userManager.IsInRoleAsync(user, role.Name))
                 {
                     userRoleViewModel.IsSelected = true;
                 }
@@ -151,13 +152,13 @@ namespace HemoTrack.Controllers
 
                 IdentityResult result = null;
 
-                if (model[i].IsSelected && !(await _userManager.IsInRoleAsync(user, role.FirstName)))
+                if (model[i].IsSelected && !(await _userManager.IsInRoleAsync(user, role.Name)))
                 {
-                    result = await _userManager.AddToRoleAsync(user, role.FirstName);
+                    result = await _userManager.AddToRoleAsync(user, role.Name);
                 }
-                else if (!model[i].IsSelected && await _userManager.IsInRoleAsync(user, role.FirstName))
+                else if (!model[i].IsSelected && await _userManager.IsInRoleAsync(user, role.Name))
                 {
-                    result = await _userManager.RemoveFromRoleAsync(user, role.FirstName);
+                    result = await _userManager.RemoveFromRoleAsync(user, role.Name);
                 }
                 else
                 {

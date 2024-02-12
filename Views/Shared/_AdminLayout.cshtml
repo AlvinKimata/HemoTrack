@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="~/css/main.css">
     <link rel="stylesheet" href="~/css/admin.css">
     <script src="~/js/site.js"></script>
+    <script src="~/js/CustomScript.js"></script>
 
     <title>Dashboard</title>
     <style>
@@ -98,9 +99,11 @@
     </table>
     </div>
     @RenderBody()
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
 
-@section Scripts{  
-    <script src="~/js/site.js" asp-append-version="true"></script>  
+@section Scripts {
+    <script src="~/js/site.js"></script>
+    <script src="~/js/CustomScript.js"></script>
 }

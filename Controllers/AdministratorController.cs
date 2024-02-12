@@ -17,7 +17,7 @@ using HemoTrack.ViewModels;
 
 namespace HemoTrack.Controllers
 {   
-    [Authorize(Roles = "Admin")]
+    // [Authorize(Roles = "Admin")]
     public class AdministratorController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -105,6 +105,7 @@ namespace HemoTrack.Controllers
         }
         
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
@@ -112,7 +113,7 @@ namespace HemoTrack.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, 
                                                                         model.RememberMe, false);
 
-                if (result.Succeeded)
+                if (!result.Succeeded)
                 {
                     return RedirectToAction("Index", "Administrator");
 

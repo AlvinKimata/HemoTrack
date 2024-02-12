@@ -15,6 +15,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentity<User, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddRoleManager<RoleManager<IdentityRole>>()
     .AddSignInManager<SignInManager<User>>();
 
 builder.Services.AddRazorPages();
