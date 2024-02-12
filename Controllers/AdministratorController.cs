@@ -97,6 +97,12 @@ namespace HemoTrack.Controllers
             return View(model);
         }
         
+        [HttpGet]
+        public IActionResult CreateRole()
+        {
+            return View();
+        }
+        
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
