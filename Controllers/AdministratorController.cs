@@ -149,6 +149,72 @@ namespace HemoTrack.Controllers
             var roles = _roleManager.Roles;
             return View(roles);
         }
+        // Role ID is passed from the URL to the action
+        [HttpGet]
+        public async Task<IActionResult> EditRole(string id)
+        {
+            // Find the role by Role ID
+            var role = await _roleManager.FindByIdAsync(id);
+
+            if (role == null)
+            {
+                ViewBag.ErrorMessage = $"Role with Id = {id} cannot be found";
+                return View("NotFound");
+            }
+
+            var model = new EditRoleVM
+            {
+                Id = role.Id,
+                RoleName = role.Name
+            };
+
+            // Retrieve all the Users
+            foreach (var user in _userManager.Users)
+            {
+                // If the user is in this role, add the username to
+                // Users property of EditRoleViewModel. This model
+                // object is then passed to the view for display
+                if (await _userManager.IsInRoleAsync(user, role.Name))
+                {
+                    model.Users.Add(user.UserName);
+                }
+            }
+
+            return View(model);
+        }
+
+        // This action responds to HttpPost and receives EditRoleViewModel
+        [HttpPost]
+        public async Task<IActionResult> EditRole(EditRoleVM model)
+        {
+            var role = await _roleManager.FindByIdAsync(model.Id);
+
+            if (role == null)
+            {
+                ViewBag.ErrorMessage = $"Role with Id = {model.Id} cannot be found";
+                return View("NotFound");
+            }
+            else
+            {
+                role.Name = model.RoleName;
+
+                // Update the Role using UpdateAsync
+                var result = await _roleManager.UpdateAsync(role);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ListRoles");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+                return View(model);
+            }
+        }
+
 
         [HttpGet]
         public IActionResult Doctors()
