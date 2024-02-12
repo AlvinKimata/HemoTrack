@@ -22,21 +22,39 @@ namespace HemoTrack.Controllers
             _userManager = _userManager;
         }
 
-
-        public async Task<IActionResult> Index(string id)
+        private async Task<User> GetCurrentDoctorAsync()
         {
-            // Get the current user ID from the user claims.
+            string doctorName = User.Identity.Name;
+            return await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.FirstName == doctorName);
+        }
 
-            var doctor = await _userManager.FindByIdAsync(id);
-            var patients = await _context.User.OfType<Patient>().ToListAsync();
-            var doctors = await _context.User.OfType<Doctor>().ToListAsync();
-            var appointments = await _context.Appointment.ToListAsync();
+        private async Task<List<Doctor>> GetAllDoctorsAsync()
+        {
+            return await _context.User.OfType<Doctor>().ToListAsync();
+        }
+
+        private async Task<List<Patient>> GetAllPatientsAsync()
+        {
+            return await _context.User.OfType<Patient>().ToListAsync();
+        }
+
+        private async Task<List<Appointment>> GetAppointmentsAsync()
+        {
+            return await _context.Appointment.ToListAsync();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var doctor = await GetCurrentDoctorAsync();
+            var doctors = await GetAllDoctorsAsync();
+            var patients = await GetAllPatientsAsync();
+            var appointments = await GetAppointmentsAsync();
 
             if (doctor != null)
             {
                 DoctorDashboardVM doctorDashboardVM = new DoctorDashboardVM
                 {
-                    DoctorId = Convert.ToInt32(doctor.Id),
                     FirstName = doctor.FirstName + " " + doctor.LastName,
                     Email = doctor.Email,
                     Doctors = doctors,

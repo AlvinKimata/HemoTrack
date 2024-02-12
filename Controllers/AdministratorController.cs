@@ -22,14 +22,17 @@ namespace HemoTrack.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public AdministratorController(ApplicationDbContext context, 
             UserManager<User> userManager,
-            SignInManager<User> signInManager)
+            SignInManager<User> signInManager,
+            RoleManager<User> roleManager)
         {
             _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
         public async Task<IActionResult> Index()
@@ -111,6 +114,32 @@ namespace HemoTrack.Controllers
                 ModelState.AddModelError(string.Empty, "Invalid login attempt");
             }
 
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateRole(CreateRoleVM model)
+        {
+            if(ModelState.IsValid)
+            {
+                //Specify unique role name to create a new role.
+                IdentityRole identityRole = new IdentityRole
+                {
+                    Name = model.RoleName
+                };
+
+                //Save the role in underlying AspNetRoles table.
+                IdentityResult result = await _roleManager.CreateAsync(identityRole);
+
+                if(result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Administrator");
+                }
+                foreach(IdentityError error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description)
+                }
+            }
             return View(model);
         }
 
