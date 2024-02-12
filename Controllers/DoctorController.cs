@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HemoTrack.Data;
+using HemoTrack.Controllers;
 using HemoTrack.Models;
 using HemoTrack.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -11,16 +12,19 @@ using Microsoft.AspNetCore.Identity;
 
 namespace HemoTrack.Controllers
 {
-    public class DoctorController : Controller
+    public class DoctorController : BaseController
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<User> _userManager;
 
-        public DoctorController(ApplicationDbContext context, UserManager<User> _userManager)
+        public DoctorController(ApplicationDbContext context,
+                            UserManager<User> userManager,
+                            SignInManager<User> signInManager,
+                            RoleManager<IdentityRole> roleManager)
+                            : base(userManager, signInManager, roleManager)
         {
             _context = context;
-            _userManager = _userManager;
         }
+
 
         private async Task<User> GetCurrentDoctorAsync()
         {
@@ -43,10 +47,24 @@ namespace HemoTrack.Controllers
             return await _context.Appointment.ToListAsync();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> DoctorLogin(LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var accountController = new BaseController(_userManager, _signInManager);
+                return await accountController.Login(model);
+            }
+
+            return View(model);
+        }
+
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var doctor = await GetCurrentDoctorAsync();
+            // var doctor = await GetCurrentDoctorAsync();
+
+            
             var doctors = await GetAllDoctorsAsync();
             var patients = await GetAllPatientsAsync();
             var appointments = await GetAppointmentsAsync();
