@@ -144,6 +144,13 @@ namespace HemoTrack.Controllers
         }
 
         [HttpGet]
+        public IActionResult ListRoles()
+        {
+            var roles = _roleManager.Roles;
+            return View(roles);
+        }
+
+        [HttpGet]
         public IActionResult Doctors()
         {
             var doctorDashboardVM = new DoctorDashboardVM();
