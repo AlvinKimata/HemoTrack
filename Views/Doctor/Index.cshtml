@@ -200,11 +200,10 @@
                                         <tr>
                                             <td style="padding:30px; font-size:25px; font-weight:700;"> &nbsp;
                                 @appointment.Id </td>
-                                            <td style="padding:20px;"> &nbsp; @appointment.Title.Substring(0,
-                                        30) </td>
+                                            <td style="padding:20px;"> &nbsp; @appointment.Title </td>
                                             <td> @doctor.FirstName.Substring(0, 20) </td>
                                             <td style="text-align:center;">
-                                @appointment.AppointmentDate.ToString()
+                                @appointment.AppointmentDate.ToShortDateString()
                                 @appointment.AppointmentTime.ToString()
                                             </td>
                                         </tr>
