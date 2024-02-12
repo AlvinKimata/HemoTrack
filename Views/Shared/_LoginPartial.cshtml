@@ -10,6 +10,7 @@
     </li>
     <li class="nav-item">
         <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+        <div asp-validation-summary="All" class="text-danger"></div>
             <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
         </form>
     </li>

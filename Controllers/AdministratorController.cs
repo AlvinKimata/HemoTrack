@@ -22,14 +22,17 @@ namespace HemoTrack.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public AdministratorController(ApplicationDbContext context, 
             UserManager<User> userManager,
-            SignInManager<User> signInManager)
+            SignInManager<User> signInManager,
+            RoleManager<User> roleManager)
         {
             _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
         public async Task<IActionResult> Index()
@@ -37,25 +40,7 @@ namespace HemoTrack.Controllers
             string currentUserName = User.Identity.Name;
             var patients = await _context.User.OfType<Patient>().ToListAsync();
             var doctors = await _context.Doctor.ToListAsync();
-            var appointmentschedule = await _context.Appointment.ToListAsync();
-            var today = DateTime.Today;
-            var currentTime = DateTime.Now;
-
-            var endOfMonth = new DateTime(today.Year, today.Month, DateTime.DaysInMonth(today.Year, today.Month));
-            var appointments = new List<Appointment>();
-            for (var date = today; date <= endOfMonth; date = date.AddDays(1))
-            {
-                var dayOfWeek = date.DayOfWeek;
-                if (dayOfWeek != DayOfWeek.Saturday && dayOfWeek != DayOfWeek.Sunday)
-                {
-                    appointments.Add(new Appointment
-                    {
-                        AppointmentDate = date,
-                        Title = $"Appointment on {date.ToShortDateString()}",
-                        Patient = _context.User.OfType<Patient>().FirstOrDefault(),
-                    });
-                }
-            }
+            var appointments = await _context.Appointment.ToListAsync();
 
             var currentUser = _context.User.OfType<Patient>().FirstOrDefault(u => u.UserName == currentUserName);
             if (currentUser != null)
@@ -65,12 +50,13 @@ namespace HemoTrack.Controllers
                     Doctors = doctors,
                     Patients = patients,
                     Email = currentUser.Email,
-                    Appointments = appointmentschedule
+                    Appointments = appointments
                 };
                 return View(administratorDashboardVM);
             }
             return NotFound();
         }
+
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Register()
@@ -78,14 +64,13 @@ namespace HemoTrack.Controllers
             return View();
         }
 
-
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Login()
         {
             return View();
         }
-        
+
 
         [HttpPost]
         public async Task<IActionResult> Register(AdminRegisterVM model)
@@ -131,6 +116,105 @@ namespace HemoTrack.Controllers
 
             return View(model);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateRole(CreateRoleVM model)
+        {
+            if(ModelState.IsValid)
+            {
+                //Specify unique role name to create a new role.
+                IdentityRole identityRole = new IdentityRole
+                {
+                    Name = model.RoleName
+                };
+
+                //Save the role in underlying AspNetRoles table.
+                IdentityResult result = await _roleManager.CreateAsync(identityRole);
+
+                if(result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Administrator");
+                }
+                foreach(IdentityError error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description)
+                }
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult ListRoles()
+        {
+            var roles = _roleManager.Roles;
+            return View(roles);
+        }
+        // Role ID is passed from the URL to the action
+        [HttpGet]
+        public async Task<IActionResult> EditRole(string id)
+        {
+            // Find the role by Role ID
+            var role = await _roleManager.FindByIdAsync(id);
+
+            if (role == null)
+            {
+                ViewBag.ErrorMessage = $"Role with Id = {id} cannot be found";
+                return View("NotFound");
+            }
+
+            var model = new EditRoleVM
+            {
+                Id = role.Id,
+                RoleName = role.Name
+            };
+
+            // Retrieve all the Users
+            foreach (var user in _userManager.Users)
+            {
+                // If the user is in this role, add the username to
+                // Users property of EditRoleViewModel. This model
+                // object is then passed to the view for display
+                if (await _userManager.IsInRoleAsync(user, role.Name))
+                {
+                    model.Users.Add(user.UserName);
+                }
+            }
+
+            return View(model);
+        }
+
+        // This action responds to HttpPost and receives EditRoleViewModel
+        [HttpPost]
+        public async Task<IActionResult> EditRole(EditRoleVM model)
+        {
+            var role = await _roleManager.FindByIdAsync(model.Id);
+
+            if (role == null)
+            {
+                ViewBag.ErrorMessage = $"Role with Id = {model.Id} cannot be found";
+                return View("NotFound");
+            }
+            else
+            {
+                role.Name = model.RoleName;
+
+                // Update the Role using UpdateAsync
+                var result = await _roleManager.UpdateAsync(role);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ListRoles");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+                return View(model);
+            }
+        }
+
 
         [HttpGet]
         public IActionResult Doctors()
