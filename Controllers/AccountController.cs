@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-namespace school_project.Controllers
+namespace HemoTrack.Controllers
 {
     public class AccountController : Controller
     {
