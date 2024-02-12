@@ -101,7 +101,7 @@ namespace HemoTrack.Controllers
         {
             ViewData["roleId"] = roleId;
 
-            var role = await roleManager.FindByIdAsync(roleId);
+            var role = await _roleManager.FindByIdAsync(roleId);
 
             if (role == null)
             {
@@ -111,7 +111,7 @@ namespace HemoTrack.Controllers
 
             var model = new List<UserRoleViewModel>();
 
-            foreach (var user in userManager.Users)
+            foreach (var user in _userManager.Users)
             {
                 var userRoleViewModel = new UserRoleViewModel
                 {
@@ -119,7 +119,7 @@ namespace HemoTrack.Controllers
                     UserName = user.UserName
                 };
 
-                if (await userManager.IsInRoleAsync(user, role.Name))
+                if (await _userManager.IsInRoleAsync(user, role.FirstName))
                 {
                     userRoleViewModel.IsSelected = true;
                 }
@@ -137,7 +137,7 @@ namespace HemoTrack.Controllers
         [HttpPost]
         public async Task<IActionResult> EditUsersInRole(List<UserRoleViewModel> model, string roleId)
         {
-            var role = await roleManager.FindByIdAsync(roleId);
+            var role = await _roleManager.FindByIdAsync(roleId);
 
             if (role == null)
             {
@@ -147,17 +147,17 @@ namespace HemoTrack.Controllers
 
             for (int i = 0; i < model.Count; i++)
             {
-                var user = await userManager.FindByIdAsync(model[i].UserId);
+                var user = await _userManager.FindByIdAsync(model[i].UserId);
 
                 IdentityResult result = null;
 
-                if (model[i].IsSelected && !(await userManager.IsInRoleAsync(user, role.Name)))
+                if (model[i].IsSelected && !(await _userManager.IsInRoleAsync(user, role.FirstName)))
                 {
-                    result = await userManager.AddToRoleAsync(user, role.Name);
+                    result = await _userManager.AddToRoleAsync(user, role.FirstName);
                 }
-                else if (!model[i].IsSelected && await userManager.IsInRoleAsync(user, role.Name))
+                else if (!model[i].IsSelected && await _userManager.IsInRoleAsync(user, role.FirstName))
                 {
-                    result = await userManager.RemoveFromRoleAsync(user, role.Name);
+                    result = await _userManager.RemoveFromRoleAsync(user, role.FirstName);
                 }
                 else
                 {
@@ -194,7 +194,24 @@ namespace HemoTrack.Controllers
 
                 if (!result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Patient");
+                    var user = await _userManager.FindByEmailAsync(model.Email);
+
+                    //Check user's role and redirect accordingly.
+                    if (await _userManager.IsInRoleAsync(user, "Admin"))
+                    {
+                        return RedirectToAction("Index", "Administrator");
+                    }
+
+                    else if (await _userManager.IsInRoleAsync(user, "Doctor"))
+                    {
+                        return RedirectToAction("Index", "Doctor");
+                    }
+
+                    else if (await _userManager.IsInRoleAsync(user, "Patient"))
+                    {
+                        return RedirectToAction("Index", "Patient");
+                    }
+                    return RedirectToAction("Index", "Home");
 
                 }
 
