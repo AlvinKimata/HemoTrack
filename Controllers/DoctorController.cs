@@ -78,7 +78,7 @@ namespace HemoTrack.Controllers
         public async Task<IActionResult> ListAppointments()
         {
             var doctor = GetCurrentDoctorAsync();
-            
+
             if (doctor == null)
             {
                 return NotFound();
@@ -110,7 +110,9 @@ namespace HemoTrack.Controllers
         [HttpGet]
         public IActionResult Patient()
         {
-            return View();
+            var doctorDashboardVM = new DoctorDashboardVM();
+            doctorDashboardVM.Patients = _context.User.OfType<Patient>().ToList();
+            return View(doctorDashboardVM);
         }
 
         [HttpGet]
