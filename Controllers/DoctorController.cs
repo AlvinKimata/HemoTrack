@@ -16,7 +16,6 @@ namespace HemoTrack.Controllers
     public class DoctorController : BaseController
     {
         private readonly ApplicationDbContext _context;
-        public string IndexModel = "Doctor";
         public DoctorController(ApplicationDbContext context,
                             UserManager<User> userManager,
                             SignInManager<User> signInManager,
@@ -68,6 +67,7 @@ namespace HemoTrack.Controllers
         public async Task<IActionResult> Index()
         {   
             var userId = TempData["UserId"].ToString();
+            TempData.Keep();
             var doctor = await _userManager.FindByIdAsync(userId);
             
             var doctors = await GetAllDoctorsAsync();
