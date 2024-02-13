@@ -116,9 +116,26 @@ namespace HemoTrack.Controllers
         }
 
         [HttpGet]
-        public IActionResult Schedule()
+        public async Task <IActionResult> Settings()
         {
-            return View();
+            var userId = TempData["UserId"].ToString();
+            TempData.Keep();
+            
+            var doctor = await _userManager.FindByIdAsync(userId);
+
+            var doctorDashboardVM = new DoctorDashboardVM
+            {
+                FirstName = doctor.FirstName,
+                LastName  = doctor.LastName,
+                Email = doctor.Email,
+                Password = doctor.Password,
+                PhoneNumber = doctor.PhoneNumber,
+                Nic = doctor.Nic,
+                Address = doctor.Address,
+                DateOfBirth = doctor.DateOfBirth
+            };
+
+            return View(doctorDashboardVM);
         }
 
         
