@@ -38,8 +38,8 @@
                                     <img src="~/img/user.png" alt="" width="100%" style="border-radius:50%">
                                 </td>
                                 <td style="padding:0px;margin:0px;">
-                                    @* <p class="profile-title">@Model.FirstName</p>
-                                    <p class="profile-subtitle">@Model.Email</p> *@
+                                    <p class="profile-title">@Model.FirstName</p>
+                                    <p class="profile-subtitle">@Model.Email</p>
                                 </td>
                             </tr>
                             <tr>
@@ -75,7 +75,7 @@
             </table>
         </div>
         @RenderBody()
-        @* @await RenderSectionAsync("Scripts", required: false) *@
+        @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
 
