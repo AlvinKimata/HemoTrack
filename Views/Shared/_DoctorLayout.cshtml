@@ -1,8 +1,3 @@
-@using Microsoft.AspNetCore.Identity;
-@inject SignInManager<User> signInManager;
-
-@model DoctorDashboardVM
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +7,8 @@
     <link rel="stylesheet" href="~/css/animations.css">  
     <link rel="stylesheet" href="~/css/main.css">  
     <link rel="stylesheet" href="~/css/admin.css">
+    <script src="~/js/site.js"></script>
+    <script src="~/js/CustomScript.js"></script>
         
     <title>Dashboard</title>
     <style>
@@ -41,8 +38,8 @@
                                     <img src="~/img/user.png" alt="" width="100%" style="border-radius:50%">
                                 </td>
                                 <td style="padding:0px;margin:0px;">
-                                    <p class="profile-title">@Model.FirstName</p>
-                                    <p class="profile-subtitle">@Model.Email</p>
+                                    @* <p class="profile-title">@Model.FirstName</p>
+                                    <p class="profile-subtitle">@Model.Email</p> *@
                                 </td>
                             </tr>
                             <tr>
@@ -71,12 +68,18 @@
                 </tr>
                 <tr class="menu-row" >
                     <td class="menu-btn menu-icon-settings">
-                        <a href="#" class="non-style-link-menu"><div><p class="menu-text">Settings</p></a></div>
+                        <a asp-controller="Doctor" asp-action="Settings" class="non-style-link-menu"><div><p class="menu-text">Settings</p></a></div>
                     </td>
                 </tr>
                 
             </table>
         </div>
         @RenderBody()
+        @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+@section Scripts {
+    <script src="~/js/site.js"></script>
+    <script src="~/js/CustomScript.js"></script>
+}

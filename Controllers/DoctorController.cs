@@ -123,19 +123,7 @@ namespace HemoTrack.Controllers
             
             var doctor = await _userManager.FindByIdAsync(userId);
 
-            var doctorDashboardVM = new DoctorDashboardVM
-            {
-                FirstName = doctor.FirstName,
-                LastName  = doctor.LastName,
-                Email = doctor.Email,
-                Password = doctor.Password,
-                PhoneNumber = doctor.PhoneNumber,
-                Nic = doctor.Nic,
-                Address = doctor.Address,
-                DateOfBirth = doctor.DateOfBirth
-            };
-
-            return View(doctorDashboardVM);
+            return View(doctor);
         }
 
         
