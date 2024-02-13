@@ -60,7 +60,7 @@
                                                 Edit your Account Details & Change Password
                                             </div>
                                             <div id="myPopup" style="display: none;">
-                                                @await Html.PartialAsync("_EditInfoPartial", @Model.doctorRegisterVM)
+                                                @await Html.PartialAsync("_EditInfoPartial", @Model.Doctor)
                                             </div>
                                         </div>
 
@@ -89,7 +89,7 @@
                                                 View Personal information About Your Account
                                             </div>
                                             <div id="myPopup" style="display: none;">
-                                                @await Html.PartialAsync("_ViewInfoPartial", @Model)
+                                                @await Html.PartialAsync("_ViewInfoPartial", @Model.Doctor)
                                             </div>
                                         </div>
 

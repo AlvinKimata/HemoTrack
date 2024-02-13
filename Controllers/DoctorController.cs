@@ -120,10 +120,13 @@ namespace HemoTrack.Controllers
         {
             var userId = TempData["UserId"].ToString();
             TempData.Keep();
-            
             var doctor = await _userManager.FindByIdAsync(userId);
 
-            return View(doctor);
+            var doctorDashboardVM = new DoctorDashboardVM();
+            doctorDashboardVM.Doctor = await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.Email == doctor.Email);
+        
+
+            return View(doctorDashboardVM);
         }
 
         

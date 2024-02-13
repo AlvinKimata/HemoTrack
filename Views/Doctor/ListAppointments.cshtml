@@ -86,31 +86,6 @@
 
         </tr>
 
-        <?php
-
-
-                    $sqlmain= "select appointment.appoid,schedule.scheduleid,schedule.title,doctor.docname,patient.pname,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where  doctor.docid=$userid ";
-
-                    if($_POST){
-                        //print_r($_POST);
-
-
-
-
-                        if(!empty($_POST["sheduledate"])){
-                            $sheduledate=$_POST["sheduledate"];
-                            $sqlmain.=" and schedule.scheduledate='$sheduledate' ";
-                        };
-
-
-
-                        //echo $sqlmain;
-
-                    }
-
-
-                ?>
-
         <tr>
             <td colspan="4">
                 <center>
@@ -192,11 +167,12 @@
                                                     <font class="tn-in-text">View</font>
                                                 </button></a>
                                             <a href="#" class="non-style-link">
-                                            <button class="btn-primary-soft btn button-icon btn-view"
-                                                style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
-                                                <font class="tn-in-text">Edit</font>
-                                            </button></a>
-                                &nbsp; &nbsp; &nbsp;
+                                                &nbsp; &nbsp; &nbsp;
+                                                <button class="btn-primary-soft btn button-icon btn-view"
+                                                    style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
+                                                    <font class="tn-in-text">Edit</font>
+                                                </button></a>
+                                            &nbsp; &nbsp; &nbsp;
                                             <a href="?action=drop&id='.$scheduleid.'&name='.$title.'"
                                                 class="non-style-link"><button
                                                     class="btn-primary-soft btn button-icon btn-delete"
