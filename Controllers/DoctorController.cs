@@ -16,7 +16,7 @@ namespace HemoTrack.Controllers
     public class DoctorController : BaseController
     {
         private readonly ApplicationDbContext _context;
-        public string IndexModel = "Doctor";
+
         public DoctorController(ApplicationDbContext context,
                             UserManager<User> userManager,
                             SignInManager<User> signInManager,
@@ -29,8 +29,8 @@ namespace HemoTrack.Controllers
 
         private async Task<User> GetCurrentDoctorAsync()
         {
-            string doctorName = User.Identity.Name;
-            return await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.FirstName == doctorName);
+            var userId = await TempData["UserId"].ToString();
+            var doctor = await _userManager.FindByIdAsync(userId);
         }
 
         private async Task<List<Doctor>> GetAllDoctorsAsync()
@@ -48,28 +48,11 @@ namespace HemoTrack.Controllers
             return await _context.Appointment.ToListAsync();
         }
 
-        // [HttpPost]
-        // public async Task<IActionResult> Login(LoginViewModel model, string IndexModel)
-        // {
-        //     if (ModelState.IsValid)
-        //     {
-        //         var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
-        //         if (result.Succeeded)
-        //         {
-        //             var user = await _userManager.FindByEmailAsync(model.Email);
-        //             return RedirectToAction("Index", "Doctor"); // Redirect to a success action
-        //         }
-        //     }
-
-        //     return View(model);
-        // }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {   
-            var userId = TempData["UserId"].ToString();
-            var doctor = await _userManager.FindByIdAsync(userId);
-            
+            var doctor = GetCurrentDoctorAsync();
             var doctors = await GetAllDoctorsAsync();
             var patients = await GetAllPatientsAsync();
             var appointments = await GetAppointmentsAsync();
@@ -90,10 +73,37 @@ namespace HemoTrack.Controllers
             
         }
 
+
         [HttpGet]
-        public IActionResult Appointment()
+        public async Task<IActionResult> ListAppointments()
         {
-            return View();
+            var doctor = GetCurrentDoctorAsync();
+            
+            if (doctor == null)
+            {
+                return NotFound();
+            }
+            var doctors = await GetAllDoctorsAsync();
+            var patients = await GetAllPatientsAsync();
+
+            var patientDashboardVM = new PatientDashboardVM
+            {
+                FirstName = currentUser.FirstName + " " + currentUser.LastName,
+                Patients = patients,
+                Email = currentUser.Email,
+                UserName = currentUser.UserName,
+                Doctors = doctors,
+            };
+
+            var appointmentRegisterVM = new AppointmentRegisterVM
+            {
+                Doctors = doctors // Initialize the Doctors property with the retrieved doctors
+            };
+
+            patientDashboardVM.Appointments = await GetAppointmentsAsync();
+            patientDashboardVM.appointmentRegisterVM = appointmentRegisterVM; // Assign the appointmentRegisterVM to the appropriate property
+
+            return View(patientDashboardVM);
         }
 
 
