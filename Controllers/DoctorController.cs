@@ -1,11 +1,13 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+
 using HemoTrack.Data;
-using HemoTrack.Controllers;
 using HemoTrack.Models;
+using HemoTrack.Controllers;
 using HemoTrack.ViewModels;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
@@ -25,12 +27,6 @@ namespace HemoTrack.Controllers
             _context = context;
         }
 
-
-        private async Task<User> GetCurrentDoctorAsync()
-        {
-            var userId = await TempData["UserId"].ToString();
-            var doctor = await _userManager.FindByIdAsync(userId);
-        }
 
         private async Task<List<Doctor>> GetAllDoctorsAsync()
         {
@@ -53,6 +49,7 @@ namespace HemoTrack.Controllers
         {   
             var userId = TempData["UserId"].ToString();
             TempData.Keep();
+
             var doctor = await _userManager.FindByIdAsync(userId);
             
             var doctors = await GetAllDoctorsAsync();
@@ -79,7 +76,10 @@ namespace HemoTrack.Controllers
         [HttpGet]
         public async Task<IActionResult> ListAppointments()
         {
-            var doctor = GetCurrentDoctorAsync();
+            var userId = TempData["UserId"].ToString();
+            TempData.Keep();
+            
+            var doctor = await _userManager.FindByIdAsync(userId);
 
             if (doctor == null)
             {
@@ -88,12 +88,11 @@ namespace HemoTrack.Controllers
             var doctors = await GetAllDoctorsAsync();
             var patients = await GetAllPatientsAsync();
 
-            var patientDashboardVM = new PatientDashboardVM
+            var doctorDashboardVM = new DoctorDashboardVM
             {
-                FirstName = currentUser.FirstName + " " + currentUser.LastName,
+                FirstName = doctor.FirstName + " " + doctor.LastName,
                 Patients = patients,
-                Email = currentUser.Email,
-                UserName = currentUser.UserName,
+                Email = doctor.Email,
                 Doctors = doctors,
             };
 
@@ -102,10 +101,9 @@ namespace HemoTrack.Controllers
                 Doctors = doctors // Initialize the Doctors property with the retrieved doctors
             };
 
-            patientDashboardVM.Appointments = await GetAppointmentsAsync();
-            patientDashboardVM.appointmentRegisterVM = appointmentRegisterVM; // Assign the appointmentRegisterVM to the appropriate property
+            doctorDashboardVM.Appointments = await GetAppointmentsAsync();
 
-            return View(patientDashboardVM);
+            return View(doctorDashboardVM);
         }
 
 
