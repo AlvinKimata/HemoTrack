@@ -296,7 +296,7 @@ namespace HemoTrack.Controllers
 
             return View(model);
         }
-                [HttpGet]
+        [HttpGet]
         public async Task<IActionResult> EditUsersInRole(string roleId)
         {
             ViewBag.roleId = roleId;
@@ -372,18 +372,6 @@ namespace HemoTrack.Controllers
             }
             return RedirectToAction("EditRole", new { id = roleId });
         }
-
-        // public int NumberOfRoles()
-        // {
-        //     int numberOfRoles  = _roleManager.Roles.OrderBy(x => x.Name).Count();
-        //     return numberOfRoles;
-        // }
-
-        // public int NumberOfUsers()
-        // {
-        //     int numberOfUsers = _userManager.Users.OrderBy(x => x.Name).Count();
-        //     return numberOfUsers;
-        // }
 
         [HttpGet]
         public IActionResult EditDoctor()

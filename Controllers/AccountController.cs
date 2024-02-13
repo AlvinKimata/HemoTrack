@@ -1,4 +1,5 @@
 using HemoTrack.Models;
+using HemoTrack.Data;
 using HemoTrack.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,22 +8,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace HemoTrack.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ApplicationDbContext _context;
 
-        public AccountController(UserManager<User> userManager, 
-            SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager)
+        public AccountController(UserManager<User> userManager, ApplicationDbContext context,
+            SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager): base(userManager, signInManager, roleManager)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _roleManager = roleManager;
+            _context = context;
         }
 
         [HttpGet]
@@ -177,49 +175,53 @@ namespace HemoTrack.Controllers
             return RedirectToAction("EditRole", new { Id = roleId });
         }
 
-        // //Login actions.
-        // [HttpGet]
-        // [AllowAnonymous]
-        // public IActionResult Login()
-        // {
-        //     return View();
-        // }
+        //Login actions.
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Login()
+        {
+            return View();
+        }
 
-        // [HttpPost]
-        // [AllowAnonymous]
-        // public async Task<IActionResult> Login(LoginViewModel model)
-        // {
-        //     if (ModelState.IsValid)
-        //     {
-        //         var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
 
-        //         if (!result.Succeeded)
-        //         {
-        //             var user = await _userManager.FindByEmailAsync(model.Email);
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
 
-        //             //Check user's role and redirect accordingly.
-        //             if (await _userManager.IsInRoleAsync(user, "Admin"))
-        //             {
-        //                 return RedirectToAction("Index", "Administrator");
-        //             }
+                if (!result.Succeeded)
+                {
+                    // Get the user
+                    var user = await _userManager.FindByEmailAsync(model.Email);
 
-        //             else if (await _userManager.IsInRoleAsync(user, "Doctor"))
-        //             {
-        //                 return RedirectToAction("Index", "Doctor");
-        //             }
+                    // Check user's role and redirect accordingly
+                    if (await _userManager.IsInRoleAsync(user, "Admin"))
+                    {
+                        TempData["UserId"] = user.Id;
+                        return RedirectToAction("Index", "Admin");
+                    }
+                    else if (await _userManager.IsInRoleAsync(user, "Doctor"))
+                    {
+                        TempData["UserId"] = user.Id;
+                        return RedirectToAction("Index", "Doctor");
+                    }
+                    else if (await _userManager.IsInRoleAsync(user, "Patient"))
+                    {   TempData["UserId"] = user.Id;
+                        return RedirectToAction("Index", "Patient");
+                    }
 
-        //             else if (await _userManager.IsInRoleAsync(user, "Patient"))
-        //             {
-        //                 return RedirectToAction("Index", "Patient");
-        //             }
-        //             return RedirectToAction("Index", "Home");
+                    // If the user's role doesn't match any expected roles, handle accordingly
+                    return RedirectToAction("Index", "Home");
+                }
 
-        //         }
+                ModelState.AddModelError(string.Empty, "Invalid login attempt");
+            }
 
-        //         ModelState.AddModelError(string.Empty, "Invalid login attempt");
-        //     }
+            return View(model);
+        }
 
-        //     return View(model);
-        // }
     }
 }

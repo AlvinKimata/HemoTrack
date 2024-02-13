@@ -9,13 +9,14 @@ using HemoTrack.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HemoTrack.Controllers
 {
     public class DoctorController : BaseController
     {
         private readonly ApplicationDbContext _context;
-
+        public string IndexModel = "Doctor";
         public DoctorController(ApplicationDbContext context,
                             UserManager<User> userManager,
                             SignInManager<User> signInManager,
@@ -47,23 +48,27 @@ namespace HemoTrack.Controllers
             return await _context.Appointment.ToListAsync();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> DoctorLogin(LoginViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var accountController = new BaseController(_userManager, _signInManager);
-                return await accountController.Login(model);
-            }
+        // [HttpPost]
+        // public async Task<IActionResult> Login(LoginViewModel model, string IndexModel)
+        // {
+        //     if (ModelState.IsValid)
+        //     {
+        //         var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+        //         if (result.Succeeded)
+        //         {
+        //             var user = await _userManager.FindByEmailAsync(model.Email);
+        //             return RedirectToAction("Index", "Doctor"); // Redirect to a success action
+        //         }
+        //     }
 
-            return View(model);
-        }
+        //     return View(model);
+        // }
 
         [HttpGet]
         public async Task<IActionResult> Index()
-        {
-            // var doctor = await GetCurrentDoctorAsync();
-
+        {   
+            var userId = TempData["UserId"].ToString();
+            var doctor = await _userManager.FindByIdAsync(userId);
             
             var doctors = await GetAllDoctorsAsync();
             var patients = await GetAllPatientsAsync();

@@ -192,25 +192,20 @@
                 }
                 else
                 {
-                    @for (int i = 0; i < appointments.Count; i++)
+                    @* @for (int i = 0; i < appointments.Count; i++) *@
+                    @foreach(var appointment in Model.Appointments)
                     {
-                        var appointment = appointments[i];
-                        var doctor = Model.Doctors[i];
+                        var doctor = appointment.Doctor;
 
-                                        <tr>
-                                            <td style="padding:30px; font-size:25px; font-weight:700;"> &nbsp;
-                                @appointment.Id </td>
-                                            <td style="padding:20px;"> &nbsp; @appointment.Title </td>
-                                            <td> @doctor.FirstName.Substring(0, 20) </td>
-                                            <td style="text-align:center;">
-                                @appointment.AppointmentDate.ToShortDateString()
-                                @appointment.AppointmentTime.ToString()
-                                            </td>
-                                        </tr>
+                        <tr>
+                            <td style="padding:30px; font-size:25px; font-weight:700;"> &nbsp;@appointment.Id </td>
+                            <td style="padding:20px;"> &nbsp; @appointment.Title </td>
+                            <td> @doctor.FirstName </td>
+                            <td style="text-align:center;">@appointment.AppointmentDate.ToShortDateString() @appointment.AppointmentTime.ToString()
+                            </td>
+                        </tr>
                     }
                 }
-
-
                             </tbody>
                         </table>
                     </div>
