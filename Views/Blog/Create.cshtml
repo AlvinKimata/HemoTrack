@@ -1,0 +1,15 @@
+@{
+    ViewBag.Title = "New Post";
+}
+
+<h2>Create new blog post</h2>
+
+<form method="post">
+    <label>Title</label>
+    <input type="text" name="title" style="" class="form-control" placeholder="The headline goes here..." /><br />
+    <label>Tags</label>
+    <input type="text" name="tags" style="" class="form-control" placeholder="Separate each tag using a comma ','." /><br />
+    <label>Content</label>
+    <textarea name="content" class="form-control" style="height: 300px;" placeholder="What would you like to write?"></textarea><br />
+    <input type="submit" style="width: auto; font-weight: 600;" value="Post" /><br />
+</form>
