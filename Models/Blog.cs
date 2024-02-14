@@ -26,7 +26,7 @@ namespace HemoTrack.Models
     public class PostManager
     {
         // Define the members
-        private static string PostsFile = HttpContext.Current.Server.MapPath("~/App_Data/Posts.json");
+        private static string PostsFile = HttpContext.Current.Server.MapPath(".\\Posts\\Posts.json");
         private static List<Blog> posts = new List<Blog>();
 
         // The CRUD functions
