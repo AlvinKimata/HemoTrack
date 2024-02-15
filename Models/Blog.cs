@@ -16,8 +16,8 @@ namespace HemoTrack.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string? Id {get; set;}
 
-        [BsonElement("Name")]
-        [JsonPropertyName("Name")]
+        [BsonElement("BlogName")]
+        [JsonPropertyName("BlogName")]
         public string BlogName {get; set;} = null!;
 
         public string Title { get; set; }

@@ -12,7 +12,7 @@ public class BlogsService
         IOptions<BlogStoreDatabaseSettings> blogStoreDatabaseSettings)
     {
         var mongoClient = new MongoClient(
-            blogStoreDatabaseSettings.Value.ConnectionString);
+            blogStoreDatabaseSettings.Value.ConnectionStrings);
 
         var mongoDatabase = mongoClient.GetDatabase(
             blogStoreDatabaseSettings.Value.DatabaseName);

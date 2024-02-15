@@ -1,43 +1,28 @@
-@* @model List<HemoTrack.Models.Blog>
+@model IEnumerable<Blog>
+
 @{
-    ViewBag.Title = "My Blog";
+    ViewData["Title"] = "My Blog";
+    Layout = null;
 }
 
-@if(ViewBag.Message != null)
-{
-    <h4>@ViewBag.Message</h4>
-}
 
-@if(Model == null || Model.Count == 0)
+
+@if (Model == null || Model.Count() == 0)
 {
-    <h4>Blog empty</h4>
+    <h4>Blog is empty</h4>
     <p>Either under development, or author is busy. Visit back again later! :-)</p>
-    <a href="~/blog/create">Create new post</a>
+    <a asp-action="Create" asp-controller="Blog">Create new post</a>
 }
 else
 {
     <h4>My blog</h4>
     <p>Read my blog posts below...</p>
-    // Content is available.
-    <a href="~/blog/create">Create new post</a>
+    <a asp-action="Create" asp-controller="Blog">Create new post</a>
     foreach (var post in Model)
     {
-       int tagIndex = 1;
-       <h4><a href="~/blog/read/@post.ID">@post.Title</a></h4>
-       <p>
-       @foreach (var tag in post.Tags)
-       {
-           if(tagIndex == post.Tags.Count)
-           {
-               <span class="tag"><a href="~/blog/tag/@tag">@tag</a></span>
-           }
-           else
-           {
-               <span class="tag"><a href="~/blog/tag/@tag">@tag</a></span>
-           }
-
-           tagIndex++;
-       }
-       </p>
-   }
-} *@
+        int tagIndex = 1;
+        <h4><a>@post.Title</a></h4>
+        <br>
+        <h4><a>@post.BlogName</a></h4>
+    }
+}

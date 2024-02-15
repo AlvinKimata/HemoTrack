@@ -12,7 +12,6 @@ public class BlogController : Controller
     public BlogController(BlogsService blogsService) => 
     _blogsService = blogsService;
 
-    [HttpGet]
     public async Task<List<Blog>> Get() => 
         await _blogsService.GetAsync();
 
@@ -64,5 +63,12 @@ public class BlogController : Controller
 
         await _blogsService.RemoveAsync(id);
         return NoContent();
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Index()
+    {
+        var blogs = await Get();
+        return View(blogs);
     }
 }
