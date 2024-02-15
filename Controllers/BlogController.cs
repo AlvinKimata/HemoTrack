@@ -31,8 +31,16 @@ public class BlogController : Controller
         return CreatedAtAction(nameof(Get), new {id = newBlog.Id}, newBlog);
     }
 
+    [HttpGet]
+    public async Task<IActionResult> EditPost(string id)
+    {
+        var blog = await _blogsService.GetAsync(id);
+        return View(blog);
+    }
+
+
     [HttpPost]
-    public async Task<IActionResult> Update(string id, Blog updatedBlog)
+    public async Task<IActionResult> EditPost(string id, Blog updatedBlog)
     {
         var blog = await _blogsService.GetAsync(id);
 
@@ -73,5 +81,6 @@ public class BlogController : Controller
         var blog = await Get(id);
         return View(blog);
     }
+
 
 }
