@@ -55,7 +55,8 @@
                 </tr>
                 <tr class="menu-row">
                     <td class="menu-btn menu-icon-dashbord menu-active menu-icon-dashbord-active">
-                        <a asp-action = "Index" asp-controller = "Administrator" class="non-style-link-menu non-style-link-menu-active">
+                        <a asp-action="Index" asp-controller="Administrator"
+                            class="non-style-link-menu non-style-link-menu-active">
                             <div>
                                 <p class="menu-text">Dashboard</p>
                         </a>
@@ -88,7 +89,7 @@
         </td>
     </tr>
 
-        <tr class="menu-row">
+    <tr class="menu-row">
         <td class="menu-btn menu-icon-patient">
             <a asp-controller="Administrator" asp-action="ListRoles" class="non-style-link-menu">
                 <div>
@@ -101,9 +102,20 @@
     @RenderBody()
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>
 
 @section Scripts {
     <script src="~/js/site.js"></script>
     <script src="~/js/CustomScript.js"></script>
 }
+
+
+
+.navbar .navbar-brand h2 em {
+	font-size: 44px;
+	font-style: normal;
+	color: #f48840;
+}
+
+#0A76D8
