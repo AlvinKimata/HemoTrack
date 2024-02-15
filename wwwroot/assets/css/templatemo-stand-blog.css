@@ -503,7 +503,7 @@ header .navbar {
 .blog-posts .down-content ul.post-tags li a,
 .blog-posts .down-content ul.post-share li a {
 	font-size: 14px;
-	color: #aaa;
+	color: #fff;
 	font-weight: 400;
 	transition: all .3s;
 }

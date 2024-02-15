@@ -1,3 +1,6 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> signInManager
+
 @model IEnumerable<Blog>
 
 @{
@@ -39,22 +42,35 @@ else
                                             </ul>
                                             <p>@post.Content</p>
                                             <div class="post-options">
-                                                 <div class="row">
+                                                <div class="row">
                                                     <div class="col-6">
                                                         <ul class="post-tags">
-                                                            <li><i class="fa fa-tags"></i></li>
-                                                            <li><a href="#">Health</a>,</li>
-                                                            <li><a href="#">Wellbeing</a></li>
                                                         </ul>
                                                     </div>
                                                     <div class="col-6">
                                                         <ul class="post-share">
-                                                            <li><i class="fa fa-share-alt"></i></li>
-                                                            <li><a href="#">Facebook</a>,</li>
-                                                            <li><a href="#"> Twitter</a></li>
+                                                            <li><a asp-action = "ViewContent" asp-controller = "Blog" asp-route-id = "@post.Id"
+                                                                    style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;"
+                                                                    class="login-btn btn-primary btn">View</a>
+
+                                                                &nbsp;&nbsp;&nbsp;
+
+                                                            @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                                                            {
+                                                                <button asp-action = "EditContent" asp-controller = "Blog" asp-route-id = "@post.Id"
+                                                                    style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;"
+                                                                    class="login-btn btn-primary btn">Edit
+                                                                </button>
+
+                                                                <button asp-action = "DeleteContent" asp-controller = "Blog" asp-route-id = "@post.Id"
+                                                                        style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;"
+                                                                        class="login-btn btn-primary btn">Delete
+                                                                </button>
+                                                            }
+
                                                         </ul>
                                                     </div>
-                                                </div> 
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
