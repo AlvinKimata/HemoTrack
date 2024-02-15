@@ -16,15 +16,10 @@ public class BlogController : Controller
         await _blogsService.GetAsync();
 
     
-    [HttpGet("{id:length(24)}")]
-    public async Task<ActionResult<Blog>> Get(string id)
+    [HttpGet]
+    public async Task<Blog> Get(string id)
     {
         var blog = await _blogsService.GetAsync(id);
-
-        if(blog is null)
-        {
-            return NotFound();
-        }
         return blog;
     }
 
@@ -71,4 +66,12 @@ public class BlogController : Controller
         var blogs = await Get();
         return View(blogs);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> ViewContent(string id)
+    {
+        var blog = await Get(id);
+        return View(blog);
+    }
+
 }

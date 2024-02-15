@@ -5,8 +5,6 @@
     Layout = "~/Views/Shared/_BlogLayout.cshtml";
 }
 
-
-
 @if (Model == null || Model.Count() == 0)
 {
     <h4>Blog is empty</h4>
@@ -14,6 +12,7 @@
     <a asp-action="Create" asp-controller="Blog">Create new post</a>
 }
 else
+
 {
     <section class="blog-posts">
         <div class="container">
@@ -40,12 +39,12 @@ else
                                             </ul>
                                             <p>@post.Content</p>
                                             <div class="post-options">
-                                                <div class="row">
+                                                 <div class="row">
                                                     <div class="col-6">
                                                         <ul class="post-tags">
                                                             <li><i class="fa fa-tags"></i></li>
-                                                            <li><a href="#">Beauty</a>,</li>
-                                                            <li><a href="#">Nature</a></li>
+                                                            <li><a href="#">Health</a>,</li>
+                                                            <li><a href="#">Wellbeing</a></li>
                                                         </ul>
                                                     </div>
                                                     <div class="col-6">
@@ -55,7 +54,7 @@ else
                                                             <li><a href="#"> Twitter</a></li>
                                                         </ul>
                                                     </div>
-                                                </div>
+                                                </div> 
                                             </div>
                                         </div>
                                     </div>
