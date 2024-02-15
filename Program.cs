@@ -2,8 +2,18 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using HemoTrack.Data;
 using HemoTrack.Models;
+using HemoTrack.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.Configure<BookStoreDatabaseSettings>(
+    builder.Configuration.GetSection("BlogStoreDatabase"));
+
+builder.Services.AddSingleton<BlogsService>();
+
+builder.Services.AddControllers()
+    .AddJsonOptions(
+        options => options.JsonSerializerOptions.PropertyNamingPolicy = null
+    );
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("HemoTrackDbConnection");
