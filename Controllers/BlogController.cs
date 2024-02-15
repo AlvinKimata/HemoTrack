@@ -1,130 +1,68 @@
-// using System;
-// using System.Collections.Generic;
-// using System.Linq;
-// using System.Web;
+using HemoTrack.Models;
+using HemoTrack.Services;
+using Microsoft.AspNetCore.Mvc;
 
-// using HemoTrack.Models;
-// using Newtonsoft.Json;
-// using System.ComponentModel.DataAnnotations;
-// using HemoTrack.Models;
-// using HemoTrack.ViewModels;
-// using Microsoft.AspNetCore.Authorization;
-// using Microsoft.AspNetCore.Mvc;
-// using Microsoft.AspNetCore.Identity;
-
-// using System.Threading.Tasks;
+namespace HemoTrack.Controllers;
 
 
-// namespace HemoTrack.Controllers
-// {
-//     public class BlogController : Controller
-//     {
-//         private readonly string _filePath = Path.Combine(Directory.GetCurrentDirectory(), "data.json");
+public class BlogController : Controller
+{
+    private readonly BlogsService _blogsService;
 
-//         [HttpGet]
-//         public IActionResult Index()
-//         {
-//             // Read the list
-//             var blogs = PostManager.Read();
-//             if (blogs == null)
-//             {
-//                 ViewBag.Empty = true;
-//                 return View();
-//             }
-//             else
-//             {
-//                 // Just for sorting.
-//                 blogs = (from blog in blogs
-//                         orderby blog.CreateTime descending
-//                         select blog).ToList();
+    public BlogController(BlogsService blogsService) => 
+    _blogsService = blogsService;
 
-//                 ViewBag.Empty = false;
-//                 return View(blogs);
-//             }
-//         }
+    [HttpGet]
+    public async Task<List<Blog>> Get() => 
+        await _blogsService.GetAsync();
 
-//         [HttpGet]
-//         [Route("blog/read/{id}")] // Set the ID parameter
-//         public IActionResult Read(int id)
-//         {
-//             // Read one single blog
-//             var blogs = PostManager.Read();
-//             BlogPostModel post = null;
- 
-//             if(blogs != null && blogs.Count > 0)
-//             {
-//                 post = blogs.Find(x => x.ID == id);
-//             }
+    
+    [HttpGet("{id:length(24)}")]
+    public async Task<ActionResult<Blog>> Get(string id)
+    {
+        var blog = await _blogsService.GetAsync(id);
 
-//             if(post == null)
-//             {
-//                 ViewBag.PostFound = false;
-//                 return View();
-//             } else
-//             {
-//                 ViewBag.PostFound = true;
-//                 return View(post);
-//             }
-//         }
+        if(blog is null)
+        {
+            return NotFound();
+        }
+        return blog;
+    }
 
-//         [HttpPost]
-//         public ActionResult Create()
-//         {
-//             if (Request.HttpMethod == "POST")
-//             {
-//                 // Post request method
-//                 var title = Request.Form["title"].ToString();
-//                 var tags = Request.Form["tags"].ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-//                 var content = Request.Form["content"].ToString();
+    [HttpPost]
+    public async Task<IActionResult> Post(Blog newBlog)
+    {
+        await _blogsService.CreateAsync(newBlog);
 
-//                 // Save content
-//                 var post = new BlogPostModel { Title = title, CreateTime = DateTime.Now, Content = content, Tags = tags.ToList() };
-//                 PostManager.Create(JsonConvert.SerializeObject(post));
+        return CreatedAtAction(nameof(Get), new {id = newBlog.Id}, newBlog);
+    }
 
-//                 // Redirect
-//                 Response.Redirect("~/blog");
-//             }
-//             return View();
-//         }
+    [HttpPost]
+    public async Task<IActionResult> Update(string id, Blog updatedBlog)
+    {
+        var blog = await _blogsService.GetAsync(id);
 
-//         [HttpPost]
-//         [Route("blog/edit/{id}")]
-//         public ActionResult Edit(int id)
-//         {
-//             if(Request.HttpMethod == "POST")
-//             {
-//                 // Post request method
-//                 var title = Request.Form["title"].ToString();
-//                 var tags = Request.Form["tags"].ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-//                 var content = Request.Form["content"].ToString();
+        if (blog is null)
+        {
+            return NotFound();
+        }
+        updatedBlog.Id = blog.Id;
 
-//                 // Save content
-//                 var post = new BlogPostModel { Title = title, CreateTime = DateTime.Now, Content = content, Tags = tags.ToList() };
-//                 PostManager.Update(id, JsonConvert.SerializeObject(post));
+        await _blogsService.UpdateAsync(id, updatedBlog);
 
-//                 // Redirect
-//                 Response.Redirect("~/blog");
-//             } else
-//             {
-//                 // Find the required post.
-//                 var post = PostManager.Read().Find(x => x.ID == id);
+        return NoContent();
+    }
 
-//                 if (post != null)
-//                 {
-//                     // Set the values
-//                     ViewBag.Found = true;
-//                     ViewBag.PostTitle = post.Title;
-//                     ViewBag.Tags = post.Tags;
-//                     ViewBag.Content = post.Content;
-//                 }
-//                 else
-//                 {
-//                     ViewBag.Found = false;
-//                 }
-//             }
+    public async Task<IActionResult> Delete(string id)
+    {
+        var blog = await _blogsService.GetAsync(id);
 
-//              // Finally return the view.
-//              return View();
-//         }
-//     }
-// }
+        if (blog is null)
+        {
+            return NotFound();
+        }
+
+        await _blogsService.RemoveAsync(id);
+        return NoContent();
+    }
+}

@@ -1,4 +1,4 @@
-@model HemoTrack.Models.Blog;
+@* @model HemoTrack.Models.Blog;
 @{
     ViewBag.Title = Model.Title;
     var tagIndex = 1;
@@ -16,10 +16,10 @@
         if (tagIndex == Model.Tags.Count)
         {
             // In the end, write the edit hyperlink
-            <span><a href="~/blog/edit/@Model.ID">Edit</a></span>
+            <span><a href="~/blog/edit/@Model.Id">Edit</a></span>
         }
 
         // Finally increment the index
         tagIndex++;
     }
-</p>
+</p> *@

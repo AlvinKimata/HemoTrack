@@ -5,7 +5,7 @@ using HemoTrack.Models;
 using HemoTrack.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.Configure<BookStoreDatabaseSettings>(
+builder.Services.Configure<BlogStoreDatabaseSettings>(
     builder.Configuration.GetSection("BlogStoreDatabase"));
 
 builder.Services.AddSingleton<BlogsService>();
