@@ -8,18 +8,26 @@
     <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
         <tr>
             <td width="13%">
-                <a href="#"><button class="login-btn btn-primary-soft btn btn-icon-back"
+                <a asp-action = "Index"><button class="login-btn btn-primary-soft btn btn-icon-back"
                         style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px">
                         <font class="tn-in-text">Back</font>
                     </button></a>
             </td>
             <td>
 
-                <form action="" method="post" class="header-search">
+                <form method="post" class="header-search">
 
                     <input type="search" name="search" class="input-text header-searchbar"
-                        placeholder="Search Doctor name or Email" list="doctors">&nbsp;&nbsp;
+                        placeholder="Search the Doctor using name" list="doctors">&nbsp;&nbsp;
                     <!--Add .net code to list doctors and filter highlighted doctor-->
+                    <datalist id="doctors">
+                        @foreach(var doctor in Model.Doctors)
+                        {
+                            <option value='@doctor.FirstName'/>
+                        }
+                    <!--Still WIP! :(-->
+                    </datalist>
+
 
                     <input type="Submit" value="Search" class="login-btn btn-primary btn"
                         style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
@@ -32,7 +40,7 @@
                     Today's Date
                 </p>
                 <p class="heading-sub12" style="padding: 0;margin: 0;">
-                    @DateTime.Now
+                    @DateTime.Now.ToShortDateString()
                 </p>
             </td>
             <td width="10%">
@@ -50,7 +58,7 @@
             <!--Add new doctor-->
             <td colspan="2">
                 <a href="#" class="non-style-link">
-                    <button onclick="togglePartialView()" class="login-btn btn-primary btn button-icon"
+                    <button onclick="togglePopup()" class="login-btn btn-primary btn button-icon"
                         style="display: flex;justify-content: center;align-items: center;margin-left:75px;background-image:url('../img/icons/add.svg');">
                         <font class="tn-in-text">Add New</font>
                     </button>
@@ -65,8 +73,7 @@
 
 <tr>
     <td colspan="4" style="padding-top:10px;">
-        <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">All Doctors :
-            @Model.Doctors.Count()</p>
+        <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">All Doctors (@Model.Doctors.Count())</p>
     </td>
 
 </tr>
@@ -81,11 +88,13 @@
                             <th class="table-headin">
 
 
-                                Doctor Name
+                                Doctor's Name
 
                             </th>
                             <th class="table-headin">
+                                
                                 Email
+                                
                             </th>
                             <th class="table-headin">
 
@@ -126,9 +135,12 @@
                     }
                     @foreach(var doctor in Model.Doctors)
                     {
-                        <tr>
+                        <tr style="font-weight:600;">
                             <td> &nbsp;
-                                @doctor.FirstName
+                                @{string doctorName = doctor.FirstName + " " + doctor.LastName;}
+
+                                @doctorName
+
                             </td>
                             <td>
                                 @doctor.Email
@@ -140,35 +152,37 @@
                             <td>
                                 <div style="display:flex;justify-content: center;">
                                     <div>
-                                        <button onclick="togglePartialView()"
+                                        <button onclick="togglePopup1()"
                                             class="btn-primary-soft btn button-icon btn-edit"
                                             style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                             <font class="tn-in-text">Edit</font>
                                         </button>
-                                        <div id="myPopup" style="display: none;">
+                                        <div id="myPopup1" style="display: none;">
                                             @await Html.PartialAsync("_EditInfoPartial", @doctor)
                                         </div>
                                     </div>
                                     &nbsp;&nbsp;&nbsp;
 
                                     <div>
-                                        <button class="btn-primary-soft btn button-icon btn-view"
+                                        <button onclick="togglePopup2()"
+                                            class="btn-primary-soft btn button-icon btn-view"
                                             style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                             <font class="tn-in-text">View</font>
                                         </button>
-                                        <div id="myPopup" style="display: none;">
+                                        <div id="myPopup2" style="display: none;">
                                             @await Html.PartialAsync("_ViewInfoPartial", @doctor)
                                         </div>
                                     </div>
                                     &nbsp;&nbsp;&nbsp;
 
                                     <div>
-                                        <button class="btn-primary-soft btn button-icon btn-delete"
+                                        <button onclick="togglePopup3()"
+                                            class="btn-primary-soft btn button-icon btn-delete"
                                             style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                             <font class="tn-in-text">Remove</font>
                                         </button>
-                                        <div id="myPopup" style="display: none;">
-                                            @* @await Html.PartialAsync("_EditInfoPartial", @Model.Doctors[i]) *@
+                                        <div id="myPopup3" style="display: none;">
+                                            @await Html.PartialAsync("_DeleteInfoPartial", @doctor)
                                         </div>
                                     </div>
 
