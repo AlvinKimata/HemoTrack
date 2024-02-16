@@ -10,7 +10,7 @@
         <tr>
             <td width="13%">
 
-                <a asp-controller="Doctor" asp-action="Patient">
+                <a asp-controller="Administrator" asp-action="Index">
                     <button class="login-btn btn-primary-soft btn btn-icon-back"
                         style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px">
                         <font class="tn-in-text">Back</font>
@@ -216,10 +216,14 @@
                                             &nbsp;&nbsp;
 
                                             <a href="#" class="non-style-link">
-                                                <button class="btn-primary-soft btn button-icon btn-view"
+                                                <button class="btn-primary-soft btn button-icon btn-view" onclick="togglePopup3()"
                                                     style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                                     <font class="tn-in-text">Delete</font>
                                                 </button>
+                                                <div id="myPopup3" style="display: none;">
+                                                    @await Html.PartialAsync("~/Views/Administrator/Partials/_DeletePatientPartial.cshtml", @Model.Patients[i])
+                                                </div>
+
                                             </a>
 
                                         </div>
