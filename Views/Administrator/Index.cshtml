@@ -35,7 +35,7 @@
                     Today's Date
                 </p>
                 <p class="heading-sub12" style="padding: 0;margin: 0;">
-                    @DateTime.Now
+                    @DateTime.Now.ToShortDateString()
             </td>
             <td width="10%">
                 <button class="btn-label" style="display: flex;justify-content: center;align-items: center;"><img
@@ -55,45 +55,45 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style="width: 25%;">
+                            <td style="width: 30%;">
                                 <div class="dashboard-items"
-                                    style="padding:20px;margin:auto;width:95%;display: flex">
+                                    style="padding:20px;margin:auto;width:90%;display: flex">
                                     <div>
                                         <div class="h1-dashboard">
                                             @Model.Doctors.Count()
                                         </div><br>
                                         <div class="h3-dashboard">
-                                            Doctors &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            Doctors &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         </div>
                                     </div>
                                     <div class="btn-icon-back dashboard-icons"
                                         style="background-image: url('../img/icons/doctors-hover.svg');"></div>
                                 </div>
                             </td>
-                            <td style="width: 25%;">
+                            <td style="width: 30%;">
                                 <div class="dashboard-items"
-                                    style="padding:20px;margin:auto;width:95%;display: flex;">
+                                    style="padding:20px;margin:auto;width:90%;display: flex;">
                                     <div>
                                         <div class="h1-dashboard">
                                             @Model.Patients.Count()
                                         </div><br>
                                         <div class="h3-dashboard">
-                                            Patients &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            Patients &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         </div>
                                     </div>
                                     <div class="btn-icon-back dashboard-icons"
                                         style="background-image: url('../img/icons/patients-hover.svg');"></div>
                                 </div>
                             </td>
-                            <td style="width: 25%;">
+                            <td style="width: 30%;">
                                 <div class="dashboard-items"
-                                    style="padding:20px;margin:auto;width:95%;display: flex; ">
+                                    style="padding:20px;margin:auto;width:90%;display: flex; ">
                                     <div>
                                         <div class="h1-dashboard">
                                             @Model.Appointments.Count()
                                         </div><br>
                                         <div class="h3-dashboard">
-                                            NewBooking &nbsp;&nbsp;
+                                            New Bookings &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         </div>
                                     </div>
                                     <div class="btn-icon-back dashboard-icons"
@@ -101,22 +101,6 @@
                                     </div>
                                 </div>
                             </td>
-                            <td style="width: 25%;">
-                                <div class="dashboard-items"
-                                    style="padding:20px;margin:auto;width:95%;display: flex;padding-top:26px;padding-bottom:26px;">
-                                    <div>
-                                        <div class="h1-dashboard">
-                                            @Model.Appointments.Count()
-                                        </div><br>
-                                        <div class="h3-dashboard" style="font-size: 15px">
-                                            Today Sessions
-                                        </div>
-                                    </div>
-                                    <div class="btn-icon-back dashboard-icons"
-                                        style="background-image: url('../img/icons/session-iceblue.svg');"></div>
-                                </div>
-                            </td>
-
                         </tr>
                     </table>
                 </center>
@@ -141,99 +125,97 @@
                             </p>
 
                         </td>
-                        <td>
-                            <p
-                                style="text-align:right;padding:10px;padding-right:48px;padding-bottom:0;font-size:23px;font-weight:700;color:var(--primarycolor);">
-                                Upcoming Sessions until Next @DateTime.Now.AddDays(7).ToString("ddd")
-                            </p>
-                            <p
-                                style="padding-bottom:19px;text-align:right;padding-right:50px;font-size:15px;font-weight:500;color:#212529e3;line-height: 20px;">
-                                Here's Quick access to Upcoming Sessions that Scheduled until 7 days<br>
-                                Add,Remove and Many features available in Schedule section.
-                            </p>
-                        </td>
                     </tr>
                     <tr>
                         <td width="50%">
                             <center>
                                 <div class="abc scroll" style="height: 200px;">
-                                    <table width="85%" class="sub-table scrolldown" border="0">
-                                        <thead>
-                                            <tr>
-                                                <th class="table-headin" style="font-size: 12px;">
-
-                                                    Appointment number
-
-                                                </th>
-                                                <th class="table-headin">
-                                                    Patient name
-                                                </th>
-                                                <th class="table-headin">
-
-
-                                                    Doctor
-
-                                                </th>
-                                                <th class="table-headin">
-
-
-                                                    Session
-
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        <!--table body WIP-->
-                                        </tbody>
-
-                                    </table>
-                                </div>
-                            </center>
-                        </td>
-                        <td width="50%" style="padding: 0;">
-                            <center>
-                                <div class="abc scroll" style="height: 200px;padding: 0;margin: 0;">
-                                    <table width="85%" class="sub-table scrolldown" border="0">
+                                    <table width="90%" class="sub-table scrolldown" border="0">
                                         <thead>
                                             <tr>
                                                 <th class="table-headin">
 
+                                                    Appointment Number
 
-                                                    Session Title
-
-                                                </th>
-
-                                                <th class="table-headin">
-                                                    Doctor
                                                 </th>
                                                 <th class="table-headin">
 
-                                                    Sheduled Date & Time
+                                                    Patient's  Name
 
                                                 </th>
+                                                <th class="table-headin">
 
+                                                    Doctor's Name
+
+                                                </th>
+                                                <th class="table-headin">
+
+                                                    Session Date & Time
+
+                                                </th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <!--Body WIP -->
-                                        </tbody>
 
+                                        <tbody>
+                                            @if(Model.Appointments.Count() == 0)
+                                            {
+                                                <tr>
+                                                    <td colspan="3">
+                                                    <br><br><br><br>
+                                                    <center>
+                                                    <img src="../img/notfound.svg" width="25%">
+                                                    
+                                                    <br>
+                                                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldnt find anything related to your keywords !</p>
+                                                    <a class="non-style-link" asp-action = "Appointments">
+                                                        <button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Show all Appointments &nbsp;</button>
+                                                    </a>
+                                                    </center>
+                                                    <br><br><br><br>
+                                                    </td>
+                                                    </tr>
+                                                
+                                            }
+                
+                                            @foreach (var appointment in Model.Appointments)
+                                            {
+                                                <tr>
+                                                    <td style="text-align:center;font-size:23px;font-weight:500; color: var(--btnnicetext);padding:20px;">
+
+                                                        @appointment.Id
+                                                            
+                                                    </td>
+
+                                                    <td style="font-weight:600;"> &nbsp;
+                                                        @{string patientName = appointment.Patient.FirstName + " " + appointment.Patient.LastName;}
+                                                        
+                                                        @patientName
+
+                                                    </td >
+                                                    <td style="font-weight:600;"> &nbsp;
+                                                        @{string doctorName = appointment.Doctor.FirstName + " " + appointment.Doctor.LastName;}
+
+                                                            @doctorName
+                                                        
+                                                    <td style="font-weight:600;">
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                                                        @appointment.AppointmentDate.ToShortDateString() @appointment.AppointmentTime.ToString()
+                                                        </td>
+
+                                                    </tr>
+                                            }
+                                        </tbody>
                                     </table>
                                 </div>
                             </center>
                         </td>
+                       
                     </tr>
                     <tr>
                         <td>
                             <center>
-                                <a href="#" class="non-style-link"><button class="btn-primary btn"
+                                <a asp-action = "Appointment" asp-controller = "Administrator" class="non-style-link"><button class="btn-primary btn"
                                         style="width:85%">Show all Appointments</button></a>
-                            </center>
-                        </td>
-                        <td>
-                            <center>
-                                <a href="#" class="non-style-link"><button class="btn-primary btn"
-                                        style="width:85%">Show all Sessions</button></a>
                             </center>
                         </td>
                     </tr>

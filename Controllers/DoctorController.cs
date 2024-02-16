@@ -47,10 +47,9 @@ namespace HemoTrack.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {   
-            var userId = TempData["UserId"].ToString();
-            TempData.Keep();
 
-            var doctor = await _userManager.FindByIdAsync(userId);
+            string currentUserName = User.Identity.Name;
+            var doctor = await _userManager.FindByNameAsync(currentUserName);
             
             var doctors = await GetAllDoctorsAsync();
             var patients = await GetAllPatientsAsync();
@@ -76,10 +75,9 @@ namespace HemoTrack.Controllers
         [HttpGet]
         public async Task<IActionResult> ListAppointments()
         {
-            var userId = TempData["UserId"].ToString();
-            TempData.Keep();
-            
-            var doctor = await _userManager.FindByIdAsync(userId);
+
+            string currentUserName = User.Identity.Name;
+            var doctor = await _userManager.FindByNameAsync(currentUserName);
 
             if (doctor == null)
             {
@@ -118,9 +116,8 @@ namespace HemoTrack.Controllers
         [HttpGet]
         public async Task <IActionResult> Settings()
         {
-            var userId = TempData["UserId"].ToString();
-            TempData.Keep();
-            var doctor = await _userManager.FindByIdAsync(userId);
+            string currentUserName = User.Identity.Name;
+            var doctor = await _userManager.FindByNameAsync(currentUserName);
 
             var doctorDashboardVM = new DoctorDashboardVM();
             doctorDashboardVM.Doctor = await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.Email == doctor.Email);
