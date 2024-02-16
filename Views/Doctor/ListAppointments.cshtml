@@ -24,7 +24,7 @@
                     Today's Date
                 </p>
                 <p class="heading-sub12" style="padding: 0;margin: 0;">
-                    @DateTime.Now
+                    @DateTime.Now.ToShortDateString()
                 </p>
             </td>
             <td width="10%">
@@ -52,7 +52,6 @@
                     (@Model.Appointments.Count())
                 </p>
             </td>
-
         </tr>
         <tr>
             <td colspan="4" style="padding-top:0px;width: 100%;">
@@ -150,30 +149,26 @@
                                     <td> &nbsp;
                                         @appointment.Title
                                     </td>
-                                    <td>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;
                                         @doctorName
                                     </td>
                                     <td style="text-align:center;">
-                                        @appointment.AppointmentDate.ToString("d")
+                                        @appointment.AppointmentDate.ToShortDateString()
                                         @appointment.AppointmentTime.ToString()
                                     </td>
 
                                     <td>
                                         <div style="display:flex;justify-content: center;">
-
-                                            <a href="#" class="non-style-link">
-                                                <button class="btn-primary-soft btn button-icon btn-view"
-                                                    style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
-                                                    <font class="tn-in-text">View</font>
-                                                </button></a>
                                             <a href="#" class="non-style-link">
                                                 &nbsp; &nbsp; &nbsp;
                                                 <button class="btn-primary-soft btn button-icon btn-view"
                                                     style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                                     <font class="tn-in-text">Edit</font>
-                                                </button></a>
+                                                </button>
+                                            </a>
+                                            
                                             &nbsp; &nbsp; &nbsp;
-                                            <a href="?action=drop&id='.$scheduleid.'&name='.$title.'"
+                                            <a href="#"
                                                 class="non-style-link"><button
                                                     class="btn-primary-soft btn button-icon btn-delete"
                                                     style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
