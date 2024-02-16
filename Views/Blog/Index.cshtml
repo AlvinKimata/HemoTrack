@@ -53,7 +53,6 @@ else
                                                                     style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;"
                                                                     class="login-btn btn-primary btn">View</a>
 
-                                                                &nbsp;&nbsp;&nbsp;
 
                                                             @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                                                             {
@@ -64,7 +63,7 @@ else
 
                                                                 <button asp-action = "DeleteContent" asp-controller = "Blog" asp-route-id = "@post.Id"
                                                                         style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;"
-                                                                        class="login-btn btn-primary btn">Delete
+                                                                        class="login-btn btn-danger btn">Delete
                                                                 </button>
                                                             }
 
