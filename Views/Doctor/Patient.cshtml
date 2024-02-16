@@ -44,7 +44,7 @@
                     Today's Date
                 </p>
                 <p class="heading-sub12" style="padding: 0;margin: 0;">
-                    @DateTime.Now
+                    @DateTime.Now.ToShortDateString()
                 </p>
             </td>
             <td width="10%">
@@ -59,7 +59,7 @@
         <tr>
             <td colspan="4" style="padding-top:10px;">
                 <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">
-                    @Model.Patients.Count()
+                    Total Patients (@Model.Patients.Count())
                 </p>
             </td>
 
@@ -132,12 +132,9 @@
                                 </th>
                                 <th class="table-headin">
 
-                                    Date of Birth
+                                    Events
 
                                 </th>
-                                <th class="table-headin">
-
-                                    Events
 
                             </tr>
                         </thead>
@@ -170,25 +167,27 @@
                             @for (int i = 0; i < Model.Patients.Count(); i++)
                             {
                                 <tr>
-                                    <td> &nbsp;
-                                        @Model.Patients[i].FirstName
+                                    <td> &nbsp;&nbsp;&nbsp;
+                                        @{var patientsName = Model.Patients[i].FirstName + " " + Model.Patients[i].LastName;}
+                                        @patientsName
                                     </td>
-                                    <td>
+
+                                    <td>&nbsp;&nbsp;&nbsp;
                                         @Model.Patients[i].Nic
                                     </td>
-                                    <td>
+
+                                    <td>&nbsp;&nbsp;&nbsp;
                                         @Model.Patients[i].PhoneNumber
                                     </td>
-                                    <td>
+
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         @Model.Patients[i].Email
                                     </td>
-                                    <td>
-                                        @Model.Patients[i].DateOfBirth
-                                    </td>
+
                                     <td>
                                         <div style="display:flex;justify-content: center;">
 
-                                            <a href="?action=view&id='.$pid.'" class="non-style-link"><button
+                                            <a href="#" class="non-style-link"><button
                                                     class="btn-primary-soft btn button-icon btn-view"
                                                     style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                                     <font class="tn-in-text">View</font>
