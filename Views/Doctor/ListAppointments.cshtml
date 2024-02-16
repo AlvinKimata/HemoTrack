@@ -35,16 +35,6 @@
 
         </tr>
 
-        <!-- <tr>
-                    <td colspan="4" >
-                        <div style="display: flex;margin-top: 40px;">
-                        <div class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49);margin-top: 5px;">Schedule a Session</div>
-                        <a href="?action=add-session&id=none&error=0" class="non-style-link"><button  class="login-btn btn-primary btn button-icon"  style="margin-left:25px;background-image: url('../img/icons/add.svg');">Add a Session</font></button>
-                        </a>
-                        </div>
-                    </td>
-                </tr> -->
-
         <tr>
             <td colspan="4" style="padding-top:10px;width: 100%;">
 
@@ -141,39 +131,53 @@
                                 </tr>
                             }
 
-
                             @foreach (var appointment in Model.Appointments)
                             {
                                 var doctorName = appointment.Doctor.FirstName + " " + appointment.Doctor.LastName;
                                 <tr>
                                     <td> &nbsp;
+
                                         @appointment.Title
+
                                     </td>
                                     <td>&nbsp;&nbsp;&nbsp;&nbsp;
+
                                         @doctorName
+
                                     </td>
                                     <td style="text-align:center;">
+
                                         @appointment.AppointmentDate.ToShortDateString()
                                         @appointment.AppointmentTime.ToString()
+
                                     </td>
 
                                     <td>
                                         <div style="display:flex;justify-content: center;">
-                                            <a href="#" class="non-style-link">
-                                                &nbsp; &nbsp; &nbsp;
-                                                <button class="btn-primary-soft btn button-icon btn-view"
-                                                    style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
-                                                    <font class="tn-in-text">Edit</font>
-                                                </button>
-                                            </a>
-                                            
-                                            &nbsp; &nbsp; &nbsp;
+
                                             <a href="#"
                                                 class="non-style-link"><button
                                                     class="btn-primary-soft btn button-icon btn-delete"
                                                     style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
-                                                    <font class="tn-in-text">Remove</font>
-                                                </button></a>
+                                                    <font class="tn-in-text">Edit</font>
+                                                </button>
+                                                <div id="myPopup3" style="display: none;">
+                                                    @await Html.PartialAsync("~/Views/Doctor/Partials/_EditAppointmentPartial.cshtml", @appointment)
+                                                </div>
+                                            </a>
+
+                                            &nbsp; &nbsp;
+
+                                            <a href="#" class="non-style-link">
+                                                &nbsp; &nbsp; &nbsp;
+                                                <button class="btn-primary-soft btn button-icon btn-view" onclick="togglePopup1()"
+                                                    style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
+                                                    <font class="tn-in-text">Delete</font>
+                                                </button>
+                                                <div id="myPopup1" style="display: none;">
+                                                    @await Html.PartialAsync("~/Views/Doctor/Partials/_DeleteAppointmentPartial.cshtml", @appointment)
+                                                </div>
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>
