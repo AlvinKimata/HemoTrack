@@ -44,7 +44,7 @@
                     Today's Date
                 </p>
                 <p class="heading-sub12" style="padding: 0;margin: 0;">
-                    @DateTime.Now
+                    @DateTime.Now.ToShortDateString()
                 </p>
             </td>
             <td width="10%">
@@ -59,7 +59,7 @@
         <tr>
             <td colspan="4" style="padding-top:10px;">
                 <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">
-                    @Model.Patients.Count()
+                    Total Patients (@Model.Patients.Count())
                 </p>
             </td>
 
@@ -173,26 +173,54 @@
                                     <td> &nbsp;
                                         @Model.Patients[i].FirstName
                                     </td>
-                                    <td>
+                                    <td> &nbsp;
                                         @Model.Patients[i].Nic
                                     </td>
-                                    <td>
+                                    <td> &nbsp;
                                         @Model.Patients[i].PhoneNumber
                                     </td>
-                                    <td>
+                                    <td> &nbsp;
                                         @Model.Patients[i].Email
                                     </td>
-                                    <td>
+                                    <td> &nbsp;
                                         @Model.Patients[i].DateOfBirth
                                     </td>
                                     <td>
                                         <div style="display:flex;justify-content: center;">
 
-                                            <a href="?action=view&id='.$pid.'" class="non-style-link"><button
-                                                    class="btn-primary-soft btn button-icon btn-view"
+                                            <a href="#" class="non-style-link">
+                                                <button class="btn-primary-soft btn button-icon btn-view"
+                                                    onclick="togglePopup2()"
                                                     style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                                     <font class="tn-in-text">View</font>
-                                                </button></a>
+                                                </button>
+
+                                                <div id="myPopup2" style="display: none;">
+                                                    @await Html.PartialAsync("~/Views/Administrator/Partials/_ViewPatientPartial.cshtml", @Model.Patients[i])
+                                                </div>
+                                            </a>
+
+                                            &nbsp;&nbsp;
+
+                                            <a href="#" class="non-style-link">
+                                                <button class="btn-primary-soft btn button-icon btn-view"
+                                                    onclick="togglePopup1()"
+                                                    style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
+                                                    <font class="tn-in-text">Edit</font>
+                                                </button>
+                                                <div id="myPopup1" style="display: none;">
+                                                    @await Html.PartialAsync("~/Views/Administrator/Partials/_EditPatientPartial.cshtml", @Model.Patients[i])
+                                                </div>
+                                            </a>
+
+                                            &nbsp;&nbsp;
+
+                                            <a href="#" class="non-style-link">
+                                                <button class="btn-primary-soft btn button-icon btn-view"
+                                                    style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
+                                                    <font class="tn-in-text">Delete</font>
+                                                </button>
+                                            </a>
 
                                         </div>
                                     </td>
@@ -205,123 +233,6 @@
             </center>
         </td>
     </tr>
-
-
-
     </table>
 </div>
 </div>
-@* @if (Model.Patients.Count > 0)
-{
-    for(int i = 0; i < Model.Patients.Count(); i++)
-    {
-        <div id="popup1" class="overlay">
-            <div class="popup">
-                <center>
-                    <a class="close" asp-controller="Doctor" asp-action="Patient">&times;</a>
-                    <div class="content">
-
-                    </div>
-                    <div style="display: flex;justify-content: center;">
-                        <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
-
-                            <tr>
-                                <td>
-                                    <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">View
-                                        Details</p><br><br>
-                                </td>
-                            </tr>
-                            <tr>
-
-                                <td class="label-td" colspan="2">
-                                    <label asp-for="@Model.Patients[i].Id" class="form-label">Patient ID: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    @Model.Patients[i].Id<br><br>
-                                </td>
-
-                            </tr>
-
-                            <tr>
-
-                                <td class="label-td" colspan="2">
-                                    <label asp-for="@Model.Patients[i].FirstName" class="form-label">Name: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    @Model.Patients[i].FirstName<br><br>
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label asp-for="@Model.Patients[i].Email" class="form-label">Email: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    @Model.Patients[i].Email'<br><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label asp-for="@Model.Patients[i].Nic" class="form-label">NIC: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    @Model.Patients[i].Nic'<br><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label asp-for="@Model.Patients[i].PhoneNumber" class="form-label">Telephone: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    @Model.Patients[i].PhoneNumber<br><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label asp-for="@Model.Patients[i].Address" class="form-label">Address: </label>
-
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    @Model.Patients[i].Address<br><br>
-                                </td>
-                            </tr>
-                            <tr>
-
-                                <td class="label-td" colspan="2">
-                                    <label asp-for="@Model.Patients[i].DateOfBirth" class="form-label">Date of Birth: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    @Model.Patients[i].DateOfBirth<br><br>
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <a asp-controller="Doctor" asp-action="Patient"><input type="button" value="OK"
-                                            class="login-btn btn-primary-soft btn"></a>
-                                </td>
-
-                            </tr>
-                        </table>
-                    </div>
-                </center>
-                <br><br>
-            </div>
-        </div>
-    }
-}
-</div> *@
