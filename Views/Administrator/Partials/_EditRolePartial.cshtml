@@ -1,0 +1,92 @@
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<User> signInManager;
+@model IEnumerable<IdentityRole>
+
+@* <div id="popup1" class="overlay">
+    <div class="popup">
+        <center>
+            <h2></h2>
+            <a class="close" href="#" onclick="togglePopup1()">&times;</a>
+            <div class="content">
+                eDoc Web App<br>
+
+            </div>
+            <form method="post" action="">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div style="display: flex;justify-content: center;">
+
+                    <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+
+                        <tr>
+                            <td>
+                                <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Edit
+                                    Details</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">
+
+                                    <td class="label-td" colspan="2">
+                                        <p>First Name</p>
+                                        <input name="name" asp-for="FirstName" type="text" id="name"
+                                            placeholder="First name" aria-required="true">
+                                    </td>
+                                </div>
+
+                                <div class="col-md-6 col-sm-12">
+                                    <td class="label-td" colspan="2">
+                                        <p>Last Name</p>
+                                        <input name="name" asp-for="LastName" type="text" id="name"
+                                            placeholder="Last name" aria-required="true">
+                                    </td>
+                                </div>
+                                <br>
+                            </div>
+
+                        </tr>
+
+                        <tr>
+                            <td class="label-td" colspan="2">
+                                <br>
+                                <label asp-for="Email" class="form-label">Email: </label> <br>
+                                <input class="label-td" colspan="2" asp-for="Email" aria-required="true">
+                                </input>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="label-td" colspan="2">
+                                <br>
+                                <label asp-for="PhoneNumber" class="form-label">Telephone: </label><br>
+                                <input class="label-td" colspan="2" asp-for="PhoneNumber" aria-required="true"><br>
+                                </input>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="label-td" colspan="2">
+                                <br>
+                                <label asp-for="DateOfBirth" class="form-label">Date Of Birth: </label><br>
+                                <input class="label-td" colspan="2" asp-for="DateOfBirth" aria-required="true">
+                                <br>
+                            </td>
+                            <br>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2">
+                                <a href="#">
+                                    <br>
+                                    <button type="submit" class="login-btn btn-primary-soft btn">OK</button>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </form>
+        </center>
+        <br><br>
+    </div>
+</div> *@

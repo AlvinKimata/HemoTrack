@@ -46,8 +46,11 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <a href="#"><input type="button" value="Log out"
-                                            class="logout-btn btn-primary-soft btn"></a>
+                                    <form method="post" asp-controller = "Account" asp-action = "Logout">
+                                        <button type="submit" value="Log out"
+                                            class="logout-btn btn-primary-soft btn">Log out</button>
+                                    </form>
+
                                 </td>
                             </tr>
                         </table>
@@ -102,7 +105,7 @@
         <td class="menu-btn menu-icon-appoinment btn-primary-soft">
             <a asp-controller="Blog" asp-action="Index" class="non-style-link-menu">
                 <div>
-                    <p class="menu-text"><font>Manage Educational content</font></p>
+                    <p class="menu-text"><font>Manage Educational Materials</font></p>
             </a></div>
         </td>
     </tr>
