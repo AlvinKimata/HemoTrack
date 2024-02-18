@@ -41,7 +41,7 @@
                 <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)"></p>
             </td>
 
-            <!--Add new doctor-->
+            <!--Add new role-->
             <td colspan="2">
                 <a href="#" class="non-style-link">
                     <button onclick="togglePopup()" class="login-btn btn-primary btn button-icon"
@@ -51,7 +51,7 @@
 
                 </a>
                 <div id="myPopup" style="display: none;">
-                    @* @await Html.PartialAsync("_AddInfoPartial", @Model.doctorRegisterVM) *@
+                    @await Html.PartialAsync("~/Views/Administrator/Partials/_AddRolePartial.cshtml", @Model)
                 </div>
             </td>
 </div>

@@ -1,0 +1,62 @@
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<User> signInManager;
+
+@model CreateRoleVM
+
+@{
+    ViewData["Title"] = "Create new role";
+    Layout = null;
+}
+
+
+<div id="popup1" class="overlay">
+    <div class="popup">
+        <center>
+            <a class="close" href="#">&times;</a>
+            <div style="display: flex;justify-content: center;">
+                <div class="abc">
+                    <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+                        <tr>
+                            <td class="label-td" colspan="2">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Add
+                                    New Role</p><br>
+                            </td>
+                        </tr>
+                        <form method="post" class="add-new-form">
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label asp-for="RoleName" class="form-label">Role name : </label>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <input asp-for="RoleName" type="text" name="title" class="input-text"
+                                        placeholder="Role name" aria-required="true"><br>
+                                    <span asp-validation-for="RoleName" class="text-danger"></span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2">
+                                    <button type="reset" value="Reset"
+                                        class="login-btn btn-primary-soft btn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+
+                                    <button type="submit" value="Place this Session" class="login-btn btn-primary btn">Create Role</button>
+                                </td>
+                            </tr>
+
+                        </form>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </center>
+        <br><br>
+    </div>
+</div>
