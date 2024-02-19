@@ -1,6 +1,6 @@
 @using Microsoft.AspNetCore.Identity;
 @inject SignInManager<User> signInManager;
-    
+
 
 @{
     var username = Model.UserName;
@@ -58,8 +58,11 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <a href="#"><input type="button" value="Log out"
-                                            class="logout-btn btn-primary-soft btn"></a>
+                                    <form method="post" asp-controller="Account" asp-action="Logout">
+                                        <button type="submit"
+                                                class="logout-btn btn-primary-soft btn">Log out</button>
+                                    </form>
+
                                 </td>
                             </tr>
                         </table>
@@ -67,7 +70,8 @@
                 </tr>
                 <tr class="menu-row">
                     <td class="menu-btn menu-icon-home menu-active menu-icon-home-active">
-                        <a asp-action="Index" asp-controller="Patient" class="non-style-link-menu non-style-link-menu-active">
+                        <a asp-action="Index" asp-controller="Patient"
+                            class="non-style-link-menu non-style-link-menu-active">
                             <div>
                                 <p class="menu-text">Home</p>
                         </a>
@@ -85,16 +89,6 @@
             </td>
         </tr>
 
-
-        <tr class="menu-row">
-            <td class="menu-btn menu-icon-session">
-                <a asp-action="ScheduleAppointment" asp-controller="Patient" class="non-style-link-menu">
-                    <div>
-                        <p class="menu-text">Scheduled Sessions</p>
-                    </div>
-                </a>
-            </td>
-        </tr>
         <tr class="menu-row">
             <td class="menu-btn menu-icon-appoinment">
                 <a asp-action="ListAppointments" asp-controller="Patient" class="non-style-link-menu">
@@ -125,6 +119,6 @@
 
 </html>
 
-@section Scripts{  
-    <script src="~/js/site.js" asp-append-version="true"></script>  
+@section Scripts {
+    <script src="~/js/site.js" asp-append-version="true"></script>
 }
