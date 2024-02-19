@@ -117,6 +117,8 @@ namespace HemoTrack.Controllers
                     // Get the user
                     var user = await _userManager.FindByEmailAsync(model.Email);
 
+                    //By default set the user's role to a patient.
+
                     if (user != null)
                     {
                         // Check user's role and redirect accordingly
@@ -135,7 +137,7 @@ namespace HemoTrack.Controllers
                             await _signInManager.SignInAsync(user, isPersistent: false);
                             return RedirectToAction("Index", "Patient");
                         }
-
+                    await _signInManager.SignInAsync(user, isPersistent: false);
                     // If the user's role doesn't match any expected roles, handle accordingly
                     return RedirectToAction("Index", "Home");
 
