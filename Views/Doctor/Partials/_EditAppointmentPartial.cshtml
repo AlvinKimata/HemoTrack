@@ -1,0 +1,77 @@
+@{
+    ViewData["Title"] = "Doctor dashboard";
+    Layout = null;
+}
+
+@model Appointment
+
+<div id="popup1" class="overlay">
+    <div class="popup">
+        <center>
+            <h2></h2>
+            <a class="close" href="#" onclick="togglePopup3()">&times;</a>
+            <div class="content">
+                eDoc Web App<br>
+
+                <form method="post" action="">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div style="display: flex;justify-content: center;">
+                        <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+
+                            <tr>
+                                <td>
+                                    <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">
+                                        Edit Details</p>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label-td" colspan="2" hidden>
+                                    <p>Title</p>
+                                    <input name="Title" asp-for="Title"  type="text" id="name"
+                                        placeholder="Title" aria-required="true">
+                                </td>
+                            </tr>
+                            <!--Id -->
+                            <tr>
+                                <td class="label-td" colspan="2" hidden>
+                                    <p>Id</p>
+                                    <input name="Id" asp-for="Id" value = "@Model.Id" type="text" id="name" aria-required="true">
+                                </td>
+                            </tr>
+
+                            <!--Edit Appointment date -->
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <p>Date</p>
+                                    <input name="AppointmentDate" asp-for="AppointmentDate" type="date" id="name"
+                                        placeholder="Appointment Date" aria-required="true">
+                                </td>
+                            </tr>
+
+                            <!--Edit Appointment time -->
+
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <p>Time</p>
+                                    <input name="AppointmentTime" asp-for="AppointmentTime" type="time" id="name"
+                                        placeholder="Appointment Time" aria-required="true">
+                                </td>
+                            </tr>
+
+                            <!-- Other attributes go here -->
+
+                            <tr>
+                                <td colspan="2">
+                                    <br>
+                                    <input type="submit" value="Submit" class="login-btn btn-primary btn"
+                                        name="shedulesubmit">
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </form>
+        </center>
+    </div>
+</div>

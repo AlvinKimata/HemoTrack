@@ -171,7 +171,6 @@ namespace HemoTrack.Controllers
                 var doctorName = model.Doctor; //Get the name of the doctor
                 var doctor = await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.FirstName == doctorName.FirstName);
 
-                // var doctor = _userManager.FindByNa
                 var appointmentRegisterVM = new Appointment
                 {
                     Title = model.Title,
