@@ -5,11 +5,11 @@
 
 @model Appointment
 
-<div id="popup1" class="overlay">
+<div id="myPopup3_@Model.Id" class="overlay">
     <div class="popup">
         <center>
             <h2></h2>
-            <a class="close" href="#" onclick="togglePopup3()">&times;</a>
+            <a class="close" href="#" onclick="toggleAppointmentPopup('@Model.Id')">&times;</a>
             <div class="content">
                 eDoc Web App<br>
 
@@ -37,6 +37,7 @@
                                 <td class="label-td" colspan="2" hidden>
                                     <p>Id</p>
                                     <input name="Id" asp-for="Id" value = "@Model.Id" type="text" id="name" aria-required="true">
+                                    
                                 </td>
                             </tr>
 
@@ -46,6 +47,7 @@
                                     <p>Date</p>
                                     <input name="AppointmentDate" asp-for="AppointmentDate" type="date" id="name"
                                         placeholder="Appointment Date" aria-required="true">
+                                        <span asp-validation-for="AppointmentDate" class="text-danger"></span>
                                 </td>
                             </tr>
 
@@ -56,6 +58,7 @@
                                     <p>Time</p>
                                     <input name="AppointmentTime" asp-for="AppointmentTime" type="time" id="name"
                                         placeholder="Appointment Time" aria-required="true">
+                                        <span asp-validation-for="AppointmentTime" class="text-danger"></span>
                                 </td>
                             </tr>
 
@@ -64,8 +67,7 @@
                             <tr>
                                 <td colspan="2">
                                     <br>
-                                    <input type="submit" value="Submit" class="login-btn btn-primary btn"
-                                        name="shedulesubmit">
+                                    <button type="submit"  class="btn btn-primary btn">Submit</button>
                                 </td>
                             </tr>
                         </table>

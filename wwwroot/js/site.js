@@ -44,3 +44,11 @@ function togglePopup3() {
     }
 }
 
+function toggleAppointmentPopup(appointmentId) {
+    var popup = document.getElementById("myPopup3_" + appointmentId);
+    if (popup.style.display === "none") {
+        popup.style.display = "block";
+    } else {
+        popup.style.display = "none";
+    }
+}

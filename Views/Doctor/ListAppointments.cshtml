@@ -126,12 +126,12 @@
                                         <div style="display:flex;justify-content: center;">
 
                                             <a href = "#"
-                                                class="non-style-link"><button onclick="togglePopup3()"
+                                                class="non-style-link"><button onclick="toggleAppointmentPopup(appointmentId = '@appointment.Id')"
                                                     class="btn-primary-soft btn button-icon btn-delete"
                                                     style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                                     <font class="tn-in-text">Edit</font>
                                                 </button>
-                                                <div id="myPopup3" style="display: none;">
+                                                <div id="myPopup3_@appointment.Id" style="display: none;">
                                                     @await Html.PartialAsync("~/Views/Doctor/Partials/_EditAppointmentPartial.cshtml", @appointment)
                                                 </div>
                                             </a>
