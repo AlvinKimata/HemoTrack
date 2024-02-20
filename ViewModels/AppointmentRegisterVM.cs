@@ -10,7 +10,7 @@ namespace HemoTrack.ViewModels
     {
         public string Title {get; set;}
         public string Email {get; set;} //Get doctor's details with email
-        public DateTime AppointmentDate { get; set; }
+        public DateOnly AppointmentDate { get; set; }
         public List<Doctor> Doctors {get; set;}
         public TimeSpan AppointmentTime {get; set;}
         public Patient Patient {get; set;} //Associate a schedule with a doctor
