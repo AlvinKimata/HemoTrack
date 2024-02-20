@@ -1,6 +1,4 @@
-@using Microsoft.AspNetCore.Identity;
-@inject SignInManager<User> signInManager;
-@model IEnumerable<IdentityRole>
+@model RoleDashboardVM
 
 @{
     ViewData["Title"] = "All roles";
@@ -51,7 +49,7 @@
 
                 </a>
                 <div id="myPopup" style="display: none;">
-                    @await Html.PartialAsync("~/Views/Administrator/Partials/_AddRolePartial.cshtml", @Model)
+                    @await Html.PartialAsync("~/Views/Administrator/Partials/_AddRolePartial.cshtml", @Model.createRoleVM)
                 </div>
             </td>
 </div>
@@ -60,7 +58,7 @@
 <tr>
     <td colspan="4" style="padding-top:10px;">
         <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">All Roles
-            (@Model.Count())</p>
+            (@Model.Roles.Count())</p>
     </td>
 
 </tr>
@@ -95,7 +93,7 @@
                         </tr>
                     </thead>
                     @{
-                        var totalRoles = Model.ToList();
+                        var totalRoles = Model.RoleNames;
                     }
 
                     @if (totalRoles.Count() == 0)
