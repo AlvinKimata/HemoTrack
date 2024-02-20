@@ -17,7 +17,7 @@ namespace HemoTrack.ViewModels
         public string PhoneNumber {get; set;}
         public string Password {get; set;}
         public string Address {get; set;}
-        public DateOnly DateOfBirth {get; set;}
+        public string DateOfBirth {get; set;}
         public Doctor Doctor {get; set;}
         public List<Patient> Patients {get; set;}
         public List<Doctor> Doctors {get; set;}

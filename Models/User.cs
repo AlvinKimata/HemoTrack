@@ -13,6 +13,6 @@ namespace HemoTrack.Models
         public string Password {get; set;}
         public string Nic {get; set;}
         public string? Address {get; set;}
-        public DateOnly DateOfBirth {get; set;}
+        public string? DateOfBirth {get; set;}
     }
 }

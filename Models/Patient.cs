@@ -6,7 +6,7 @@ namespace HemoTrack.Models
 {
     public class Patient : User
     {
-        public DateOnly DateOfBirth {get; set;}
+        public DateTime? DateOfBirth {get; set;}
         public string Address { get; set; }
     }
 }
