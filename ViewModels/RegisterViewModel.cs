@@ -41,7 +41,7 @@ namespace HemoTrack.ViewModels
 
         [Required]
         [Display(Name = "Date of Birth")]
-        public DateTime DateOfBirth {get; set;}
+        public DateOnly DateOfBirth {get; set;}
 
         [Required]
         [Display(Name = "Phone Number")]
