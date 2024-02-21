@@ -59,7 +59,7 @@ public class BlogController : Controller
         }
 
         await _blogsService.RemoveAsync(id);
-        return NoContent();
+        return RedirectToAction("Index", "Blog");
     }
 
 

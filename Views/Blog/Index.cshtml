@@ -50,6 +50,27 @@ else
                                                     <div class="col-6">
                                                         <ul class="post-share">
                                                             <li>
+                                                                <a asp-action="ViewContent" asp-controller="Blog" asp-route-id="@post.Id"
+                                                                    style="padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px;"
+                                                                    class="login-btn btn-primary btn">View</a>
+
+                                                                @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                                                                {
+                                                                    <a asp-action="EditPost" asp-controller="Blog" asp-route-id="@post.Id"
+                                                                        style="padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px;"
+                                                                        class="login-btn btn-primary btn">Edit</a>
+
+                                                                    <form asp-action="Delete" asp-route-id="@post.Id" method="post"
+                                                                        style="display: inline-block; margin-left: 10px;">
+                                                                        <button style="padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px;"
+                                                                                class="login-btn btn-danger btn">Delete</button>
+                                                                    </form>
+                                                                }
+                                                            </li>
+                                                        </ul>
+
+                                                        @* <ul class="post-share">
+                                                            <li>
                                                                 <a asp-action = "ViewContent" asp-controller = "Blog" asp-route-id = "@post.Id"
                                                                     style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;"
                                                                     class="login-btn btn-primary btn">View</a>
@@ -70,7 +91,7 @@ else
                                                                 }
                                                             </li>
 
-                                                        </ul>
+                                                        </ul> *@
                                                     </div>
                                                 </div>
                                             </div>
