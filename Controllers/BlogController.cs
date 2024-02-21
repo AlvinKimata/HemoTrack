@@ -1,6 +1,7 @@
 using HemoTrack.Models;
 using HemoTrack.Services;
 using Microsoft.AspNetCore.Mvc;
+using HemoTrack.ViewModels;
 
 namespace HemoTrack.Controllers;
 
@@ -55,6 +56,7 @@ public class BlogController : Controller
         return NoContent();
     }
 
+    [HttpPost]
     public async Task<IActionResult> Delete(string id)
     {
         var blog = await _blogsService.GetAsync(id);
@@ -68,6 +70,7 @@ public class BlogController : Controller
         return NoContent();
     }
 
+
     [HttpGet]
     public async Task<IActionResult> Index()
     {
@@ -80,6 +83,23 @@ public class BlogController : Controller
     {
         var blog = await Get(id);
         return View(blog);
+    }
+
+    [HttpGet]
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create(Blog newBlog)
+    {
+        if (ModelState.IsValid)
+        {
+            await _blogsService.CreateAsync(newBlog);
+            return RedirectToAction(nameof(Index));
+        }
+        return View(newBlog);
     }
 
 
