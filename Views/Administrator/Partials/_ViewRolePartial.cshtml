@@ -1,45 +1,63 @@
-@using Microsoft.AspNetCore.Identity;
+@using Microsoft.AspNetCore.Identity
 @model IdentityRole
 
 @{
     Layout = null;
 }
 
-
 <div id="myPopup1_@Model.Id" class="overlay">
     <div class="popup">
         <center>
             <a class="close" href="#" onclick="toggleViewRolePopup('@Model.Id')">&times;</a>
-                <div class="content">
+            <div class="content">
                 eDoc Web App<br>
-                </div>
-                <div style="display: flex;justify-content: center;">
-                    <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
-                        <tr>
-                            <td>
-                                <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">View
-                                    role</p><br>
-                            </td>
-                        </tr>
+            </div>
+            <div style="display: flex;justify-content: center;">
+                <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+                    <tr>
+                        <td>
+                            <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">View
+                                role</p><br>
+                        </td>
+                    </tr>
 
-                        <!--Create a VM that fetches users in this role (maybe using ajax) -->
+                    <h3>@Model.Name</h3>
 
-                        <h3>@Model.Name</h3>
+                    <div id="usersList"></div> <!-- Container to populate users list -->
 
-                        @* @if (Model.UsersInRole.Any())
-                        {
-                            foreach (var user in Model.UsersInRole)
-                            {
-                                var fullName = user.FirstName + " " + user.LastName;
-                                <h4 class="form-label">@fullName</h4>
-                            }
-                        } 
-                        else
-                        {
-                            <h4 class="card-title">No users in this role at the moment.</h4>
-                        } *@
-                    </table>
-                </div>
+                </table>
+            </div>
         </center>
     </div>
 </div>
+
+<script>
+    // AJAX call to fetch users in the role
+    $(document).ready(function () {
+        var roleId = '@Model.Id';
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("ListUsersInRole", "Administration")' + '/' + roleId,
+            dataType: 'json',
+            success: function (data) {
+                var usersList = $('#usersList');
+                if (data.length > 0) {
+                    var userListHtml = '<ul>';
+                    data.forEach(function (user) {
+                        userListHtml += '<li>' + user.firstName + ' ' + user.lastName + '</li>'; // Adjust this based on your User model properties
+                    });
+                    userListHtml += '</ul>';
+                    usersList.html(userListHtml);
+                } else {
+                    usersList.html('<p>No users in this role at the moment.</p>');
+                }
+            },
+            error: function () {
+                console.log('Error fetching users.');
+            }
+        });
+    });
+</script>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

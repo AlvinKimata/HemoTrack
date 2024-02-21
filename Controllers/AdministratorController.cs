@@ -166,15 +166,15 @@ namespace HemoTrack.Controllers
 
 
         [HttpGet]
-        public async Task<List<User>> ListUsersInRole(string id)
+        public List<User> ListUsersInRole(string id)
         {
             // Find the role by Role ID
-            var role = await _roleManager.FindByIdAsync(id);
+            var role =  Task.Run(async () => await _roleManager.FindByIdAsync(id)).GetAwaiter().GetResult();
 
-            if (role == null)
-            {
-                return ViewBag.ErrorMessage = $"Role with Id = {id} cannot be found";
-            }
+            // if (role == null)
+            // {
+            //     return NotFound($"Role with Id = {id} cannot be found");
+            // }
 
             List<User> UsersInRole = new List<User>();
 
@@ -183,7 +183,9 @@ namespace HemoTrack.Controllers
             {
                 // For each user, the IsInRoleAsync method of the user manager is used to check if the user is in the role.
                 // If the user is in the role, they are added to the UsersInRole list.
-                if ( await _userManager.IsInRoleAsync(user, role.Name))
+                var isInRole = Task.Run(async () => await _userManager.IsInRoleAsync(user, role.Name)).GetAwaiter().GetResult();
+
+                if (isInRole)
                 {
                     UsersInRole.Add(user);
                 }
