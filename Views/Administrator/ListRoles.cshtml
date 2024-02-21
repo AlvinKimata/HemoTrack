@@ -1,6 +1,5 @@
 @using Microsoft.AspNetCore.Identity;
 @inject SignInManager<User> signInManager;
-@* @model IEnumerable<IdentityRole> *@
 @model RoleDashboardVM;
 
 @{
@@ -52,7 +51,7 @@
 
                 </a>
                 <div id="myPopup" style="display: none;">
-                    @* @await Html.PartialAsync("~/Views/Administrator/Partials/_AddRolePartial.cshtml", @Model) *@
+                    @await Html.PartialAsync("~/Views/Administrator/Partials/_AddRolePartial.cshtml", @Model.createRoleVM)
                 </div>
             </td>
 </div>

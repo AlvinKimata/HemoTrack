@@ -17,10 +17,13 @@ namespace HemoTrack.ViewModels
 
         public CreateRoleVM createRoleVM {get; set;}
 
+        public ViewRoleVM viewRoleVM {get; set;}
+
         public RoleDashboardVM()
         {
             RoleNames = new List<IdentityRole>();
             createRoleVM = new CreateRoleVM();
+            viewRoleVM = new ViewRoleVM(); 
         }
     }
 }
