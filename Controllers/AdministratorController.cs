@@ -156,7 +156,12 @@ namespace HemoTrack.Controllers
         public IActionResult ListRoles()
         {
             var roles = _roleManager.Roles;
-            return View(roles);
+            RoleDashboardVM roleDashboardVM = new RoleDashboardVM
+            {
+                RoleNames = roles.ToList()
+            };
+
+            return View(roleDashboardVM);
         }
         // Role ID is passed from the URL to the action
         [HttpGet]
