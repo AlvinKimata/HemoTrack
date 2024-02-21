@@ -24,14 +24,6 @@ public class BlogController : Controller
         return blog;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Post(Blog newBlog)
-    {
-        await _blogsService.CreateAsync(newBlog);
-
-        return CreatedAtAction(nameof(Get), new {id = newBlog.Id}, newBlog);
-    }
-
     [HttpGet]
     public async Task<IActionResult> EditPost(string id)
     {
@@ -100,6 +92,14 @@ public class BlogController : Controller
             return RedirectToAction(nameof(Index));
         }
         return View(newBlog);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Post(Blog newBlog)
+    {
+        await _blogsService.CreateAsync(newBlog);
+
+        return CreatedAtAction(nameof(Get), new {id = newBlog.Id}, newBlog);
     }
 
 
