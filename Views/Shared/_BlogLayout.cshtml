@@ -85,7 +85,7 @@
                         @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Blog" asp-action="CreatePost">Add blog post</a>
+                                <a class="nav-link" asp-controller="Blog" asp-action="Create">Add blog post</a>
                             </li>
                         }
                     </ul>
@@ -128,7 +128,7 @@
         </div>
     </footer>
 
-    @await RenderSectionAsync("Scripts", required: true)
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 
 </html>
