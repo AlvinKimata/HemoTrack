@@ -28,6 +28,18 @@ builder.Services.AddIdentity<User, IdentityRole>(options => options.SignIn.Requi
     .AddRoleManager<RoleManager<IdentityRole>>()
     .AddSignInManager<SignInManager<User>>();
 
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequiredLength = 8;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Lockout.MaxFailedAccessAttempts = 5;
+    options.Lockout.AllowedForNewUsers = true;
+});
+
 builder.Services.AddRazorPages();
 var app = builder.Build();
 
