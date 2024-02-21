@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using HemoTrack.Models;
+using HemoTrack.Data;
 using System.ComponentModel.DataAnnotations;
 
 namespace HemoTrack.ViewModels
@@ -7,7 +9,7 @@ namespace HemoTrack.ViewModels
     {
         public ViewRoleVM()
         {
-            Users = new List<string>();
+            Users = new List<User>();
         }
 
         public string Id { get; set; }
@@ -15,6 +17,6 @@ namespace HemoTrack.ViewModels
         [Required(ErrorMessage = "Role Name is required")]
         public string RoleName { get; set; }
 
-        public List<string> Users { get; set; }
+        public List<User> Users { get; set; }
     }
 }

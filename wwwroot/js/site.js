@@ -52,3 +52,14 @@ function toggleAppointmentPopup(appointmentId) {
         popup.style.display = "none";
     }
 }
+
+
+function toggleViewRolePopup(roleId)
+{
+    var popup = document.getElementById("myPopup1_" + roleId);
+    if (popup.style.display === "none") {
+        popup.style.display = "block";
+    } else {
+        popup.style.display = "none";
+    }
+}
