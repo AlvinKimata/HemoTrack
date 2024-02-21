@@ -88,6 +88,7 @@ public class BlogController : Controller
     {
         if (ModelState.IsValid)
         {
+            newBlog.CreateTime = DateTime.Now;
             await _blogsService.CreateAsync(newBlog);
             return RedirectToAction(nameof(Index));
         }
