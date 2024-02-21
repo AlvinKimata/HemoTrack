@@ -281,10 +281,14 @@ namespace HemoTrack.Controllers
 
                 var result =  await _userManager.CreateAsync(doctorRegisterVM, model.Password);
 
-                if (result.Succeeded)
+                //Add the doctor role to a doctor once registered.
+                var roleResult = await _userManager.AddToRoleAsync(doctorRegisterVM, "Doctor");
+
+                if (result.Succeeded && roleResult.Succeeded)
                 {
                     return RedirectToAction("Doctors");
                 }
+
 
                 foreach(var error in result.Errors)
                 {
