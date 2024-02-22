@@ -1,10 +1,10 @@
 @model Doctor
 
-<div id="popup1" class="overlay">
+<div id="myPopup1_@Model.Id" class="overlay">
     <div class="popup">
         <center>
             <h2></h2>
-            <a class="close" href="#" onclick="togglePopup2()">&times;</a>
+            <a class="close" href="#" onclick="toggleViewPopup(Id = '@Model.Id')">&times;</a>
             <div class="content">
                 eDoc Web App<br>
 
@@ -28,7 +28,7 @@
                     <tr>
                         <td class="label-td" colspan="2">
                             @{var fullName = Model.FirstName + " " + Model.LastName;}
-                            
+
                             @fullName<br><br>
                         </td>
 

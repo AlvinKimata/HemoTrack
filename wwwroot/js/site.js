@@ -63,3 +63,32 @@ function toggleViewRolePopup(roleId)
         popup.style.display = "none";
     }
 }
+function toggleViewPopup(Id) {
+    var popup3 = document.getElementById("myPopup1_" + Id);
+    
+    if (popup3.style.display === "none") {
+        popup3.style.display = "block";
+    } else {
+        popup3.style.display = "none";
+    }
+}
+
+function toggleEditPopup(Id) {
+    var popup3 = document.getElementById("myPopup2_" + Id);
+    
+    if (popup3.style.display === "none") {
+        popup3.style.display = "block";
+    } else {
+        popup3.style.display = "none";
+    }
+}
+
+function toggleDeletePopup(Id) {
+    var popup3 = document.getElementById("myPopup3_" + Id);
+    
+    if (popup3.style.display === "none") {
+        popup3.style.display = "block";
+    } else {
+        popup3.style.display = "none";
+    }
+}
