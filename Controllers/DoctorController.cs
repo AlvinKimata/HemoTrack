@@ -99,7 +99,11 @@ namespace HemoTrack.Controllers
                 Doctors = doctors // Initialize the Doctors property with the retrieved doctors
             };
 
-            doctorDashboardVM.Appointments = await GetAppointmentsAsync();
+            var patientsWithAppointment = await _context.Appointment
+                                                        .Where(appointment => appointment.Doctor.Id == doctor.Id)
+                                                        .Distinct()
+                                                        .ToListAsync();
+            doctorDashboardVM.Appointments = patientsWithAppointment;
 
             return View(doctorDashboardVM);
         }
