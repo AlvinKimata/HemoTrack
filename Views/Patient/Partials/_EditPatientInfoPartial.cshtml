@@ -3,11 +3,11 @@
     ViewData["Title"] = "Edit doctor's details";
     Layout = null;
 }
-<div id="myPopup2_@Model.Id" class="overlay">
+<div id="myPopup" class="overlay">
 
     <div class="popup">
         <center>
-            <a class="close" href="#" onclick="toggleEditPopup(Id = '@Model.Id')">&times;</a>
+            <a class="close" href="#" onclick="togglePopup()">&times;</a>
             <div style="display: flex;justify-content: center;">
                 <div class="abc">
                     <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
