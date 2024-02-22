@@ -45,7 +45,7 @@
                         </tr>
                         <tr>
                             <td style="width: 25%;">
-                                <a href="#" class="non-style-link">
+                                <a href="#" class="non-style-link" onclick="toggleEditPopup(Id = '@Model.Doctor.Id')">
                                     <div class="dashboard-items setting-tabs"
                                         style="padding:20px;margin:auto;width:95%;display: flex">
                                         <div class="btn-icon-back dashboard-icons-setting"
@@ -59,7 +59,7 @@
                                                 style="font-size: 15px;">
                                                 Edit your Account Details & Change Password
                                             </div>
-                                            <div id="myPopup" style="display: none;">
+                                            <div id="myPopup2_@Model.Doctor.Id" style="display: none;">
                                                 @await Html.PartialAsync("~/Views/Doctor/Partials/_EditDoctorInfo.cshtml", @Model.Doctor)
                                             </div>
                                         </div>
