@@ -1,0 +1,80 @@
+@model Patient
+
+<div id="myPopup1_@Model.Id" class="overlay">
+    <div class="popup">
+        <center>
+            <h2></h2>
+            <a class="close" href="#" onclick="toggleViewPopup(Id = '@Model.Id')">&times;</a>
+            <div class="content">
+                eDoc Web App<br>
+
+            </div>
+            <div style="display: flex;justify-content: center;">
+                <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+
+                    <tr>
+                        <td>
+                            <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">View
+                                Details.</p><br><br>
+                        </td>
+                    </tr>
+
+                    <tr>
+
+                        <td class="label-td" colspan="2">
+                            <label asp-for="FirstName" class="form-label">Name: </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            @{var fullName = Model.FirstName + " " + Model.LastName;}
+
+                            @fullName<br><br>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <label asp-for="Email" class="form-label">Email: </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            @Model.Email<br><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <label asp-for="Nic" class="form-label">NIC: </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            @Model.Nic<br><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <label asp-for="PhoneNumber" class="form-label">Telephone: </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            @Model.PhoneNumber<br><br>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2">
+                            <a href="#"><input type="button" value="OK"
+                                    class="login-btn btn-primary-soft btn"></a>
+
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </center>
+        <br><br>
+    </div>
+</div>

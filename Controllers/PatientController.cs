@@ -219,7 +219,7 @@ namespace HemoTrack.Controllers
             var patient = await _userManager.FindByNameAsync(currentUserName);
 
             var patientDashboardVM = new PatientDashboardVM();
-            patientDashboardVM.Doctor = await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.Email == patient.Email);
+            patientDashboardVM.Patient = await _context.User.OfType<Patient>().FirstOrDefaultAsync(m => m.Email == patient.Email);
         
 
             return View(patientDashboardVM);

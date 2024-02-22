@@ -15,6 +15,8 @@ namespace HemoTrack.ViewModels
         public string FirstName {get; set;}
         public string UserName {get; set;}
         public Doctor Doctor {get; set;}
+
+        public Patient Patient {get; set;}
         public List<Doctor> Doctors { get; set; }
         public List<Patient> Patients {get; set;}
         public List<Appointment> Appointments { get; set; }    
