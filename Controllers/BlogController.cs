@@ -45,7 +45,7 @@ public class BlogController : Controller
 
         await _blogsService.UpdateAsync(id, updatedBlog);
 
-        return NoContent();
+        return RedirectToAction("Index", "Blog");
     }
 
     [HttpPost]
