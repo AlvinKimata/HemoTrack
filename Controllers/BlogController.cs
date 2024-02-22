@@ -42,6 +42,7 @@ public class BlogController : Controller
             return NotFound();
         }
         updatedBlog.Id = blog.Id;
+        updatedBlog.CreateTime = DateTime.Now;
 
         await _blogsService.UpdateAsync(id, updatedBlog);
 
