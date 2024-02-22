@@ -1,25 +1,37 @@
 @model Doctor
+@{
+    ViewData["Title"] = "Delete doctor's account";
+    Layout = null;
 
-<div id="popup1" class="overlay">
+    var doctor = Model;
+}
+
+<div id="myPopup3_@Model.Id" class="overlay">
     <div class="popup">
         <center>
             <h2>Are you sure?</h2>
-            <a class="close" href="#" onclick="togglePopup3()">&times;</a>
+            <a class="close" href="#" onclick="toggleDeletePopup(Id = '@Model.Id')">&times;</a>
             <div class="content">
                 You want to delete this record?<br>
 
             </div>
-            <div style="display: flex;justify-content: center;">
-                <a href="" class="non-style-link"><button class="btn-primary btn"
-                        style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"
-                        <font class="tn-in-text">&nbsp;Yes&nbsp;</font></button></a>&nbsp;&nbsp;&nbsp;
-                        
-                <a href="" class="non-style-link"><button class="btn-primary btn"
-                        style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;">
-                        <font class="tn-in-text">&nbsp;&nbsp;No&nbsp;&nbsp;</font>
-                    </button></a>
+            <form method="post" class="add-new-form" id="registerForm">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" name="Id" value="@Model.Id">
+                <input type="hidden" name="FirstName" value="@Model.FirstName">
+                <input type="hidden" name="LastName" value="@Model.LastName">
+                <input type="hidden" name="Email" value="@Model.Email">
+                <input type="hidden" name="Nic" value="@Model.Nic">
+                <input type="hidden" name="PhoneNumber" value="@Model.PhoneNumber">
+                <input type="hidden" name="Speciality" value="@Model.Speciality">
+                <input type="hidden" name="Password" value="@Model.Password">
+                <input type="submit" value="Delete" class="login-btn btn-primary btn">
 
-            </div>
-        </center>
+
+            </form>
+
     </div>
+    </center>
+</div>
 </div>

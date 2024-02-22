@@ -343,8 +343,7 @@ namespace HemoTrack.Controllers
                 {
                     // Handle doctor deletion logic here
                     // Example:
-                    var doctorToDelete = await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.Id == model.Id);
-                    // var doctorToDelete = await _userManager.FindByIdAsync(model.Id);
+                    var doctorToDelete = await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.Email == model.Email);
                     if (doctorToDelete != null)
                     {
                         _context.Doctor.Remove(doctorToDelete);
