@@ -27,7 +27,9 @@
                     </tr>
                     <tr>
                         <td class="label-td" colspan="2">
-                            @Model.FirstName<br><br>
+                            @{var fullName = Model.FirstName + " " + Model.LastName;}
+                            
+                            @fullName<br><br>
                         </td>
 
                     </tr>
