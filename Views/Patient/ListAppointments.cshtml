@@ -63,30 +63,7 @@
                 <center>
                     <table class="filter-container" border="0">
                         <tr>
-                            @* Filter form WIP *@
-                            @* <form action="" method="post">
-                                <div asp-validation-summary="All" class="text-danger"></div>
-                                <td width="5%" style="text-align: center;">
-                                    Doctor:
-                                </td>
-                                <td width="30%">
-                                    <select name="docid" id="docid" class="box filter-container-items"
-                                        style="width:90%; height: 37px; margin: 0;">
-                                        <option value="" disabled selected hidden>Choose Doctor Name from the list
-                                        </option>
-                                        @foreach (var doctor in Model.Doctors)
-                                        {
-                                            var dotctorName = doctor.FirstName + " "  + doctor.LastName;
-                                            <option value="@doctor.Id">@dotctorName</option>
-                                        }
-                                    </select>
-                                </td>
-                                <td width="12%">
-                                    <input type="submit" name="filter" value="Filter"
-                                        class="btn-primary-soft btn button-icon btn-filter"
-                                        style="padding: 15px; margin: 0; width:100%">
-                                </td>
-                            </form> *@
+
                         </tr>
                     </table>
 

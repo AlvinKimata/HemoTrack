@@ -53,7 +53,10 @@ namespace HemoTrack.Controllers
             
             var doctors = await GetAllDoctorsAsync();
             var patients = await GetAllPatientsAsync();
-            var appointments = await GetAppointmentsAsync();
+            var patientsWithAppointment = await _context.Appointment
+                                                        .Where(appointment => appointment.Doctor.Id == doctor.Id)
+                                                        .Distinct()
+                                                        .ToListAsync();
 
             if (doctor != null)
             {
@@ -63,7 +66,7 @@ namespace HemoTrack.Controllers
                     Email = doctor.Email,
                     Doctors = doctors,
                     Patients = patients,
-                    Appointments = appointments
+                    Appointments = patientsWithAppointment
                 };
                 return View(doctorDashboardVM);
             }
