@@ -219,10 +219,10 @@ namespace HemoTrack.Controllers
             var patient = await _userManager.FindByNameAsync(currentUserName);
 
             var patientDashboardVM = new PatientDashboardVM();
-            doctorDashboardVM.Doctor = await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.Email == doctor.Email);
+            patientDashboardVM.Doctor = await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.Email == patient.Email);
         
 
-            return View(doctorDashboardVM);
+            return View(patientDashboardVM);
         }
         
         [HttpPost]
@@ -234,17 +234,16 @@ namespace HemoTrack.Controllers
                 {
                     //Modify doctor's details.
                     string currentUserName = User.Identity.Name;
-                    var doctor = await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.Email == model.Email);
-                    if (doctor != null)
+                    var patient = await _context.User.OfType<Patient>().FirstOrDefaultAsync(m => m.Email == model.Email);
+                    if (patient != null)
                     {
-                        doctor.FirstName = model.FirstName;
-                        doctor.LastName = model.LastName;
-                        doctor.Email = model.Email;
-                        doctor.Nic = model.Nic;
-                        doctor.PhoneNumber = model.PhoneNumber;
-                        doctor.Speciality = model.Speciality;
+                        patient.FirstName = model.FirstName;
+                        patient.LastName = model.LastName;
+                        patient.Email = model.Email;
+                        patient.Nic = model.Nic;
+                        patient.PhoneNumber = model.PhoneNumber;
 
-                        _context.Update(doctor);
+                        _context.Update(patient);
                         await _context.SaveChangesAsync();
                         return RedirectToAction("Index");
                     }
