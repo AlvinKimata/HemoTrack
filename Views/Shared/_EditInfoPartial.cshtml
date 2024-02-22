@@ -3,11 +3,11 @@
     ViewData["Title"] = "Edit doctor's details";
     Layout = null;
 }
-<div id="popup1" class="overlay">
+<div id="myPopup2_@Model.Id" class="overlay">
 
     <div class="popup">
         <center>
-            <a class="close" href="#" onclick = "togglePopup1()">&times;</a>
+            <a class="close" href="#" onclick="toggleEditPopup(Id = '@Model.Id')">&times;</a>
             <div style="display: flex;justify-content: center;">
                 <div class="abc">
                     <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
@@ -30,7 +30,7 @@
 
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="text" name="FirstName" class="input-text" placeholder="First Name"
+                                    <input type="text" name="FirstName" asp-for="FirstName" type="text" placeholder="FirstName" class="input-text" placeholder="First Name"
                                         aria-required="true"><br>
                                     <span asp-validation-for="FirstName" class="text-danger"></span>
                                 </td>
