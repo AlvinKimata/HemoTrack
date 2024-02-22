@@ -52,3 +52,43 @@ function toggleAppointmentPopup(appointmentId) {
         popup.style.display = "none";
     }
 }
+
+
+function toggleViewRolePopup(roleId)
+{
+    var popup = document.getElementById("myPopup1_" + roleId);
+    if (popup.style.display === "none") {
+        popup.style.display = "block";
+    } else {
+        popup.style.display = "none";
+    }
+}
+function toggleViewPopup(Id) {
+    var popup3 = document.getElementById("myPopup1_" + Id);
+    
+    if (popup3.style.display === "none") {
+        popup3.style.display = "block";
+    } else {
+        popup3.style.display = "none";
+    }
+}
+
+function toggleEditPopup(Id) {
+    var popup3 = document.getElementById("myPopup2_" + Id);
+    
+    if (popup3.style.display === "none") {
+        popup3.style.display = "block";
+    } else {
+        popup3.style.display = "none";
+    }
+}
+
+function toggleDeletePopup(Id) {
+    var popup3 = document.getElementById("myPopup3_" + Id);
+    
+    if (popup3.style.display === "none") {
+        popup3.style.display = "block";
+    } else {
+        popup3.style.display = "none";
+    }
+}

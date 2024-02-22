@@ -1,6 +1,6 @@
 @using Microsoft.AspNetCore.Identity;
 @inject SignInManager<User> signInManager;
-@model IEnumerable<IdentityRole>
+@model RoleDashboardVM;
 
 @{
     ViewData["Title"] = "All roles";
@@ -51,7 +51,7 @@
 
                 </a>
                 <div id="myPopup" style="display: none;">
-                    @await Html.PartialAsync("~/Views/Administrator/Partials/_AddRolePartial.cshtml", @Model)
+                    @await Html.PartialAsync("~/Views/Administrator/Partials/_AddRolePartial.cshtml", @Model.createRoleVM)
                 </div>
             </td>
 </div>
@@ -60,7 +60,7 @@
 <tr>
     <td colspan="4" style="padding-top:10px;">
         <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">All Roles
-            (@Model.Count())</p>
+            (@Model.RoleNames.Count())</p>
     </td>
 
 </tr>
@@ -95,7 +95,7 @@
                         </tr>
                     </thead>
                     @{
-                        var totalRoles = Model.ToList();
+                        var totalRoles = Model.RoleNames.ToList();
                     }
 
                     @if (totalRoles.Count() == 0)
@@ -136,16 +136,15 @@
                             <td>
                                 <div style="display:flex;justify-content: center;">
                                     <a href="#" class="non-style-link">
-                                        <button onclick="togglePopup2()" class="btn-primary-soft btn button-icon btn-view"
+                                        <button onclick="toggleViewRolePopup(roleId = '@role.Id')" class="btn-primary-soft btn button-icon btn-view"
                                             style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                             <font class="tn-in-text">View</font>
                                         </button>
 
-                                        <div id="myPopup2" style="display: none;">
-                                            @* @await Html.PartialAsync("_ViewInfoPartial", @role) *@
+                                        <div id="myPopup1_@role.Id" style="display: none;">
+                                            @await Html.PartialAsync("~/Views/Administrator/Partials/_ViewRolePartial.cshtml", @role)
                                         </div>
                                     </a>
-
 
                                     &nbsp;&nbsp;
                                     <a href="#" class="non-style-link">
@@ -186,4 +185,5 @@
 
 @section Scripts {
     <script src="~/js/CustomScript.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 }

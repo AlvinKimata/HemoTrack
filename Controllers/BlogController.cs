@@ -1,6 +1,7 @@
 using HemoTrack.Models;
 using HemoTrack.Services;
 using Microsoft.AspNetCore.Mvc;
+using HemoTrack.ViewModels;
 
 namespace HemoTrack.Controllers;
 
@@ -23,14 +24,6 @@ public class BlogController : Controller
         return blog;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Post(Blog newBlog)
-    {
-        await _blogsService.CreateAsync(newBlog);
-
-        return CreatedAtAction(nameof(Get), new {id = newBlog.Id}, newBlog);
-    }
-
     [HttpGet]
     public async Task<IActionResult> EditPost(string id)
     {
@@ -49,12 +42,14 @@ public class BlogController : Controller
             return NotFound();
         }
         updatedBlog.Id = blog.Id;
+        updatedBlog.CreateTime = DateTime.Now;
 
         await _blogsService.UpdateAsync(id, updatedBlog);
 
-        return NoContent();
+        return RedirectToAction("Index", "Blog");
     }
 
+    [HttpPost]
     public async Task<IActionResult> Delete(string id)
     {
         var blog = await _blogsService.GetAsync(id);
@@ -65,8 +60,9 @@ public class BlogController : Controller
         }
 
         await _blogsService.RemoveAsync(id);
-        return NoContent();
+        return RedirectToAction("Index", "Blog");
     }
+
 
     [HttpGet]
     public async Task<IActionResult> Index()
@@ -80,6 +76,32 @@ public class BlogController : Controller
     {
         var blog = await Get(id);
         return View(blog);
+    }
+
+    [HttpGet]
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create(Blog newBlog)
+    {
+        if (ModelState.IsValid)
+        {
+            newBlog.CreateTime = DateTime.Now;
+            await _blogsService.CreateAsync(newBlog);
+            return RedirectToAction(nameof(Index));
+        }
+        return View(newBlog);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Post(Blog newBlog)
+    {
+        await _blogsService.CreateAsync(newBlog);
+
+        return CreatedAtAction(nameof(Get), new {id = newBlog.Id}, newBlog);
     }
 
 

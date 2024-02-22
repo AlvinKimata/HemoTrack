@@ -80,7 +80,10 @@ namespace HemoTrack.Controllers
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
 
-                if (result.Succeeded)
+                //Add the patient role to a patient once registered.
+                var roleResult = await _userManager.AddToRoleAsync(user, "Patient");
+
+                if (result.Succeeded && roleResult.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Patient");

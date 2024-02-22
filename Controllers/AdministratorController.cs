@@ -42,7 +42,9 @@ namespace HemoTrack.Controllers
             string currentUserName = User.Identity.Name;
             var patients = await _context.User.OfType<Patient>().ToListAsync();
             var doctors = await _context.Doctor.ToListAsync();
-            var appointments = await _context.Appointment.ToListAsync();
+            var appointments = await _context.Appointment.Include(m => m.Doctor)
+                                                         .Include(m => m.Patient)
+                                                         .ToListAsync();
 
             var currentUser = _context.User.OfType<Patient>().FirstOrDefault(u => u.UserName == currentUserName);
             if (currentUser != null)
@@ -156,8 +158,46 @@ namespace HemoTrack.Controllers
         public IActionResult ListRoles()
         {
             var roles = _roleManager.Roles;
-            return View(roles);
+            RoleDashboardVM roleDashboardVM = new RoleDashboardVM
+            {
+                RoleNames = roles.ToList()
+            };
+
+            return View(roleDashboardVM);
         }
+
+
+        [HttpGet]
+        public List<User> ListUsersInRole(string id)
+        {
+            // Find the role by Role ID
+            var role =  Task.Run(async () => await _roleManager.FindByIdAsync(id)).GetAwaiter().GetResult();
+
+            // if (role == null)
+            // {
+            //     return NotFound($"Role with Id = {id} cannot be found");
+            // }
+
+            List<User> UsersInRole = new List<User>();
+
+            // Retrieve all the Users
+            foreach (var user in _userManager.Users)
+            {
+                // For each user, the IsInRoleAsync method of the user manager is used to check if the user is in the role.
+                // If the user is in the role, they are added to the UsersInRole list.
+                var isInRole = Task.Run(async () => await _userManager.IsInRoleAsync(user, role.Name)).GetAwaiter().GetResult();
+
+                if (isInRole)
+                {
+                    UsersInRole.Add(user);
+                }
+            }
+
+            return UsersInRole;
+        }
+
+
+        
         // Role ID is passed from the URL to the action
         [HttpGet]
         public async Task<IActionResult> EditRole(string id)
@@ -257,46 +297,85 @@ namespace HemoTrack.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Doctors(DoctorRegisterVM model)
+        public async Task<IActionResult> Doctors(Doctor model, string action)
         {
             if (ModelState.IsValid)
             {
-                var existingDoctor = await _userManager.FindByEmailAsync(model.Email);
-                if (existingDoctor != null)
+                // Check the action parameter to determine the desired action
+                if (action == "register")
                 {
-                    ModelState.AddModelError("Doctor", "Doctor is already registered");
+                    var existingDoctor = await _userManager.FindByEmailAsync(model.Email);
+                    if (existingDoctor != null)
+                    {
+                        ModelState.AddModelError("Doctor", "Doctor is already registered");
+                        return View(model);
+                    }
+
+                    var doctor = new Doctor
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        Email = model.Email,
+                        Nic = model.Nic,
+                        PhoneNumber = model.PhoneNumber,
+                        Speciality = model.Speciality,
+                        Password = model.Password,
+                    };
+
+                    var result = await _userManager.CreateAsync(doctor, model.Password);
+
+                    //Add the doctor role to a doctor once registered.
+                    var roleResult = await _userManager.AddToRoleAsync(doctor, "Doctor");
+
+                    if (result.Succeeded && roleResult.Succeeded)
+                    {
+                        return RedirectToAction("Doctors");
+                    }
+
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+
                     return View(model);
                 }
-                //Register a new doctor
-                var doctorRegisterVM = new Doctor{
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    UserName = model.FirstName,
-                    Email = model.Email,
-                    Nic = model.Nic,
-                    PhoneNumber = model.PhoneNumber,
-                    Speciality = model.Speciality,
-                    Password = model.Password,
-                };
-
-                var result =  await _userManager.CreateAsync(doctorRegisterVM, model.Password);
-
-                if (result.Succeeded)
+                else if (action == "delete")
                 {
-                    return RedirectToAction("Doctors");
+                    // Handle doctor deletion logic here
+                    // Example:
+                    var doctorToDelete = await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.Email == model.Email);
+                    if (doctorToDelete != null)
+                    {
+                        _context.Doctor.Remove(doctorToDelete);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction("Doctors");
+                    }
                 }
-
-                foreach(var error in result.Errors)
+                else if (action == "modify")
                 {
-                    ModelState.AddModelError("", error.Description);
-                }
+                    // Handle doctor modification logic here
+                    // Example:
+                    var existingDoctor = await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.Email == model.Email);
+                    if (existingDoctor != null)
+                    {
+                        // Update doctor details based on the provided model
+                        existingDoctor.FirstName = model.FirstName;
+                        existingDoctor.LastName = model.LastName;
+                        existingDoctor.Email = model.Email;
+                        existingDoctor.Nic = model.Nic;
+                        existingDoctor.PhoneNumber = model.PhoneNumber;
+                        existingDoctor.Speciality = model.Speciality;
 
-                return RedirectToAction("Doctors");
+                        _context.Update(existingDoctor);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction("Doctors");
+                    }
+                }
             }
-
 
             return View(model);
         }
+
         [HttpGet]
         public async Task<IActionResult> EditUsersInRole(string roleId)
         {
@@ -379,24 +458,6 @@ namespace HemoTrack.Controllers
         {
             return View();
         }
-
-        // [HttpPost]
-        // public IActionResult EditDoctor()
-        // {
-        //     return View();
-        // }
-
-        [HttpGet]
-        public IActionResult DeleteDoctor()
-        {
-            return View();
-        }
-
-        // [HttpPost]
-        // public IActionResult DeleteDoctor()
-        // {
-        //     return View();
-        // }
 
     }
 }
