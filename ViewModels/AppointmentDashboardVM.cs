@@ -10,6 +10,8 @@ namespace HemoTrack.ViewModels
     {
         public string Id {get; set;}
         public List<Doctor> Doctors {get; set;}
+        public List<Patient> Patients {get; set;}
+        public List<Appointment> Appointments {get; set;}
 
         public Patient Patient {get; set;} //Associate a schedule with a doctor
 
