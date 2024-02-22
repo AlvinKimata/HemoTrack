@@ -15,25 +15,6 @@
             </td>
             <td>
 
-                @* <form method="post" class="header-search">
-
-                    <input type="search" name="search" class="input-text header-searchbar"
-                        placeholder="Search the Doctor using name" list="doctors">&nbsp;&nbsp;
-                    <!--Add .net code to list doctors and filter highlighted doctor-->
-                    <datalist id="doctors">
-                        @foreach(var doctor in Model.Doctors)
-                        {
-                            <option value='@doctor.FirstName'/>
-                        }
-                    <!--Still WIP! :(-->
-                    </datalist>
-
-
-                    <input type="Submit" value="Search" class="login-btn btn-primary btn"
-                        style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
-
-                </form> *@
-
             </td>
             <td width="15%">
                 <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;text-align: right;">
@@ -174,6 +155,7 @@
                                         </button>
                                         <div id="myPopup2_@doctor.Id" style="display: none;">
                                             @await Html.PartialAsync("_EditInfoPartial", @doctor)
+                                            @* @await Component.InvokeAsync("_EditInfoPartial") *@
                                         </div>
                                     </div>
                                     &nbsp;&nbsp;&nbsp;

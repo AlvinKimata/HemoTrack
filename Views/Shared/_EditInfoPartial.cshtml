@@ -1,4 +1,4 @@
-@model Doctor
+@model Doctor;
 @{
     ViewData["Title"] = "Edit doctor's details";
     Layout = null;
@@ -22,15 +22,16 @@
                         </tr>
                         <form method="post" class="add-new-form" id="registerForm">
                             <div asp-validation-summary="All" class="text-danger"></div>
+                            <input type="hidden" name="action" value="modify">
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label asp-for="FirstName" class="form-label">FirstName: </label>
+                                    <label asp-for="FirstName" class="form-label">First Name: </label>
                                 </td>
                             </tr>
 
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="text" name="FirstName" asp-for="FirstName" type="text" placeholder="FirstName" class="input-text" placeholder="First Name"
+                                    <input type="text" name="FirstName" asp-for="FirstName" type="text" placeholder="FirstName" class="input-text"
                                         aria-required="true"><br>
                                     <span asp-validation-for="FirstName" class="text-danger"></span>
                                 </td>
@@ -38,13 +39,13 @@
 
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label asp-for="LastName" class="form-label">Last Name: </label>
+                                    <label name="LastName" class="form-label">Last Name: </label>
                                 </td>
                             </tr>
 
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="text" name="LastName" class="input-text" placeholder="Last Name"
+                                    <input type="text" name="LastName" asp-for="LastName" class="input-text" placeholder="Last Name"
                                         aria-required="true"><br>
                                     <span asp-validation-for="LastName" class="text-danger"></span>
                                 </td>
@@ -52,37 +53,37 @@
 
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label asp-for="Email" class="form-label">Email: </label>
+                                    <label  class="form-label">Email: </label>
                                 </td>
                             </tr>
 
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="email" name="email" class="input-text" placeholder="Email Address"
+                                    <input type="email" name="email" class="input-text" asp-for="Email" placeholder="Email Address"
                                         aria-required="true"><br>
                                     <span asp-validation-for="Email" class="text-danger"></span>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label asp-for="Nic" class="form-label">NIC: </label>
+                                    <label class="form-label">NIC: </label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="text" name="Nic" class="input-text" placeholder="NIC Number"
+                                    <input type="text" name="Nic" class="input-text" asp-for="Nic"
                                         aria-required="true"><br>
                                     <span asp-validation-for="Nic" class="text-danger"></span>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label asp-for="PhoneNumber" class="form-label">Telephone: </label>
+                                    <label class="form-label">Telephone: </label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="tel" name="PhoneNumber" class="input-text"
+                                    <input type="tel" name="PhoneNumber" class="input-text" asp-for="PhoneNumber"
                                         placeholder="Telephone Number" aria-required="true"><br>
                                     <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                                 </td>
@@ -91,7 +92,7 @@
 
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label asp-for="Speciality" class="form-label">Choose specialties: </label>
+                                    <label class="form-label">Choose specialties: </label>
 
                                 </td>
                             </tr>
@@ -113,12 +114,12 @@
 
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="password" name="password" class="input-text"
+                                    <input type="password" name="password" asp-for="Password" class="input-text"
                                         placeholder="Defind a Password" aria-required="true"><br>
                                     <span asp-validation-for="Password" class="text-danger"></span>
                                 </td>
                             </tr>
-                            @* <tr>
+                            <tr>
                                 <td class="label-td" colspan="2">
                                     <label asp-for="Password" class="form-label">Confirm Password: </label>
                                 </td>
@@ -128,9 +129,9 @@
                                 <td class="label-td" colspan="2">
                                     <input type="password" name="ConfirmPassword" class="input-text"
                                         placeholder="Confirm Password" aria-required="true"><br>
-                                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                    <span asp-validation-for="Password" class="text-danger"></span>
                                 </td>
-                            </tr> *@
+                            </tr>
 
 
                             <tr>

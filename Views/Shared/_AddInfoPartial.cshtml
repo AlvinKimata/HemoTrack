@@ -23,6 +23,7 @@
                         </tr>
                         <form method="post" class="add-new-form" id="registerForm">
                             <div asp-validation-summary="All" class="text-danger"></div>
+                            <input type="hidden" name="action" value="register">
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <label asp-for="FirstName" class="form-label">FirstName: </label>
