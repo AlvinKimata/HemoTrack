@@ -1,0 +1,154 @@
+@model Doctor;
+@{
+    ViewData["Title"] = "Edit doctor's details";
+    Layout = null;
+}
+<div id="myPopup2_@Model.Id" class="overlay">
+
+    <div class="popup">
+        <center>
+            <a class="close" href="#" onclick="toggleEditPopup(Id = '@Model.Id')">&times;</a>
+            <div style="display: flex;justify-content: center;">
+                <div class="abc">
+                    <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+                        <tr>
+                            <td class="label-td" colspan="2">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Edit Doctor's details</p><br><br>
+                            </td>
+                        </tr>
+                        <form method="post" class="add-new-form" id="registerForm">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <input type="hidden" name="action" value="modify">
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label asp-for="FirstName" class="form-label">First Name: </label>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <input type="text" name="FirstName" asp-for="FirstName" type="text" placeholder="FirstName" class="input-text"
+                                        aria-required="true"><br>
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label name="LastName" class="form-label">Last Name: </label>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <input type="text" name="LastName" asp-for="LastName" class="input-text" placeholder="Last Name"
+                                        aria-required="true"><br>
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label  class="form-label">Email: </label>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <input type="email" name="email" class="input-text" asp-for="Email" placeholder="Email Address"
+                                        aria-required="true"><br>
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label class="form-label">NIC: </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <input type="text" name="Nic" class="input-text" asp-for="Nic"
+                                        aria-required="true"><br>
+                                    <span asp-validation-for="Nic" class="text-danger"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label class="form-label">Telephone: </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <input type="tel" name="PhoneNumber" class="input-text" asp-for="PhoneNumber"
+                                        placeholder="Telephone Number" aria-required="true"><br>
+                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label class="form-label">Choose specialties: </label>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <select asp-for="Speciality" asp-items="Html.GetEnumSelectList<Specialities>()"
+                                        name="Speciality" id="Speciality" class="box" aria-required="true">
+                                        <option value="">Select speciality</option>
+                                    </select>
+                                    <span asp-validation-for="Speciality" class="text-danger"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label asp-for="Password" class="form-label">Password: </label>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <input type="password" name="password" asp-for="Password" class="input-text"
+                                        placeholder="Defind a Password" aria-required="true"><br>
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label asp-for="Password" class="form-label">Confirm Password: </label>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <input type="password" name="ConfirmPassword" class="input-text"
+                                        placeholder="Confirm Password" aria-required="true"><br>
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td colspan="2">
+                                    <input type="reset" value="Reset"
+                                        class="login-btn btn-primary-soft btn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                    <input type="submit" value="Add" class="login-btn btn-primary btn">
+                                </td>
+
+                            </tr>
+                        </form>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </center>
+        <br><br>
+    </div>
+</div>

@@ -60,7 +60,7 @@
                                                 Edit your Account Details & Change Password
                                             </div>
                                             <div id="myPopup" style="display: none;">
-                                                @await Html.PartialAsync("_EditInfoPartial", @Model.Doctor)
+                                                @await Html.PartialAsync("~/Views/Doctor/Partials/_EditDoctorInfo.cshtml", @Model.Doctor)
                                             </div>
                                         </div>
 
@@ -75,7 +75,7 @@
                         </tr>
                         <tr>
                             <td style="width: 25%;">
-                                <a href="#" class="non-style-link">
+                                <a href="#" class="non-style-link" onclick="toggleViewPopup(Id = '@Model.Doctor.Id')">
                                     <div class="dashboard-items setting-tabs"
                                         style="padding:20px;margin:auto;width:95%;display: flex;">
                                         <div class="btn-icon-back dashboard-icons-setting "
@@ -88,8 +88,8 @@
                                             <div class="h3-dashboard" style="font-size: 15px;">
                                                 View Personal information About Your Account
                                             </div>
-                                            <div id="myPopup" style="display: none;">
-                                                @await Html.PartialAsync("_ViewInfoPartial", @Model.Doctor)
+                                            <div id="myPopup1_@Model.Doctor.Id" style="display: none;">
+                                                @await Html.PartialAsync("~/Views/Doctor/Partials/_ViewDoctorInfo.cshtml", @Model.Doctor)
                                             </div>
                                         </div>
 
