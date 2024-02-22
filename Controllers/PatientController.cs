@@ -171,47 +171,150 @@ namespace HemoTrack.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ListAppointments(AppointmentRegisterVM model)
+        public async Task<IActionResult> ListAppointments(AppointmentRegisterVM model, string action)
         {
             var currentUserName = await GetCurrentPatientAsync();
             var currentUser = _context.User.OfType<Patient>().FirstOrDefault(u => u.UserName == currentUserName.UserName);
             model.Doctors = await GetAllDoctorsAsync();
 
-            if (!ModelState.IsValid)
+            if (action == "create")
             {
-                var doctorName = model.Doctor; //Get the name of the doctor
-                var doctor = await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.FirstName == doctorName.FirstName);
+                if (!ModelState.IsValid)
+                {
+                    var doctorName = model.Doctor; // Get the name of the doctor
+                    var doctor = await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.FirstName == doctorName.FirstName);
 
-                var appointmentRegisterVM = new Appointment
-                {
-                    Title = model.Title,
-                    AppointmentDate = model.AppointmentDate,
-                    AppointmentTime = model.AppointmentTime,
-                    Patient = currentUser,
-                    Doctor = doctor,
-                };
+                    var appointmentRegisterVM = new Appointment
+                    {
+                        Title = model.Title,
+                        AppointmentDate = model.AppointmentDate,
+                        AppointmentTime = model.AppointmentTime,
+                        Patient = currentUser,
+                        Doctor = doctor,
+                    };
 
-                var result = _context.Appointment.Add(appointmentRegisterVM);
-
-                try
-                {
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction("Index");
-                }
-                catch (DbUpdateException ex)
-                {
-                    ModelState.AddModelError("", $"Unable to add appointment. Error details : {ex.Message}");
-                    throw;
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", $"Unexpected error occurred while adding appointment - Error details: {ex.Message}");
-                    return View(model);
+                    _context.Appointment.Add(appointmentRegisterVM);
+                    try
+                    {
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction("Index");
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        ModelState.AddModelError("", $"Unable to add appointment. Error details: {ex.Message}");
+                        throw;
+                    }
+                    catch (Exception ex)
+                    {
+                        ModelState.AddModelError("", $"Unexpected error occurred while adding appointment. Error details: {ex.Message}");
+                        return View(model);
+                    }
                 }
             }
+            else if (action == "edit")
+            {
+                // Get appointment by id.
+                var appointment = await _context.Appointment
+                    .Include(m => m.Doctor)
+                    .Include(m => m.Patient)
+                    .FirstOrDefaultAsync(m => m.Id == model.Id);
+
+                // Populate Appointment with new changes.
+                if (appointment != null)
+                {
+                    appointment.Title = model.Title;
+                    appointment.AppointmentDate = model.AppointmentDate;
+                    appointment.AppointmentTime = model.AppointmentTime;
+                    appointment.Patient = model.Patient;
+                }
+
+                // Save changes to the database
+                _context.Update(appointment);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("ListAppointments");
+            }
+            else if (action == "delete")
+            {
+                var appointmentToDelete = await _context.Appointment.FindAsync(model.Id);
+                if (appointmentToDelete != null)
+                {
+                    _context.Appointment.Remove(appointmentToDelete);
+                    await _context.SaveChangesAsync();
+                }
+                return RedirectToAction("ListAppointments");
+            }
+
             return View(model);
         }
 
+
+        // [HttpPost]
+        // public async Task<IActionResult> ListAppointments(AppointmentRegisterVM model, string action)
+        // {
+        //     var currentUserName = await GetCurrentPatientAsync();
+        //     var currentUser = _context.User.OfType<Patient>().FirstOrDefault(u => u.UserName == currentUserName.UserName);
+        //     model.Doctors = await GetAllDoctorsAsync();
+        //     if (action == "")
+        //     {
+        //         if (!ModelState.IsValid)
+        //         {
+        //             var doctorName = model.Doctor; //Get the name of the doctor
+        //             var doctor = await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.FirstName == doctorName.FirstName);
+
+        //             var appointmentRegisterVM = new Appointment
+        //             {
+        //                 Title = model.Title,
+        //                 AppointmentDate = model.AppointmentDate,
+        //                 AppointmentTime = model.AppointmentTime,
+        //                 Patient = currentUser,
+        //                 Doctor = doctor,
+        //             };
+
+        //             var result = _context.Appointment.Add(appointmentRegisterVM);
+
+        //             try
+        //             {
+        //                 await _context.SaveChangesAsync();
+        //                 return RedirectToAction("Index");
+        //             }
+        //             catch (DbUpdateException ex)
+        //             {
+        //                 ModelState.AddModelError("", $"Unable to add appointment. Error details : {ex.Message}");
+        //                 throw;
+        //             }
+        //             catch (Exception ex)
+        //             {
+        //                 ModelState.AddModelError("", $"Unexpected error occurred while adding appointment - Error details: {ex.Message}");
+        //                 return View(model);
+        //             }
+        //         }
+        //     }
+        //     else if (action == "")
+        //     {
+        //                     //Get appointment by id.
+        //     Appointment appointment = await _context.Appointment.Include(m => m.Doctor)
+        //                                                         .Include(m => m.Patient)
+        //                                                         .FirstOrDefaultAsync(m => m.Id == model.Id);
+
+        //     //Populate Appointment with new changes.
+        //     if (appointment != null)
+        //     {
+        //         appointment.Title = model.Title;
+        //         appointment.AppointmentDate = model.AppointmentDate;
+        //         appointment.AppointmentTime = model.AppointmentTime;
+        //         appointment.Patient = model.Patient;
+        //     };
+            
+        //     // Save changes to the database
+        //     _context.Update(appointment);
+        //     await _context.SaveChangesAsync();
+        //     return RedirectToAction("ListAppointments");
+
+        //     }
+        //     return View(model);
+        // }
+
+        
         [HttpGet]
         public async Task <IActionResult> Settings()
         {
