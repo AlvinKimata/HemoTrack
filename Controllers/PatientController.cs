@@ -54,7 +54,10 @@ namespace HemoTrack.Controllers
 
             var doctors = await GetAllDoctorsAsync();
             var patients = await GetAllPatientsAsync();
-            var appointments = await GetAppointmentsAsync();
+            var appointments = await _context.Appointment
+                                            .Where(appointment => appointment.Patient.Id == currentUser.Id)
+                                            .Distinct()
+                                            .ToListAsync();
 
             // Your appointment scheduling logic can be moved here
 
@@ -82,9 +85,14 @@ namespace HemoTrack.Controllers
 
             var doctors = await GetAllDoctorsAsync();
             var patients = await GetAllPatientsAsync();
-            var appointments = await GetAppointmentsAsync();
-
+            
             // Your appointment scheduling logic can be moved here
+            var appointments =  await _context.Appointment
+                                            .Where(appointment => appointment.Patient.Id == currentUser.Id)
+                                            .Distinct()
+                                            .ToListAsync();
+
+           
 
             var patientDashboardVM = new PatientDashboardVM
             {
@@ -153,7 +161,10 @@ namespace HemoTrack.Controllers
                 Doctors = doctors // Initialize the Doctors property with the retrieved doctors
             };
 
-            patientDashboardVM.Appointments = await GetAppointmentsAsync();
+            patientDashboardVM.Appointments = await _context.Appointment
+                                            .Where(appointment => appointment.Patient.Id == currentUser.Id)
+                                            .Distinct()
+                                            .ToListAsync();
             patientDashboardVM.appointmentRegisterVM = appointmentRegisterVM; // Assign the appointmentRegisterVM to the appropriate property
 
             return View(patientDashboardVM);
@@ -199,6 +210,48 @@ namespace HemoTrack.Controllers
                 }
             }
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task <IActionResult> Settings()
+        {
+            string currentUserName = User.Identity.Name;
+            var patient = await _userManager.FindByNameAsync(currentUserName);
+
+            var patientDashboardVM = new PatientDashboardVM();
+            doctorDashboardVM.Doctor = await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.Email == doctor.Email);
+        
+
+            return View(doctorDashboardVM);
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> Settings(Patient model, string action)
+        {
+            if (ModelState.IsValid)
+            {
+                if (action == "modify")
+                {
+                    //Modify doctor's details.
+                    string currentUserName = User.Identity.Name;
+                    var doctor = await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.Email == model.Email);
+                    if (doctor != null)
+                    {
+                        doctor.FirstName = model.FirstName;
+                        doctor.LastName = model.LastName;
+                        doctor.Email = model.Email;
+                        doctor.Nic = model.Nic;
+                        doctor.PhoneNumber = model.PhoneNumber;
+                        doctor.Speciality = model.Speciality;
+
+                        _context.Update(doctor);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
+            return View(model);
+
         }
     }
 }
