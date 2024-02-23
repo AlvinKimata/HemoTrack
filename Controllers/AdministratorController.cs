@@ -101,9 +101,23 @@ namespace HemoTrack.Controllers
                     Email = model.Email,
                     Password = model.Password
                 };
-                _context.Add(user);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Login");
+                var result = await _userManager.CreateAsync(user, model.Password);
+
+                //Add admin to role.
+                var roleResult = await _userManager.AddToRoleAsync(user, "Admin");
+
+                if (result.Succeeded && roleResult.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Index", "Administrator");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+                return View(model);
         
             }
             return View(model);
