@@ -173,48 +173,80 @@ namespace HemoTrack.Controllers
             return View(patientDashboardVM);
         }
 
+     
         [HttpPost]
         public async Task<IActionResult> ListAppointments(Appointment model, string action)
         {
             var currentUserName = await GetCurrentPatientAsync();
             var currentUser = _context.User.OfType<Patient>().FirstOrDefault(u => u.UserName == currentUserName.UserName);
 
-            //Get appointment by id.
-            Appointment appointment = await _context.Appointment.Include(m => m.Doctor)
-                                                                .Include(m => m.Patient)
-                                                                .FirstOrDefaultAsync(m => m.Id == model.Id);
-            model.Patient = appointment.Patient;
-            model.Doctor =  appointment.Doctor;
-
-            //Check the action parameter
-            if (action == "modify")
+            if (action == "create")
             {
-                //Populate Appointment with new changes.
+                var doctorName = model.Doctor; // Get the name of the doctor
+                var doctor = await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.FirstName == doctorName.FirstName);
+
+                var appointment = new Appointment
+                {
+                    Title = model.Title,
+                    AppointmentDate = model.AppointmentDate,
+                    AppointmentTime = model.AppointmentTime,
+                    Patient = currentUser,
+                    Doctor = doctor,
+                };
+
+                _context.Appointment.Add(appointment);
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                catch (DbUpdateException ex)
+                {
+                    ModelState.AddModelError("", $"Unable to add appointment. Error details: {ex.Message}");
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", $"Unexpected error occurred while adding appointment. Error details: {ex.Message}");
+                    return View(model);
+                }
+
+            }
+            else if (action == "modify")
+            {
+                // Get appointment by id.
+                var appointment = await _context.Appointment
+                    .Include(m => m.Doctor)
+                    .Include(m => m.Patient)
+                    .FirstOrDefaultAsync(m => m.Id == model.Id);
+
+                // Populate Appointment with new changes.
                 if (appointment != null)
                 {
                     appointment.Title = model.Title;
                     appointment.AppointmentDate = model.AppointmentDate;
                     appointment.AppointmentTime = model.AppointmentTime;
-                    appointment.Patient = model.Patient;
-                };
-                
+                    // appointment.Patient = model.Patient;
+                    // appointment.Doctor = model.Doctor;
+                }
+
                 // Save changes to the database
                 _context.Update(appointment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("ListAppointments");
-
             }
             else if (action == "delete")
             {
-                if(appointment != null)
+                var appointmentToDelete = await _context.Appointment.FindAsync(model.Id);
+                if (appointmentToDelete != null)
                 {
-                    _context.Appointment.Remove(appointment);
+                    _context.Appointment.Remove(appointmentToDelete);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction("ListAppointments");
                 }
-                
+                return RedirectToAction("ListAppointments");
             }
-           return View(model);
+
+            return View(model);
         }
 
         [HttpGet]

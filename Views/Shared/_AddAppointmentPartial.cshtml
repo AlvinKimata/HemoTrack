@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Schedule an appointment";
     Layout = null;
+    var patient = Model.Patient;
 }
 
 <div id="myPopup" class="overlay">
@@ -23,6 +24,20 @@
                             </td>
                         </tr>
                         <form method="post" class="add-new-form">
+                            <input type="hidden" name="action" value="create">
+
+                            @* <tr hidden>
+                                <td class="label-td" colspan="2">
+                                    <label asp-for="Patient" class="form-label">Patient Name : </label>
+                                </td>
+                            </tr>
+                            <tr hidden>
+                                <td class="label-td" colspan="2">
+                                    <input type="text" disabled name="patient" class="input-text"
+                                        placeholder="Name of patient" aria-required="true"><br>
+                                </td>
+                            </tr> *@
+                            
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <label asp-for="Title" class="form-label">Session Title : </label>
@@ -49,7 +64,8 @@
                                         </option>
                                         @foreach (var doctor in Model.Doctors)
                                         {
-                                            <option value="@doctor.FirstName">@doctor.FirstName</option>
+                                            var doctorName = doctor.FirstName + " " + doctor.LastName;
+                                            <option value="@doctor.FirstName">@doctorName</option>
                                         }
                                     </select>
                                     <br /><br />

@@ -19,9 +19,9 @@
                 <form method="post">
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <input type="hidden" name="action" value="modify">
-                    <input type="hidden" name="Title" value="@Model.Title">
-                    <input type="hidden" name="Doctor" value="Doctor">
-                    <input type="hidden" name="Patient" value="@Model.Patient">
+                    <input type="hidden" asp-for = "@Model.Title" name="Title" value="@Model.Title">
+                    <input type="hidden" asp-for = "@Model.Doctor" name="Doctor" value="@Model.Doctor">
+                    <input type="hidden" asp-for = "@Model.Patient" name="Patient" value="@Model.Patient">
                     <div style="display: flex;justify-content: center;">
                         <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
 
