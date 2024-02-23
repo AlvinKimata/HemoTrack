@@ -166,9 +166,11 @@ namespace HemoTrack.Controllers
         public IActionResult ListRoles()
         {
             var roles = _roleManager.Roles;
+            var users = _userManager.Users.ToList();
             RoleDashboardVM roleDashboardVM = new RoleDashboardVM
             {
-                RoleNames = roles.ToList()
+                RoleNames = roles.ToList(),
+                Users = users
             };
 
             return View(roleDashboardVM);
@@ -176,101 +178,100 @@ namespace HemoTrack.Controllers
 
 
         [HttpGet]
-        public List<User> ListUsersInRole(string id)
+        public IActionResult ListUsersInRoles(IdentityRole model)
         {
-            // Find the role by Role ID
-            var role =  Task.Run(async () => await _roleManager.FindByIdAsync(id)).GetAwaiter().GetResult();
+            //GET method for listing users in a role.
 
-            // if (role == null)
-            // {
-            //     return NotFound($"Role with Id = {id} cannot be found");
-            // }
-
-            List<User> UsersInRole = new List<User>();
-
-            // Retrieve all the Users
-            foreach (var user in _userManager.Users)
-            {
-                // For each user, the IsInRoleAsync method of the user manager is used to check if the user is in the role.
-                // If the user is in the role, they are added to the UsersInRole list.
-                var isInRole = Task.Run(async () => await _userManager.IsInRoleAsync(user, role.Name)).GetAwaiter().GetResult();
-
-                if (isInRole)
-                {
-                    UsersInRole.Add(user);
-                }
-            }
-
-            return UsersInRole;
-        }
-
-
-        
-        // Role ID is passed from the URL to the action
-        [HttpGet]
-        public async Task<IActionResult> EditRole(string id)
-        {
-            // Find the role by Role ID
-            var role = await _roleManager.FindByIdAsync(id);
-
+            //Retrieve role from the database.
+            var role =  _roleManager.FindByIdAsync(model.Id);
             if (role == null)
             {
-                ViewBag.ErrorMessage = $"Role with Id = {id} cannot be found";
+                ViewBag.ErrorMessage = $"Role with id = {model.Id} cannot be found.";
                 return View("NotFound");
             }
 
-            var model = new EditRoleVM
-            {
-                Id = role.Id,
-                RoleName = role.Name
-            };
+            var usersRoleViewModel = new List<UserRoleViewModel>();
 
-            // Retrieve all the Users
-            foreach (var user in _userManager.Users)
+            foreach (var user in _userManager.Users.ToList())
             {
-                // If the user is in this role, add the username to
-                // Users property of EditRoleViewModel. This model
-                // object is then passed to the view for display
-                if (await _userManager.IsInRoleAsync(user, role.Name))
+                var userRoleViewModel = new UserRoleViewModel
                 {
-                    model.Users.Add(user.UserName);
-                }
-            }
+                    UserId = user.Id,
+                    UserName = user.UserName
+                };
 
+                if (_userManager.IsInRoleAsync(user, model.Name).GetAwaiter().GetResult())
+                {
+                    userRoleViewModel.IsSelected = true;
+                }
+                else
+                {
+                    userRoleViewModel.IsSelected = false;
+                }
+
+                usersRoleViewModel.Add(userRoleViewModel);
+            }
             return View(model);
         }
+        
 
-        // This action responds to HttpPost and receives EditRoleViewModel
         [HttpPost]
-        public async Task<IActionResult> EditRole(EditRoleVM model)
+        public async Task<IActionResult> ListUsersInRoles(IdentityRole model, string action)
         {
-            var role = await _roleManager.FindByIdAsync(model.Id);
+            // Get the role selected.
+            var role = await _roleManager.FindByNameAsync(model.Name);
 
             if (role == null)
             {
-                ViewBag.ErrorMessage = $"Role with Id = {model.Id} cannot be found";
+                ViewBag.ErrorMessage = $"Role with Name = {model.Name} cannot be found";
                 return View("NotFound");
             }
-            else
+
+            // Get the users in that role.
+            var usersInRole = await _userManager.GetUsersInRoleAsync(role.Name);
+
+            // TODO: Use the usersInRole list as needed.
+            if (action == "view")
             {
-                role.Name = model.RoleName;
+                //View operations.
+                var usersRoleViewModel = new List<UserRoleViewModel>();
 
-                // Update the Role using UpdateAsync
-                var result = await _roleManager.UpdateAsync(role);
-
-                if (result.Succeeded)
+                foreach (var user in _userManager.Users.ToList())
                 {
-                    return RedirectToAction("ListRoles");
-                }
+                    var userRoleViewModel = new UserRoleViewModel
+                    {
+                        UserId = user.Id,
+                        UserName = user.UserName
+                    };
 
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
+                    if (await _userManager.IsInRoleAsync(user, role.Name))
+                    {
+                        userRoleViewModel.IsSelected = true;
+                    }
+                    else
+                    {
+                        userRoleViewModel.IsSelected = false;
+                    }
 
-                return View(model);
+                    usersRoleViewModel.Add(userRoleViewModel);
+                }
+                return View(usersRoleViewModel);
             }
+
+            else if (action == "modify")
+            {
+                //Modify operations.
+
+                
+            }
+            else if (action == "delete")
+            {
+
+            }
+
+            return View(usersInRole); // Return the list to the view, or handle as needed.
         }
+
 
 
         [HttpGet]
@@ -501,83 +502,5 @@ namespace HemoTrack.Controllers
 
             return View(model);
         }
-
-        [HttpGet]
-        public async Task<IActionResult> EditUsersInRole(string roleId)
-        {
-            ViewBag.roleId = roleId;
-
-            //Retrieve role from the database.
-            var role = await _roleManager.FindByIdAsync(roleId);
-            if (role == null)
-            {
-                ViewBag.ErrorMessage = $"Role with id = {roleId} cannot be found.";
-                return View("NotFound");
-            }
-
-            var model = new List<UserRoleViewModel>();
-
-            foreach (var user in _userManager.Users.ToList())
-            {
-                var userRoleViewModel = new UserRoleViewModel
-                {
-                    UserId = user.Id,
-                    UserName = user.UserName
-                };
-
-                if (await _userManager.IsInRoleAsync(user, role.Name))
-                {
-                    userRoleViewModel.IsSelected = true;
-                }
-                else
-                {
-                    userRoleViewModel.IsSelected = false;
-                }
-
-                model.Add(userRoleViewModel);
-            }
-            return View(model);
-        }
-        [HttpPost]
-        public async Task<IActionResult> EditUsersInRole(List<UserRoleViewModel> model, string roleId)
-        {
-            var role = await _roleManager.FindByIdAsync(roleId);
-
-            if (role == null)
-            {
-                ViewBag.ErrorMessage = $"Role with id: {roleId} cannot be found.";
-                return View("NotFound");
-            }
-
-            for (int i = 0; i < model.Count; i++)
-            {
-                var user = await _userManager.FindByIdAsync(model[i].UserId);
-
-                IdentityResult result = null;
-
-                if (model[i].IsSelected && !(await _userManager.IsInRoleAsync(user, role.Name)))
-                {
-                    result = await _userManager.AddToRoleAsync(user, role.Name);
-                }
-                else if (!model[i].IsSelected && await _userManager.IsInRoleAsync(user, role.Name))
-                {
-                    result = await _userManager.RemoveFromRoleAsync(user, role.Name);
-                }
-                else
-                {
-                    continue;
-                }
-
-                if (result.Succeeded)
-                {
-                    if (i < (model.Count - 1))
-                        continue;
-                    else
-                        return RedirectToAction("EditRole", new { Id = roleId });
-                }
-            }
-            return RedirectToAction("EditRole", new { id = roleId });
-        }
-
     }
 }

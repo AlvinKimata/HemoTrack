@@ -16,6 +16,8 @@ namespace HemoTrack.ViewModels
 
         public List<IdentityRole> RoleNames {get; set;}
 
+        public List<User> Users { get; set; }
+
         public List<RoleInstanceVM> RoleInstances {get; set;}
 
         public CreateRoleVM createRoleVM {get; set;}
@@ -25,7 +27,7 @@ namespace HemoTrack.ViewModels
         public RoleDashboardVM()
         {
             RoleNames = new List<IdentityRole>();
-            RoleInstances = new List<RoleInstanceVM>();
+            // RoleInstances = new List<RoleInstanceVM>();
             createRoleVM = new CreateRoleVM();
             viewRoleVM = new ViewRoleVM(); 
         }

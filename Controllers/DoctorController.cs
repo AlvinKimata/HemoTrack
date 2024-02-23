@@ -157,21 +157,6 @@ namespace HemoTrack.Controllers
            return View(model);
         }
 
-
-        // [HttpGet]
-        // public IActionResult Patient()
-        // {
-        //     var doctorDashboardVM = new DoctorDashboardVM();
-        //     var appointments = GetAppointmentsAsync().GetAwaiter().GetResult();
-        //     // doctorDashboardVM.Patients = _context.User.OfType<Patient>().ToList();
-        //     doctorDashboardVM.Patients = _context.User.OfType<Patient>()
-        //                                                 .Where(patient => patient.Id == appointments)
-        //                                                 .Distinct()
-        //                                                 .ToList();
-
-        //     return View(doctorDashboardVM);
-        // }
-
         [HttpGet]
         public async Task <IActionResult> Settings()
         {
