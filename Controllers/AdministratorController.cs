@@ -41,7 +41,8 @@ namespace HemoTrack.Controllers
         public async Task<IActionResult> Index()
         {   // Get the current user ID from the user claims.
             string currentUserName = User.Identity.Name;
-            var currentUser = _context.User.OfType<Patient>().FirstOrDefault(u => u.UserName == currentUserName);
+            // var currentUser = _context.User.OfType<Patient>().FirstOrDefault(u => u.UserName == currentUserName);
+            var currentUser = await _userManager.FindByNameAsync(currentUserName);
             var patients = await _context.User.OfType<Patient>().ToListAsync();
             var doctors = await _context.User.OfType<Doctor>().ToListAsync();
             var appointments = await _context.Appointment.Include(m => m.Doctor)
@@ -99,20 +100,39 @@ namespace HemoTrack.Controllers
                 var user = new Administrator
                 {
                     Email = model.Email,
-                    Password = model.Password
+                    Password = model.Password,
+                    UserName = "admin",
+                    FirstName = "admin",
+                    LastName = "admin",
+                    PhoneNumber = "0000",
+                    Nic = "0000"
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 //Add admin to role.
-                var roleResult = await _userManager.AddToRoleAsync(user, "Admin");
+                //Check if roles exist. Else create role for admin.
 
-                if (result.Succeeded && roleResult.Succeeded)
+                //Add admin role by default if no role exists.
+                IdentityRole identityRole = new IdentityRole
+                {
+                    Name = "Admin"
+                };
+                IdentityResult roleResult = await _roleManager.CreateAsync(identityRole);
+
+                var roleAddResult = await _userManager.AddToRoleAsync(user, "Admin");
+
+                if (result.Succeeded && roleAddResult.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Administrator");
                 }
 
                 foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+                foreach (var error in roleAddResult.Errors)
                 {
                     ModelState.AddModelError("", error.Description);
                 }
@@ -176,32 +196,34 @@ namespace HemoTrack.Controllers
             return View(model);
         }
 
+        // [HttpGet]
+        // public IActionResult ListRoles()
+        // {
+        //     var roles = _roleManager.Roles;
+        //     var users = _userManager.Users.ToList();
+        //     RoleDashboardVM roleDashboardVM = new RoleDashboardVM
+        //     {
+        //         RoleNames = roles.ToList(),
+        //         Users = users
+        //     };
+
+        //     return View(roleDashboardVM);
+        // }
+
+
         [HttpGet]
-        public IActionResult ListRoles()
-        {
-            var roles = _roleManager.Roles;
-            var users = _userManager.Users.ToList();
-            RoleDashboardVM roleDashboardVM = new RoleDashboardVM
-            {
-                RoleNames = roles.ToList(),
-                Users = users
-            };
-
-            return View(roleDashboardVM);
-        }
-
-
-        [HttpGet]
-        public IActionResult ListUsersInRoles(IdentityRole model)
+        public async Task<IActionResult> ListRoles(IdentityRole model)
         {
             //GET method for listing users in a role.
 
             //Retrieve role from the database.
-            var role =  _roleManager.FindByIdAsync(model.Id);
+            var role =  await _roleManager.FindByIdAsync(model.Id);
             if (role == null)
             {
                 ViewBag.ErrorMessage = $"Role with id = {model.Id} cannot be found.";
-                return View("NotFound");
+                
+
+                // return View("Index");
             }
 
             var usersRoleViewModel = new List<UserRoleViewModel>();
@@ -214,7 +236,7 @@ namespace HemoTrack.Controllers
                     UserName = user.UserName
                 };
 
-                if (_userManager.IsInRoleAsync(user, model.Name).GetAwaiter().GetResult())
+                if (await _userManager.IsInRoleAsync(user, model.Name))
                 {
                     userRoleViewModel.IsSelected = true;
                 }
@@ -225,12 +247,17 @@ namespace HemoTrack.Controllers
 
                 usersRoleViewModel.Add(userRoleViewModel);
             }
-            return View(usersRoleViewModel);
+            RoleDashboardVM roleDashboardVM = new RoleDashboardVM
+            {
+                UserRoleViewModels = usersRoleViewModel
+            };
+
+            return View(roleDashboardVM);
         }
         
 
         [HttpPost]
-        public async Task<IActionResult> ListUsersInRoles(List<UserRoleViewModel> userRoleModel, IdentityRole model, string action)
+        public async Task<IActionResult> ListRoles(List<UserRoleViewModel> userRoleModel, IdentityRole model, string action)
         {
             // Get the role selected.
             var role = await _roleManager.FindByNameAsync(model.Name);

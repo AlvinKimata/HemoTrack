@@ -55,9 +55,6 @@ namespace HemoTrack.ViewModels
         [Display(Name = "NIC")]
         public string Address {get; set;}
 
-        // [Required]
-        // [Display(Name = "Web user type")]
-        // public webuser? webuser {get; set;}
 
     }
 }
