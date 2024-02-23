@@ -8,6 +8,7 @@ namespace HemoTrack.ViewModels
 {
     public class AppointmentRegisterVM
     {
+        public int Id { get; set; }
         public string Title {get; set;}
         public string Email {get; set;} //Get doctor's details with email
         public DateTime AppointmentDate { get; set; }

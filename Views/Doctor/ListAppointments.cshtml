@@ -132,7 +132,7 @@
                                                     <font class="tn-in-text">Edit</font>
                                                 </button>
                                                 <div id="myPopup3_@appointment.Id" style="display: none;">
-                                                    @await Html.PartialAsync("~/Views/Doctor/Partials/_EditAppointmentPartial.cshtml", @appointment)
+                                                    @await Html.PartialAsync("_EditAppointmentPartial", @appointment)
                                                 </div>
                                             </a>
 
@@ -145,7 +145,7 @@
                                                     <font class="tn-in-text">Delete</font>
                                                 </button>
                                                 <div id="myPopup1" style="display: none;">
-                                                    @await Html.PartialAsync("~/Views/Doctor/Partials/_DeleteAppointmentPartial.cshtml", @appointment)
+                                                    @await Html.PartialAsync("_DeleteAppointmentPartial", @appointment)
                                                 </div>
                                             </a>
                                         </div>

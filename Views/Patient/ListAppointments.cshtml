@@ -8,13 +8,13 @@
     <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
         <tr>
             <td width="13%">
-                <a href="#"><button class="login-btn btn-primary-soft btn btn-icon-back"
+                <a asp-action="Index"><button class="login-btn btn-primary-soft btn btn-icon-back"
                         style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px">
                         <font class="tn-in-text">Back</font>
                     </button></a>
             </td>
             <td>
-                <p style="font-size: 23px;padding-left:12px;font-weight: 600;">Shedule Manager</p>
+                <p style="font-size: 23px;padding-left:12px;font-weight: 600;">Appointment Manager</p>
 
             </td>
             <td width="15%">
@@ -35,12 +35,11 @@
             <td colspan="4">
                 <div style="display: flex;margin-top: 40px;">
                     <div class="heading-main12"
-                        style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49);margin-top: 5px;">Schedule a
-                        Session</div>
+                        style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49);margin-top: 5px;">Schedule an appointment</div>
                     <a href="#" class="non-style-link">
                         <button class="login-btn btn-primary btn button-icon" onclick="togglePopup()"
                             style="margin-left:25px;background-image: url('../img/icons/add.svg');">
-                            <font>Add a Session</font>
+                            <font>Add appointment</font>
                         </button>
                     </a>
                     <div id="myPopup" style="display: none;">
@@ -148,18 +147,29 @@
                                         <td>
                                             <div style="display:flex;justify-content: center;">
 
-                                                <a href="#" class="non-style-link">
-                                                    <button class="btn-primary-soft btn button-icon btn-view"
-                                                        style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
-                                                        <font class="tn-in-text">View</font>
-                                                    </button></a>
-                                                &nbsp;&nbsp;&nbsp;
-                                                <a href="?action=drop&id='.$scheduleid.'&name='.$title.'"
-                                                    class="non-style-link"><button
+                                                <a href = "#"
+                                                    class="non-style-link"><button onclick="toggleAppointmentPopup(appointmentId = '@appointment.Id')"
                                                         class="btn-primary-soft btn button-icon btn-delete"
                                                         style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
-                                                        <font class="tn-in-text">Remove</font>
-                                                    </button></a>
+                                                        <font class="tn-in-text">Edit</font>
+                                                    </button>
+                                                    <div id="myPopup3_@appointment.Id" style="display: none;">
+                                                        @await Html.PartialAsync("_EditAppointmentPartial", @appointment)
+                                                    </div>
+                                                </a>
+
+                                                &nbsp; &nbsp;
+
+                                                <a href="#" class="non-style-link">
+                                                    &nbsp; &nbsp; &nbsp;
+                                                    <button class="btn-primary-soft btn button-icon btn-view" onclick="togglePopup1()"
+                                                        style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
+                                                        <font class="tn-in-text">Delete</font>
+                                                    </button>
+                                                    <div id="myPopup1" style="display: none;">
+                                                        @await Html.PartialAsync("_DeleteAppointmentPartial", @appointment)
+                                                    </div>
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>

@@ -171,45 +171,49 @@ namespace HemoTrack.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ListAppointments(AppointmentRegisterVM model)
+        public async Task<IActionResult> ListAppointments(AppointmentRegisterVM model, string action)
         {
-            var currentUserName = await GetCurrentPatientAsync();
-            var currentUser = _context.User.OfType<Patient>().FirstOrDefault(u => u.UserName == currentUserName.UserName);
-            model.Doctors = await GetAllDoctorsAsync();
-
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)   
             {
-                var doctorName = model.Doctor; //Get the name of the doctor
-                var doctor = await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.FirstName == doctorName.FirstName);
+                var currentUserName = await GetCurrentPatientAsync();
+                var currentUser = _context.User.OfType<Patient>().FirstOrDefault(u => u.UserName == currentUserName.UserName);
+                model.Doctors = await GetAllDoctorsAsync();
 
-                var appointmentRegisterVM = new Appointment
+                //Get appointment by id.
+                Appointment appointment = await _context.Appointment.Include(m => m.Doctor)
+                                                                    .Include(m => m.Patient)
+                                                                    .FirstOrDefaultAsync(m => m.Id == model.Id);
+
+                //Check the action parameter
+                if (action == "modify")
                 {
-                    Title = model.Title,
-                    AppointmentDate = model.AppointmentDate,
-                    AppointmentTime = model.AppointmentTime,
-                    Patient = currentUser,
-                    Doctor = doctor,
-                };
-
-                var result = _context.Appointment.Add(appointmentRegisterVM);
-
-                try
-                {
+                    //Populate Appointment with new changes.
+                    if (appointment != null)
+                    {
+                        appointment.Title = model.Title;
+                        appointment.AppointmentDate = model.AppointmentDate;
+                        appointment.AppointmentTime = model.AppointmentTime;
+                        appointment.Patient = model.Patient;
+                    };
+                    
+                    // Save changes to the database
+                    _context.Update(appointment);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("ListAppointments");
+
                 }
-                catch (DbUpdateException ex)
+                else if (action == "delete")
                 {
-                    ModelState.AddModelError("", $"Unable to add appointment. Error details : {ex.Message}");
-                    throw;
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", $"Unexpected error occurred while adding appointment - Error details: {ex.Message}");
-                    return View(model);
+                    if(appointment != null)
+                    {
+                        _context.Appointment.Remove(appointment);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction("ListAppointments");
+                    }
+                    
                 }
             }
-            return View(model);
+           return View(model);
         }
 
         [HttpGet]
