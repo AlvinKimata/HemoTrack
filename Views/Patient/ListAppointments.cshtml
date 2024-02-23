@@ -132,6 +132,8 @@
                                 @foreach (var appointment in Model.Appointments)
                                 {
                                     var doctorName = appointment.Doctor.FirstName + " " + appointment.Doctor.LastName;
+                                    Model.Doctor = appointment.Doctor;
+                                    Model.Patient = appointment.Patient;
                                     <tr>
                                         <td> &nbsp;
                                             @appointment.Title
@@ -153,7 +155,7 @@
                                                         style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                                         <font class="tn-in-text">Edit</font>
                                                     </button>
-                                                    <div id="myPopup3_@appointment.Id" style="display: none;">
+                                                    <div id="myPopup4_@appointment.Id" style="display: none;">
                                                         @await Html.PartialAsync("_EditAppointmentPartial", @appointment)
                                                     </div>
                                                 </a>
@@ -162,11 +164,11 @@
 
                                                 <a href="#" class="non-style-link">
                                                     &nbsp; &nbsp; &nbsp;
-                                                    <button class="btn-primary-soft btn button-icon btn-view" onclick="togglePopup1()"
+                                                    <button class="btn-primary-soft btn button-icon btn-view" onclick="toggleDeletePopup(Id = '@appointment.Id')"
                                                         style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                                         <font class="tn-in-text">Delete</font>
                                                     </button>
-                                                    <div id="myPopup1" style="display: none;">
+                                                    <div id="myPopup3_@appointment.Id" style="display: none;">
                                                         @await Html.PartialAsync("_DeleteAppointmentPartial", @appointment)
                                                     </div>
                                                 </a>

@@ -1,11 +1,14 @@
+@model Appointment
+
 @{
     ViewData["Title"] = "Doctor dashboard";
     Layout = null;
+
+    var appointment = Model;
 }
 
-@model Appointment
 
-<div id="myPopup1_@Model.Id" class="overlay">
+<div id="myPopup4_@Model.Id" class="overlay">
     <div class="popup">
         <center>
             <h2></h2>
@@ -13,8 +16,12 @@
             <div class="content">
                 eDoc Web App<br>
 
-                <form method="post" action="modify">
+                <form method="post">
                     <div asp-validation-summary="All" class="text-danger"></div>
+                    <input type="hidden" name="action" value="modify">
+                    <input type="hidden" name="Title" value="@Model.Title">
+                    <input type="hidden" name="Doctor" value="Doctor">
+                    <input type="hidden" name="Patient" value="@Model.Patient">
                     <div style="display: flex;justify-content: center;">
                         <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
 

@@ -159,30 +159,6 @@ namespace HemoTrack.Controllers
         }
 
 
-        // [HttpPost]
-        // public async Task<IActionResult> ListAppointments(Appointment model)
-        // {
-        //     //Get appointment by id.
-        //     Appointment appointment = await _context.Appointment.Include(m => m.Doctor)
-        //                                                         .Include(m => m.Patient)
-        //                                                         .FirstOrDefaultAsync(m => m.Id == model.Id);
-
-        //     //Populate Appointment with new changes.
-        //     if (appointment != null)
-        //     {
-        //         appointment.Title = model.Title;
-        //         appointment.AppointmentDate = model.AppointmentDate;
-        //         appointment.AppointmentTime = model.AppointmentTime;
-        //         appointment.Patient = model.Patient;
-        //     };
-            
-        //     // Save changes to the database
-        //     _context.Update(appointment);
-        //     await _context.SaveChangesAsync();
-        //     return RedirectToAction("ListAppointments");
-        // }
-
-
         [HttpGet]
         public IActionResult Patient()
         {

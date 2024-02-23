@@ -138,7 +138,9 @@ namespace HemoTrack.Controllers
         [HttpGet]
         public async Task<IActionResult> ListAppointments()
         {
-            var currentUser = await GetCurrentPatientAsync();
+            var IdentityUser = await GetCurrentPatientAsync();
+            var currentUser =  await _context.User.OfType<Patient>().FirstOrDefaultAsync(m => m.Email == IdentityUser.Email);
+
             if (currentUser == null)
             {
                 return NotFound();
@@ -154,6 +156,7 @@ namespace HemoTrack.Controllers
                 Email = currentUser.Email,
                 UserName = currentUser.UserName,
                 Doctors = doctors,
+                Patient = currentUser
             };
 
             var appointmentRegisterVM = new AppointmentRegisterVM
@@ -171,47 +174,45 @@ namespace HemoTrack.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ListAppointments(AppointmentRegisterVM model, string action)
+        public async Task<IActionResult> ListAppointments(Appointment model, string action)
         {
-            if (ModelState.IsValid)   
+            var currentUserName = await GetCurrentPatientAsync();
+            var currentUser = _context.User.OfType<Patient>().FirstOrDefault(u => u.UserName == currentUserName.UserName);
+
+            //Get appointment by id.
+            Appointment appointment = await _context.Appointment.Include(m => m.Doctor)
+                                                                .Include(m => m.Patient)
+                                                                .FirstOrDefaultAsync(m => m.Id == model.Id);
+            model.Patient = appointment.Patient;
+            model.Doctor =  appointment.Doctor;
+
+            //Check the action parameter
+            if (action == "modify")
             {
-                var currentUserName = await GetCurrentPatientAsync();
-                var currentUser = _context.User.OfType<Patient>().FirstOrDefault(u => u.UserName == currentUserName.UserName);
-                model.Doctors = await GetAllDoctorsAsync();
-
-                //Get appointment by id.
-                Appointment appointment = await _context.Appointment.Include(m => m.Doctor)
-                                                                    .Include(m => m.Patient)
-                                                                    .FirstOrDefaultAsync(m => m.Id == model.Id);
-
-                //Check the action parameter
-                if (action == "modify")
+                //Populate Appointment with new changes.
+                if (appointment != null)
                 {
-                    //Populate Appointment with new changes.
-                    if (appointment != null)
-                    {
-                        appointment.Title = model.Title;
-                        appointment.AppointmentDate = model.AppointmentDate;
-                        appointment.AppointmentTime = model.AppointmentTime;
-                        appointment.Patient = model.Patient;
-                    };
-                    
-                    // Save changes to the database
-                    _context.Update(appointment);
+                    appointment.Title = model.Title;
+                    appointment.AppointmentDate = model.AppointmentDate;
+                    appointment.AppointmentTime = model.AppointmentTime;
+                    appointment.Patient = model.Patient;
+                };
+                
+                // Save changes to the database
+                _context.Update(appointment);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("ListAppointments");
+
+            }
+            else if (action == "delete")
+            {
+                if(appointment != null)
+                {
+                    _context.Appointment.Remove(appointment);
                     await _context.SaveChangesAsync();
                     return RedirectToAction("ListAppointments");
-
                 }
-                else if (action == "delete")
-                {
-                    if(appointment != null)
-                    {
-                        _context.Appointment.Remove(appointment);
-                        await _context.SaveChangesAsync();
-                        return RedirectToAction("ListAppointments");
-                    }
-                    
-                }
+                
             }
            return View(model);
         }
