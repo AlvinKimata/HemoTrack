@@ -112,27 +112,75 @@ namespace HemoTrack.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ListAppointments(Appointment model)
+        public async Task<IActionResult> ListAppointments(AppointmentRegisterVM model, string action)
         {
-            //Get appointment by id.
-            Appointment appointment = await _context.Appointment.Include(m => m.Doctor)
-                                                                .Include(m => m.Patient)
-                                                                .FirstOrDefaultAsync(m => m.Id == model.Id);
-
-            //Populate Appointment with new changes.
-            if (appointment != null)
+            if (ModelState.IsValid)   
             {
-                appointment.Title = model.Title;
-                appointment.AppointmentDate = model.AppointmentDate;
-                appointment.AppointmentTime = model.AppointmentTime;
-                appointment.Patient = model.Patient;
-            };
-            
-            // Save changes to the database
-            _context.Update(appointment);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("ListAppointments");
+                string currentUserName = User.Identity.Name;
+                // var doctor = _context.User.OfType<Doctor>().FirstOrDefault(u => u.Email == currentUserName.Email);
+                var doctor = await _userManager.FindByNameAsync(currentUserName);
+                model.Doctors = await GetAllDoctorsAsync();
+
+                //Get appointment by id.
+                Appointment appointment = await _context.Appointment.Include(m => m.Doctor)
+                                                                    .Include(m => m.Patient)
+                                                                    .FirstOrDefaultAsync(m => m.Id == model.Id);
+
+                //Check the action parameter
+                if (action == "modify")
+                {
+                    //Populate Appointment with new changes.
+                    if (appointment != null)
+                    {
+                        appointment.Title = model.Title;
+                        appointment.AppointmentDate = model.AppointmentDate;
+                        appointment.AppointmentTime = model.AppointmentTime;
+                        appointment.Patient = model.Patient;
+                    };
+                    
+                    // Save changes to the database
+                    _context.Update(appointment);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("ListAppointments");
+
+                }
+                else if (action == "delete")
+                {
+                    if(appointment != null)
+                    {
+                        _context.Appointment.Remove(appointment);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction("ListAppointments");
+                    }
+                    
+                }
+            }
+           return View(model);
         }
+
+
+        // [HttpPost]
+        // public async Task<IActionResult> ListAppointments(Appointment model)
+        // {
+        //     //Get appointment by id.
+        //     Appointment appointment = await _context.Appointment.Include(m => m.Doctor)
+        //                                                         .Include(m => m.Patient)
+        //                                                         .FirstOrDefaultAsync(m => m.Id == model.Id);
+
+        //     //Populate Appointment with new changes.
+        //     if (appointment != null)
+        //     {
+        //         appointment.Title = model.Title;
+        //         appointment.AppointmentDate = model.AppointmentDate;
+        //         appointment.AppointmentTime = model.AppointmentTime;
+        //         appointment.Patient = model.Patient;
+        //     };
+            
+        //     // Save changes to the database
+        //     _context.Update(appointment);
+        //     await _context.SaveChangesAsync();
+        //     return RedirectToAction("ListAppointments");
+        // }
 
 
         [HttpGet]
