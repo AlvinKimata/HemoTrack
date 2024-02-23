@@ -117,7 +117,6 @@ namespace HemoTrack.Controllers
             if (ModelState.IsValid)   
             {
                 string currentUserName = User.Identity.Name;
-                // var doctor = _context.User.OfType<Doctor>().FirstOrDefault(u => u.Email == currentUserName.Email);
                 var doctor = await _userManager.FindByNameAsync(currentUserName);
                 model.Doctors = await GetAllDoctorsAsync();
 
@@ -159,13 +158,19 @@ namespace HemoTrack.Controllers
         }
 
 
-        [HttpGet]
-        public IActionResult Patient()
-        {
-            var doctorDashboardVM = new DoctorDashboardVM();
-            doctorDashboardVM.Patients = _context.User.OfType<Patient>().ToList();
-            return View(doctorDashboardVM);
-        }
+        // [HttpGet]
+        // public IActionResult Patient()
+        // {
+        //     var doctorDashboardVM = new DoctorDashboardVM();
+        //     var appointments = GetAppointmentsAsync().GetAwaiter().GetResult();
+        //     // doctorDashboardVM.Patients = _context.User.OfType<Patient>().ToList();
+        //     doctorDashboardVM.Patients = _context.User.OfType<Patient>()
+        //                                                 .Where(patient => patient.Id == appointments)
+        //                                                 .Distinct()
+        //                                                 .ToList();
+
+        //     return View(doctorDashboardVM);
+        // }
 
         [HttpGet]
         public async Task <IActionResult> Settings()

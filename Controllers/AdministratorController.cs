@@ -316,6 +316,7 @@ namespace HemoTrack.Controllers
                     {
                         FirstName = model.FirstName,
                         LastName = model.LastName,
+                        UserName = model.FirstName,
                         Email = model.Email,
                         Nic = model.Nic,
                         PhoneNumber = model.PhoneNumber,
