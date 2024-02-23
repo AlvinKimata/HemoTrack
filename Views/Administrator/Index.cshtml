@@ -12,23 +12,6 @@
 
             <td colspan="2" class="nav-bar">
 
-                <form action="#" method="post" class="header-search">
-
-                    <input type="search" name="search" class="input-text header-searchbar"
-                        placeholder="Search Doctor name or Email" list="doctors">&nbsp;&nbsp;
-                    @for (int i = 0; i < Model.Doctors.Count(); i++)
-                    {
-                        <datalist id="@Model.Doctors[i]">
-                            <option value="@Model.Doctors[i].FirstName"/>
-                            <option value="@Model.Doctors[i].Email"/>
-                        </datalist>
-                    }
-
-                    <input type="Submit" value="Search" class="login-btn btn-primary-soft btn"
-                        style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
-
-                </form>
-
             </td>
             <td width="15%">
                 <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;text-align: right;">

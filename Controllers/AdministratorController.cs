@@ -40,13 +40,14 @@ namespace HemoTrack.Controllers
         public async Task<IActionResult> Index()
         {   // Get the current user ID from the user claims.
             string currentUserName = User.Identity.Name;
+            var currentUser = _context.User.OfType<Patient>().FirstOrDefault(u => u.UserName == currentUserName);
             var patients = await _context.User.OfType<Patient>().ToListAsync();
-            var doctors = await _context.Doctor.ToListAsync();
+            var doctors = await _context.User.OfType<Doctor>().ToListAsync();
             var appointments = await _context.Appointment.Include(m => m.Doctor)
                                                          .Include(m => m.Patient)
                                                          .ToListAsync();
 
-            var currentUser = _context.User.OfType<Patient>().FirstOrDefault(u => u.UserName == currentUserName);
+            
             if (currentUser != null)
             {
                 AdministratorDashboardVM administratorDashboardVM = new AdministratorDashboardVM
