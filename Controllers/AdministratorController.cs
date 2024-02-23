@@ -292,7 +292,7 @@ namespace HemoTrack.Controllers
         [HttpPost]
         public async Task<IActionResult> Patient(Patient model, string action)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 // Check the action parameter to determine the desired action
     
@@ -577,12 +577,6 @@ namespace HemoTrack.Controllers
                 }
             }
             return RedirectToAction("EditRole", new { id = roleId });
-        }
-
-        [HttpGet]
-        public IActionResult EditDoctor()
-        {
-            return View();
         }
 
     }
