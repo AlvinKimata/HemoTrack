@@ -19,24 +19,6 @@
 
             </td>
             <td>
-                <form action="" method="post" class="header-search">
-                    <div asp-validation-summary="All" class="text-danger"></div>
-
-                    <input type="search" name="search12" class="input-text header-searchbar"
-                        placeholder="Search Patient name or Email" list="patient">&nbsp;&nbsp;
-
-                    @for (int i = 0; i < Model.Patients.Count(); i++)
-                    {
-                        <datalist id="@Model.Patients[i]">
-                            <option value="@Model.Patients[i].FirstName" />
-                            <option value="@Model.Patients[i].Email" />
-                        </datalist>
-                    }
-
-                    <input type="Submit" value="Search" name="search" class="login-btn btn-primary btn"
-                        style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
-
-                </form>
 
             </td>
             <td width="15%">
@@ -99,11 +81,7 @@
                                 <th class="table-headin">
                                     Email
                                 </th>
-                                <th class="table-headin">
 
-                                    Date of Birth
-
-                                </th>
                                 <th class="table-headin">
 
                                     Events
@@ -151,9 +129,8 @@
                                     <td> &nbsp;
                                         @Model.Patients[i].Email
                                     </td>
-                                    <td> &nbsp;
-                                        @Model.Patients[i].DateOfBirth
-                                    </td>
+
+
                                     <td>
                                         <div style="display:flex;justify-content: center;">
 
