@@ -226,8 +226,6 @@ namespace HemoTrack.Controllers
                     appointment.Title = model.Title;
                     appointment.AppointmentDate = model.AppointmentDate;
                     appointment.AppointmentTime = model.AppointmentTime;
-                    // appointment.Patient = model.Patient;
-                    // appointment.Doctor = model.Doctor;
                 }
 
                 // Save changes to the database

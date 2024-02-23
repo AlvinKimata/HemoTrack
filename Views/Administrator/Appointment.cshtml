@@ -105,32 +105,32 @@
                                     </tr>
 
                                 }
-                                @for (int i = 0; i < totalSchedules; i++)
+                                @foreach (var appointment in Model.Appointments)
                                 {
                                     <tr>
                                         <td style="font-weight:600;">
-                                            @Model.Appointments[i].Title
+                                            @appointment.Title
                                         </td>
 
                                         <td style="text-align:center;;">
-                                            @Model.Appointments[i].AppointmentDate.ToShortDateString()
-                                            @Model.Appointments[i].AppointmentTime.ToString()
+                                            @appointment.AppointmentDate.ToShortDateString()
+                                            @appointment.AppointmentTime.ToString()
                                         </td>
 
                                         <td style="text-align:center;">
-                                            @Model.Appointments[i].AppointmentDate
+                                            @appointment.AppointmentDate
                                         </td>
 
                                         <td>
                                             <div style="display:flex;justify-content: center;">
                                                 <a href="#" class="non-style-link">
                                                     <button class="btn-primary-soft btn button-icon btn-delete"
-                                                        onclick="togglePopup3()"
+                                                        onclick="toggleDeletePopup(Id = '@appointment.Id')"
                                                         style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                                         <font class="tn-in-text">Cancel</font>
                                                     </button>
-                                                    <div id="myPopup3" style="display: none;">
-                                                        @await Html.PartialAsync("_CancelAppointmentPartial", @Model.Appointments[i])
+                                                    <div id="myPopup3_@appointment.Id" style="display: none;">
+                                                        @await Html.PartialAsync("_DeleteAppointmentPartial", @appointment)
                                                     </div>
                                                 </a>
                                                 &nbsp;&nbsp;&nbsp;

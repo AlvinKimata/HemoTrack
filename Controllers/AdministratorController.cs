@@ -77,6 +77,12 @@ namespace HemoTrack.Controllers
             return View();
         }
 
+        private async Task<User> GetCurrentPatientAsync()
+        {
+            string currentUserName = User.Identity.Name;
+            return await _context.User.OfType<Patient>().FirstOrDefaultAsync(u => u.UserName == currentUserName);
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Register(AdminRegisterVM model)
@@ -334,6 +340,80 @@ namespace HemoTrack.Controllers
             administratorDashboardVM.Appointments = _context.Appointment.ToList();
             return View(administratorDashboardVM);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Appointment(Appointment model, string action)
+        {
+            var currentUserName = await GetCurrentPatientAsync();
+            var currentUser = _context.User.OfType<Patient>().FirstOrDefault(u => u.UserName == currentUserName.UserName);
+
+            if (action == "create")
+            {
+                var doctorName = model.Doctor; // Get the name of the doctor
+                var doctor = await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.FirstName == doctorName.FirstName);
+
+                var appointment = new Appointment
+                {
+                    Title = model.Title,
+                    AppointmentDate = model.AppointmentDate,
+                    AppointmentTime = model.AppointmentTime,
+                    Patient = currentUser,
+                    Doctor = doctor,
+                };
+
+                _context.Appointment.Add(appointment);
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Appointment");
+                }
+                catch (DbUpdateException ex)
+                {
+                    ModelState.AddModelError("", $"Unable to add appointment. Error details: {ex.Message}");
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", $"Unexpected error occurred while adding appointment. Error details: {ex.Message}");
+                    return View(model);
+                }
+
+            }
+            else if (action == "modify")
+            {
+                // Get appointment by id.
+                var appointment = await _context.Appointment
+                    .Include(m => m.Doctor)
+                    .Include(m => m.Patient)
+                    .FirstOrDefaultAsync(m => m.Id == model.Id);
+
+                // Populate Appointment with new changes.
+                if (appointment != null)
+                {
+                    appointment.Title = model.Title;
+                    appointment.AppointmentDate = model.AppointmentDate;
+                    appointment.AppointmentTime = model.AppointmentTime;
+                }
+
+                // Save changes to the database
+                _context.Update(appointment);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Appointment");
+            }
+            else if (action == "delete")
+            {
+                var appointmentToDelete = await _context.Appointment.FindAsync(model.Id);
+                if (appointmentToDelete != null)
+                {
+                    _context.Appointment.Remove(appointmentToDelete);
+                    await _context.SaveChangesAsync();
+                }
+                return RedirectToAction("Appointment");
+            }
+
+            return View(model);
+        }
+
 
         [HttpGet]
         public IActionResult Settings()
