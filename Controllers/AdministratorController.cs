@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using HemoTrack.Data;
 using HemoTrack.Models;
 using HemoTrack.ViewModels;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HemoTrack.Controllers
 {   
@@ -280,6 +281,49 @@ namespace HemoTrack.Controllers
             var administratorDashboardVM = new AdministratorDashboardVM();
             administratorDashboardVM.Patients = _context.User.OfType<Patient>().ToList();
             return View(administratorDashboardVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Patient(Patient model, string action)
+        {
+            if (ModelState.IsValid)
+            {
+                // Check the action parameter to determine the desired action
+    
+                if (action == "delete")
+                {
+                    // Handle doctor deletion logic here
+                    // Example:
+                    var patientToDelete = await _context.User.OfType<Patient>().FirstOrDefaultAsync(m => m.Email == model.Email);
+                    if (patientToDelete != null)
+                    {
+                        _context.Patient.Remove(patientToDelete);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction("Index");
+                    }
+                }
+                else if (action == "modify")
+                {
+                    // Handle doctor modification logic here
+                    // Example:
+                    var existingPatient = await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.Email == model.Email);
+                    if (existingPatient != null)
+                    {
+                        // Update doctor details based on the provided model
+                        existingPatient.FirstName = model.FirstName;
+                        existingPatient.LastName = model.LastName;
+                        existingPatient.Email = model.Email;
+                        existingPatient.Nic = model.Nic;
+                        existingPatient.PhoneNumber = model.PhoneNumber;
+
+                        _context.Update(existingPatient);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
+
+            return View(model);
         }
 
 

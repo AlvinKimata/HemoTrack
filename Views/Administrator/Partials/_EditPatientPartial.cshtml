@@ -1,10 +1,10 @@
 @model Patient
 
-<div id="popup1" class="overlay">
+<div id="myPopup2_@Model.Id" class="overlay">
     <div class="popup">
         <center>
             <h2></h2>
-            <a class="close" href="#" onclick="togglePopup1()">&times;</a>
+            <a class="close" href="#" onclick="toggleEditPopup(Id = '@Model.Id')">&times;</a>
             <div class="content">
                 eDoc Web App<br>
 

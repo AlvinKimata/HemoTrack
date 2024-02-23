@@ -10,7 +10,7 @@
         <tr>
             <td width="13%">
 
-                <a asp-controller="Administrator" asp-action="Index">
+                <a  asp-action="Index">
                     <button class="login-btn btn-primary-soft btn btn-icon-back"
                         style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px">
                         <font class="tn-in-text">Back</font>
@@ -114,20 +114,24 @@
                                     </td>
                                 </tr>
                             }
-                            @for (int i = 0; i < Model.Patients.Count(); i++)
+
+                            @foreach (var patient in Model.Patients)
                             {
-                                <tr>
+                                <tr style="font-weight:600;">
                                     <td> &nbsp;
-                                        @Model.Patients[i].FirstName
+                                        @patient.FirstName
                                     </td>
+
                                     <td> &nbsp;
-                                        @Model.Patients[i].Nic
+                                        @patient.Nic
                                     </td>
+
                                     <td> &nbsp;
-                                        @Model.Patients[i].PhoneNumber
+                                        @patient.PhoneNumber
                                     </td>
+
                                     <td> &nbsp;
-                                        @Model.Patients[i].Email
+                                        @patient.Email
                                     </td>
 
 
@@ -136,13 +140,13 @@
 
                                             <a href="#" class="non-style-link">
                                                 <button class="btn-primary-soft btn button-icon btn-view"
-                                                    onclick="togglePopup2()"
+                                                    onclick="toggleViewPopup(Id = '@patient.Id')"
                                                     style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                                     <font class="tn-in-text">View</font>
                                                 </button>
 
-                                                <div id="myPopup2" style="display: none;">
-                                                    @await Html.PartialAsync("~/Views/Administrator/Partials/_ViewPatientPartial.cshtml", @Model.Patients[i])
+                                                <div id="myPopup1_@patient.Id" style="display: none;">
+                                                    @await Html.PartialAsync("~/Views/Administrator/Partials/_ViewPatientPartial.cshtml", @patient)
                                                 </div>
                                             </a>
 
@@ -150,24 +154,24 @@
 
                                             <a href="#" class="non-style-link">
                                                 <button class="btn-primary-soft btn button-icon btn-view"
-                                                    onclick="togglePopup1()"
+                                                    onclick="toggleEditPopup(Id = '@patient.Id')"
                                                     style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                                     <font class="tn-in-text">Edit</font>
                                                 </button>
-                                                <div id="myPopup1" style="display: none;">
-                                                    @await Html.PartialAsync("~/Views/Administrator/Partials/_EditPatientPartial.cshtml", @Model.Patients[i])
+                                                <div id="myPopup2_@patient.Id" style="display: none;">
+                                                    @await Html.PartialAsync("~/Views/Administrator/Partials/_EditPatientPartial.cshtml", @patient)
                                                 </div>
                                             </a>
 
                                             &nbsp;&nbsp;
 
                                             <a href="#" class="non-style-link">
-                                                <button class="btn-primary-soft btn button-icon btn-view" onclick="togglePopup3()"
+                                                <button class="btn-primary-soft btn button-icon btn-view" onclick="toggleDeletePopup(Id = '@patient.Id')"
                                                     style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                                     <font class="tn-in-text">Delete</font>
                                                 </button>
-                                                <div id="myPopup3" style="display: none;">
-                                                    @await Html.PartialAsync("~/Views/Administrator/Partials/_DeletePatientPartial.cshtml", @Model.Patients[i])
+                                                <div id="myPopup3_@patient.Id" style="display: none;">
+                                                    @await Html.PartialAsync("~/Views/Administrator/Partials/_DeletePatientPartial.cshtml", @patient)
                                                 </div>
 
                                             </a>
@@ -183,6 +187,5 @@
             </center>
         </td>
     </tr>
-    </table>
-</div>
+
 </div>
