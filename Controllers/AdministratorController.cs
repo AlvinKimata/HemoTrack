@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using HemoTrack.Data;
 using HemoTrack.Models;
 using HemoTrack.ViewModels;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+// using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HemoTrack.Controllers
 {   
@@ -196,64 +196,44 @@ namespace HemoTrack.Controllers
             return View(model);
         }
 
-        // [HttpGet]
-        // public IActionResult ListRoles()
-        // {
-        //     var roles = _roleManager.Roles;
-        //     var users = _userManager.Users.ToList();
-        //     RoleDashboardVM roleDashboardVM = new RoleDashboardVM
-        //     {
-        //         RoleNames = roles.ToList(),
-        //         Users = users
-        //     };
-
-        //     return View(roleDashboardVM);
-        // }
-
-
         [HttpGet]
-        public async Task<IActionResult> ListRoles(IdentityRole model)
+        public async Task<IActionResult> ListRoles()
         {
-            //GET method for listing users in a role.
-
-            //Retrieve role from the database.
-            var role =  await _roleManager.FindByIdAsync(model.Id);
-            if (role == null)
+            var roles = await _roleManager.Roles.ToListAsync();
+            var roleDashboardVM = new RoleDashboardVM 
             {
-                ViewBag.ErrorMessage = $"Role with id = {model.Id} cannot be found.";
-                
-
-                // return View("Index");
-            }
-
-            var usersRoleViewModel = new List<UserRoleViewModel>();
-
-            foreach (var user in _userManager.Users.ToList())
-            {
-                var userRoleViewModel = new UserRoleViewModel
-                {
-                    UserId = user.Id,
-                    UserName = user.UserName
-                };
-
-                if (await _userManager.IsInRoleAsync(user, model.Name))
-                {
-                    userRoleViewModel.IsSelected = true;
-                }
-                else
-                {
-                    userRoleViewModel.IsSelected = false;
-                }
-
-                usersRoleViewModel.Add(userRoleViewModel);
-            }
-            RoleDashboardVM roleDashboardVM = new RoleDashboardVM
-            {
-                UserRoleViewModels = usersRoleViewModel
+                Roles = roles,
+                UserRoleViewModels = new List<UserRoleViewModel>()
             };
+
+            foreach(var role in roles)
+            {
+                var usersInRole = await _userManager.GetUsersInRoleAsync(role.Name);
+
+                foreach (var user in usersInRole)
+                {
+                    var userRoleViewModel = new UserRoleViewModel
+                    {
+                        UserId = user.Id,
+                        UserName = user.UserName
+                    };
+
+                    if (await _userManager.IsInRoleAsync(user, role.Name))
+                    {
+                        userRoleViewModel.IsSelected = true;
+                    }
+                    else
+                    {
+                        userRoleViewModel.IsSelected = false;
+                    }
+
+                    roleDashboardVM.UserRoleViewModels.Add(userRoleViewModel);
+                }
+            }
 
             return View(roleDashboardVM);
         }
+
         
 
         [HttpPost]
