@@ -113,9 +113,10 @@ namespace HemoTrack.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                User signedUser = await _userManager.FindByEmailAsync(model.Email);
+                var result = await _signInManager.PasswordSignInAsync(signedUser.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
 
-                if (!result.Succeeded)
+                if (result.Succeeded)
                 {
                     // Get the user
                     var user = await _userManager.FindByEmailAsync(model.Email);
@@ -141,6 +142,7 @@ namespace HemoTrack.Controllers
                             return RedirectToAction("Index", "Patient");
                         }
                     await _signInManager.SignInAsync(user, isPersistent: false);
+
                     // If the user's role doesn't match any expected roles, handle accordingly
                     return RedirectToAction("Index", "Home");
 
@@ -148,13 +150,17 @@ namespace HemoTrack.Controllers
                     // If the user does not exist.
                     ModelState.AddModelError("", "User not registered yet.");
 
-                    // return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Account", "Register");
                 }
 
+                // If password is incorrect.
+                ModelState.AddModelError("", "Invalid login attempt");
             }
 
             return View(model);
         }
 
     }
+
+
 }
