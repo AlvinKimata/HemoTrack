@@ -216,7 +216,7 @@ namespace HemoTrack.Controllers
         
 
         [HttpPost]
-        public async Task<IActionResult> ListUsersInRoles(IdentityRole model, string action)
+        public async Task<IActionResult> ListUsersInRoles(IdentityRole model, List<UserRoleViewModel> userRoleVM, string action)
         {
             // Get the role selected.
             var role = await _roleManager.FindByNameAsync(model.Name);
