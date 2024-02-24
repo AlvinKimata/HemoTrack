@@ -32,7 +32,7 @@ builder.Services.AddIdentity<User, IdentityRole>(options => options.SignIn.Requi
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.Password.RequireDigit = false;
-    options.Password.RequiredLength = 8;
+    options.Password.RequiredLength = 5;
     options.Password.RequireLowercase = true;
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = false;

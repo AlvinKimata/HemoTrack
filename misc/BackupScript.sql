@@ -3,7 +3,7 @@ USE [master];
 GO
 
 BACKUP DATABASE [HemoTrack]
-TO DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\HemoTrack.bak'
+TO DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\HemoTrackDbSeeder.bak'
 WITH NOFORMAT, NOINIT,
 NAME = N'HemoTrack-Full Database backup', SKIP, NOREWIND, NOUNLOAD, STATS = 10;
 GO
@@ -23,7 +23,7 @@ USE [master];
 GO
 
 RESTORE DATABASE [HemoTrack]
-FROM DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\HemoTrack.bak'
+FROM DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\HemoTrackDbSeeder.bak'
 WITH REPLACE
 
 USE [master]
