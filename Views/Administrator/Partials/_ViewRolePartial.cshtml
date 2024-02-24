@@ -44,12 +44,15 @@
 
                     @foreach(var userinrole in Model.UsersInRole)
                     {
-                        var fullName = userinrole.user.FirstName + " " + userinrole.user.LastName;
-                        <tr>
-                            <td class="label-td" colspan="2">
-                                @fullName<br>
-                            </td>
-                        </tr>
+                        if(userinrole.IsSelected == true)
+                        {
+                            var fullName = userinrole.user.FirstName + " " + userinrole.user.LastName;
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    @fullName<br>
+                                </td>
+                            </tr>
+                        }
                     }
                 </table>
             </div>

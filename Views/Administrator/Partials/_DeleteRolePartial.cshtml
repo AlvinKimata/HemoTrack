@@ -1,27 +1,26 @@
-@using Microsoft.AspNetCore.Identity;
-@inject SignInManager<User> signInManager;
-@model IEnumerable<IdentityRole>
+@model UsersRoleViewModel
 
-<div id="popup1" class="overlay">
+@{
+    ViewData["Title"] = "Delete doctor's account";
+    Layout = null;
+}
+
+
+<div id="myPopup3_@Model.Role.Id" class="overlay">
     <div class="popup">
         <center>
             <h2>Are you sure?</h2>
-            <a class="close" href="#" onclick="togglePopup3()">&times;</a>
+            <a class="close" href="#" onclick="toggleDeletePopup(Id = '@Model.Role.Id')">&times;</a>
             <div class="content">
                 You want to delete this record?<br>
 
             </div>
-            <div style="display: flex;justify-content: center;">
-                <a href="" class="non-style-link"><button class="btn-primary btn"
-                        style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"
-                        <font class="tn-in-text">&nbsp;Yes&nbsp;</font></button></a>&nbsp;&nbsp;&nbsp;
-                        
-                <a href="" class="non-style-link"><button class="btn-primary btn"
-                        style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;">
-                        <font class="tn-in-text">&nbsp;&nbsp;No&nbsp;&nbsp;</font>
-                    </button></a>
-
-            </div>
+            <form method="post" class="add-new-form" id="registerForm">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" asp-for="@Model.Role.Id">
+                <input type="submit" value="Delete" class="login-btn btn-primary btn">
+            </form>
         </center>
     </div>
 </div>

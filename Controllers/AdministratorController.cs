@@ -103,7 +103,7 @@ namespace HemoTrack.Controllers
                     Password = model.Password,
                     UserName = "admin",
                     FirstName = "admin",
-                    LastName = "admin",
+                    LastName = " ",
                     PhoneNumber = "0000",
                     Nic = "0000"
                 };

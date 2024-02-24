@@ -164,17 +164,18 @@
 
                                     &nbsp;&nbsp;
                                     <a href="#" class="non-style-link">
-                                        <button onclick="togglePopup3()" class="btn-primary-soft btn button-icon btn-delete"
+                                        <button onclick="toggleDeletePopup(Id = '@usersInRoles.Role.Id')" class="btn-primary-soft btn button-icon btn-delete"
                                             style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                             <font class="tn-in-text">Remove</font>
                                         </button>
-                                        <div id="myPopup3" style="display: none;">
-                                            @* @await Html.PartialAsync("_DeleteInfoPartial", @role) *@
+                                        <div id="myPopup3_@usersInRoles.Role.Id" style="display: none;">
+                                            @await Html.PartialAsync("~/Views/Administrator/Partials/_DeleteRolePartial.cshtml", @usersInRoles)
                                         </div>
                                     </a>
 
                                 </div>
-                                &nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp; 
+                                
                             </td>
                         </tr>
 
