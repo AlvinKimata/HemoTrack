@@ -234,6 +234,7 @@ namespace HemoTrack.Controllers
         [HttpPost]
         public async Task<IActionResult> ListRoles(UsersRoleViewModel usersRoleViewModel, string action)
         {
+
             if (action == "modify")
             {
                 //Get the role.

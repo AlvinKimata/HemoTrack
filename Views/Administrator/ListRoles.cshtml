@@ -123,7 +123,6 @@
                     }
                     @foreach (var usersInRoles in UsersInRoles)
                     {
-                        @* Get the role Id and map it to its role. *@
                         <tr style="font-weight:600;">
 
                             <td>
@@ -151,12 +150,13 @@
 
                                     &nbsp;&nbsp;
                                     <a href="#" class="non-style-link">
-                                        <button onclick="togglePopup3()" class="btn-primary-soft btn button-icon btn-delete"
+                                        <button onclick="toggleEditPopup(roleId = '@usersInRoles.Role.Id')" class="btn-primary-soft btn button-icon btn-delete"
                                             style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                             <font class="tn-in-text">Edit</font>
                                         </button>
-                                        <div id="myPopup3" style="display: none;">
-                                            @* @await Html.PartialAsync("_DeleteInfoPartial", @role) *@
+                                        <div id="myPopup2_@usersInRoles.Role.Id" style="display: none;">
+                                            @await Html.PartialAsync("~/Views/Administrator/Partials/_EditRolePartial.cshtml", @usersInRoles)
+
                                         </div>
                                     </a>
 
