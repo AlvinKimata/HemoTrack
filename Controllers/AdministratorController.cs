@@ -244,64 +244,77 @@ namespace HemoTrack.Controllers
         [HttpPost]
         public async Task<IActionResult> ListRoles(UsersRoleViewModel usersRoleViewModel, string action)
         {
-
-            if (action == "modify")
+            if (!ModelState.IsValid)
             {
-                //Get the role.
-                var role = await _roleManager.FindByIdAsync(usersRoleViewModel.Role.Id);
 
-                foreach(var userVm in usersRoleViewModel.UsersInRole)
-                // foreach(var identityUser in _userManager.Users)
+                if (action == "modify")
                 {
-                    // var userVm = new UserVM
-                    // {
-                    //     user = identityUser
-                    // };
+                    //Get the role.
+                    var role = await _roleManager.FindByIdAsync(usersRoleViewModel.Role.Id);
 
-                    IdentityResult result = null;
-                    var user = await _userManager.FindByIdAsync(userVm.user.Id);
-                    
-                    if (userVm.IsSelected && !(await _userManager.IsInRoleAsync(user, role.Name)))
+                    foreach(var userVm in usersRoleViewModel.UsersInRole)
+                    // foreach(var identityUser in _userManager.Users)
                     {
-                        result = await _userManager.AddToRoleAsync(user, role.Name);   
-                    }
-                    else if (!userVm.IsSelected && await _userManager.IsInRoleAsync(user, role.Name))
-                    {
-                        result = await _userManager.RemoveFromRoleAsync(user, role.Name);
-                    }
-                    else
-                    {
-                        continue;
+                        // var userVm = new UserVM
+                        // {
+                        //     user = identityUser
+                        // };
+
+                        IdentityResult result = null;
+                        var user = await _userManager.FindByIdAsync(userVm.user.Id);
+                        
+                        if (userVm.IsSelected && !(await _userManager.IsInRoleAsync(user, role.Name)))
+                        {
+                            result = await _userManager.AddToRoleAsync(user, role.Name);   
+                        }
+                        else if (!userVm.IsSelected && await _userManager.IsInRoleAsync(user, role.Name))
+                        {
+                            result = await _userManager.RemoveFromRoleAsync(user, role.Name);
+                        }
+                        else
+                        {
+                            continue;
+                        }
                     }
                 }
+                else if (action == "delete")
+                {
+                    //Delete ops.
+                    var role = await _roleManager.FindByIdAsync(usersRoleViewModel.Role.Id);
+                    try
+                    {
+                        var result = await _roleManager.DeleteAsync(role);
+                        if (result.Succeeded)
+                        {
+                            return RedirectToAction("Index");
+                        }
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError("", error.Description);
+                        }
+                        return View("Index");
+
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        ViewBag.ErrorTitle = $"{role.Name} role is in use.";
+                        ViewBag.ErrorMessage = $"{role.Name} role cannot be deleted as there are users in this role.";
+                        return View("Index");
+                    }
+                }
+            
             }
-            else if (action == "delete")
+            var roleDashboardVM = new RoleDashboardVM 
             {
-                //Delete ops.
-                var role = await _roleManager.FindByIdAsync(usersRoleViewModel.Role.Id);
-                try
-                {
-                    var result = await _roleManager.DeleteAsync(role);
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Index");
-                    }
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
-                    return View("Index");
+                Roles = _roleManager.Roles.ToList(),
+                UsersRoleViewModels = new List<UsersRoleViewModel>()
+            };
 
-                }
-                catch (DbUpdateException ex)
-                {
-                    ViewBag.ErrorTitle = $"{role.Name} role is in use.";
-                    ViewBag.ErrorMessage = $"{role.Name} role cannot be deleted as there are users in this role.";
-                    return View("Index");
-                }
-            }
+            
+            roleDashboardVM.UsersRoleViewModels.Add(usersRoleViewModel);
+            
 
-            return View(usersRoleViewModel); // Return the list to the view, or handle as needed.
+            return RedirectToAction("ListRoles"); // Return the list to the view, or handle as needed.
         }
 
 

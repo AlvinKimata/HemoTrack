@@ -96,7 +96,7 @@
                     </thead>
                     @{
                         var totalRoles = Model.Roles.ToList();
-                        var UsersInRoles = Model.UsersRoleViewModels.ToList();
+                        var UsersInRoles = Model.UsersRoleViewModels;
                     }
 
                     @if (totalRoles.Count() == 0)
