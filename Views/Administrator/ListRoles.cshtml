@@ -96,6 +96,7 @@
                     </thead>
                     @{
                         var totalRoles = Model.Roles.ToList();
+                        var UsersInRoles = Model.UsersRoleViewModels.ToList();
                     }
 
                     @if (totalRoles.Count() == 0)
@@ -120,29 +121,31 @@
                             </td>
                         </tr>
                     }
-                    @foreach (var role in totalRoles)
+                    @foreach (var usersInRoles in UsersInRoles)
                     {
+                        @* Get the role Id and map it to its role. *@
                         <tr style="font-weight:600;">
 
                             <td>
-                                @role.Name
+                                @usersInRoles.Role.Name
                             </td>
 
                             <td>
-                                @role.Id
+                                @usersInRoles.Role.Id
                             </td>
 
 
                             <td>
                                 <div style="display:flex;justify-content: center;">
                                     <a href="#" class="non-style-link">
-                                        <button onclick="toggleViewRolePopup(roleId = '@role.Id')" class="btn-primary-soft btn button-icon btn-view"
+                                        <button onclick="toggleViewPopup(roleId = '@usersInRoles.Role.Id')" class="btn-primary-soft btn button-icon btn-view"
                                             style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
                                             <font class="tn-in-text">View</font>
                                         </button>
 
-                                        <div id="myPopup1_@role.Id" style="display: none;">
-                                            @await Html.PartialAsync("~/Views/Administrator/Partials/_ViewRolePartial.cshtml", @role)
+                                        <div id="myPopup1_@usersInRoles.Role.Id" style="display: none;">
+                                            @await Html.PartialAsync("~/Views/Administrator/Partials/_ViewRolePartial.cshtml", @usersInRoles)
+
                                         </div>
                                     </a>
 

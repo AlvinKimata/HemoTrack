@@ -203,115 +203,104 @@ namespace HemoTrack.Controllers
             var roleDashboardVM = new RoleDashboardVM 
             {
                 Roles = roles,
-                UserRoleViewModels = new List<UserRoleViewModel>()
+                UsersRoleViewModels = new List<UsersRoleViewModel>()
             };
 
             foreach(var role in roles)
             {
                 var usersInRole = await _userManager.GetUsersInRoleAsync(role.Name);
+                var usersRoleViewModel = new UsersRoleViewModel
+                {
+                    Role = role,
+                    UsersInRole = new List<UserVM>()
+                };
 
                 foreach (var user in usersInRole)
                 {
-                    var userRoleViewModel = new UserRoleViewModel
+                    var userVM = new UserVM
                     {
-                        UserId = user.Id,
+                        user = user,
+                        IsSelected = true,
                         UserName = user.UserName
                     };
-
-                    if (await _userManager.IsInRoleAsync(user, role.Name))
-                    {
-                        userRoleViewModel.IsSelected = true;
-                    }
-                    else
-                    {
-                        userRoleViewModel.IsSelected = false;
-                    }
-
-                    roleDashboardVM.UserRoleViewModels.Add(userRoleViewModel);
+                    usersRoleViewModel.UsersInRole.Add(userVM);
                 }
+                roleDashboardVM.UsersRoleViewModels.Add(usersRoleViewModel);
             }
 
             return View(roleDashboardVM);
         }
 
-        
 
-        [HttpPost]
-        public async Task<IActionResult> ListRoles(List<UserRoleViewModel> userRoleModel, IdentityRole model, string action)
-        {
-            // Get the role selected.
-            var role = await _roleManager.FindByNameAsync(model.Name);
 
-            if (role == null)
-            {
-                ViewBag.ErrorMessage = $"Role with Name = {model.Name} cannot be found";
-                return View("Index");
-            }
+        // [HttpPost]
+        // public async Task<IActionResult> ListRoles(List<UserRoleViewModel> userRoleModel, string action)
+        // {
 
-            //Modify action.
-            if (action == "modify")
-            {
-                //Edit operations.
-                foreach (var userRole in userRoleModel)
-                {
-                    int i = 0;
+        //     //Modify action.
+        //     if (action == "modify")
+        //     {
+        //         //Edit operations.
+        //         foreach (var userRole in userRoleModel)
+        //         {
+        //             int i = 0;
 
-                    var user = await _userManager.FindByIdAsync(userRole.UserId);
+        //             var user = await _userManager.FindByIdAsync(userRole.UserId);
 
-                    IdentityResult result = null;
+        //             IdentityResult result = null;
 
-                    if (userRole.IsSelected && !(await _userManager.IsInRoleAsync(user, role.Name)))
-                    {
-                        result = await _userManager.AddToRoleAsync(user, role.Name);
-                    }
-                    else if (!userRole.IsSelected && await _userManager.IsInRoleAsync(user, role.Name))
-                    {
-                        result = await _userManager.RemoveFromRoleAsync(user, role.Name);
-                    }
-                    else
-                    {
-                        continue;
-                    }
+        //             if (userRole.IsSelected && !(await _userManager.IsInRoleAsync(user, role.Name)))
+        //             {
+        //                 result = await _userManager.AddToRoleAsync(user, role.Name);
+        //             }
+        //             else if (!userRole.IsSelected && await _userManager.IsInRoleAsync(user, role.Name))
+        //             {
+        //                 result = await _userManager.RemoveFromRoleAsync(user, role.Name);
+        //             }
+        //             else
+        //             {
+        //                 continue;
+        //             }
 
-                    if (result != null)
-                    {
-                        if (i < userRoleModel.Count() - 1)
-                            continue;
-                        else
-                            return RedirectToAction("ListUsers", new { Id = model.Id});
-                    }
-                    //Increment i.
-                    i++;
-                }
-            }
-            else if (action == "delete")
-            {
-                try
-                {
-                    var result = _roleManager.DeleteAsync(role).GetAwaiter().GetResult();
-                    if (result != null)
-                    {
-                        return RedirectToAction("Index");
-                    }
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
-                    return View("Index");
+        //             if (result != null)
+        //             {
+        //                 if (i < userRoleModel.Count() - 1)
+        //                     continue;
+        //                 else
+        //                     return RedirectToAction("ListUsers", new { Id = model.Id});
+        //             }
+        //             //Increment i.
+        //             i++;
+        //         }
+        //     }
+        //     else if (action == "delete")
+        //     {
+        //         try
+        //         {
+        //             var result = _roleManager.DeleteAsync(role).GetAwaiter().GetResult();
+        //             if (result != null)
+        //             {
+        //                 return RedirectToAction("Index");
+        //             }
+        //             foreach (var error in result.Errors)
+        //             {
+        //                 ModelState.AddModelError("", error.Description);
+        //             }
+        //             return View("Index");
 
-                }
-                catch (DbUpdateException ex)
-                {
-                    @ViewBag.ErrorTitle = $"{role.Name} role is in use.";
-                    @ViewBag.ErrorMessage = $"{role.Name} role cannot be deleted as there" +
-                        "are users in this role.";
-                    return View("Index");
-                }
+        //         }
+        //         catch (DbUpdateException ex)
+        //         {
+        //             @ViewBag.ErrorTitle = $"{role.Name} role is in use.";
+        //             @ViewBag.ErrorMessage = $"{role.Name} role cannot be deleted as there" +
+        //                 "are users in this role.";
+        //             return View("Index");
+        //         }
 
-            }
+        //     }
 
-            return View(userRoleModel); // Return the list to the view, or handle as needed.
-        }
+        //     return View(userRoleModel); // Return the list to the view, or handle as needed.
+        // }
 
 
 
