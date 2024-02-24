@@ -208,7 +208,7 @@ namespace HemoTrack.Controllers
 
             foreach(var role in roles)
             {
-                var usersInRole = await _userManager.GetUsersInRoleAsync(role.Name);
+                var usersInRole = _userManager.Users;
                 var usersRoleViewModel = new UsersRoleViewModel
                 {
                     Role = role,
@@ -220,9 +220,19 @@ namespace HemoTrack.Controllers
                     var userVM = new UserVM
                     {
                         user = user,
-                        IsSelected = true,
                         UserName = user.UserName
                     };
+
+                    if (await _userManager.IsInRoleAsync(user, role.Name))
+                    {
+                        userVM.IsSelected = true;
+                    }
+
+                    else
+                    {
+                        userVM.IsSelected = false;
+                    }
+                    
                     usersRoleViewModel.UsersInRole.Add(userVM);
                 }
                 roleDashboardVM.UsersRoleViewModels.Add(usersRoleViewModel);
@@ -241,7 +251,12 @@ namespace HemoTrack.Controllers
                 var role = await _roleManager.FindByIdAsync(usersRoleViewModel.Role.Id);
 
                 foreach(var userVm in usersRoleViewModel.UsersInRole)
+                // foreach(var identityUser in _userManager.Users)
                 {
+                    // var userVm = new UserVM
+                    // {
+                    //     user = identityUser
+                    // };
 
                     IdentityResult result = null;
                     var user = await _userManager.FindByIdAsync(userVm.user.Id);
