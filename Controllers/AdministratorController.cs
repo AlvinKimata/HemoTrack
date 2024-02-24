@@ -231,77 +231,62 @@ namespace HemoTrack.Controllers
             return View(roleDashboardVM);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> ListRoles(UsersRoleViewModel usersRoleViewModel, string action)
+        {
+            if (action == "modify")
+            {
+                //Get the role.
+                var role = await _roleManager.FindByIdAsync(usersRoleViewModel.Role.Id);
 
+                foreach(var userVm in usersRoleViewModel.UsersInRole)
+                {
 
-        // [HttpPost]
-        // public async Task<IActionResult> ListRoles(List<UserRoleViewModel> userRoleModel, string action)
-        // {
+                    IdentityResult result = null;
+                    var user = await _userManager.FindByIdAsync(userVm.user.Id);
+                    
+                    if (userVm.IsSelected && !(await _userManager.IsInRoleAsync(user, role.Name)))
+                    {
+                        result = await _userManager.AddToRoleAsync(user, role.Name);   
+                    }
+                    else if (!userVm.IsSelected && await _userManager.IsInRoleAsync(user, role.Name))
+                    {
+                        result = await _userManager.RemoveFromRoleAsync(user, role.Name);
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+            }
+            else if (action == "delete")
+            {
+                //Delete ops.
+                var role = await _roleManager.FindByIdAsync(usersRoleViewModel.Role.Id);
+                try
+                {
+                    var result = await _roleManager.DeleteAsync(role);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                    return View("Index");
 
-        //     //Modify action.
-        //     if (action == "modify")
-        //     {
-        //         //Edit operations.
-        //         foreach (var userRole in userRoleModel)
-        //         {
-        //             int i = 0;
+                }
+                catch (DbUpdateException ex)
+                {
+                    ViewBag.ErrorTitle = $"{role.Name} role is in use.";
+                    ViewBag.ErrorMessage = $"{role.Name} role cannot be deleted as there are users in this role.";
+                    return View("Index");
+                }
+            }
 
-        //             var user = await _userManager.FindByIdAsync(userRole.UserId);
-
-        //             IdentityResult result = null;
-
-        //             if (userRole.IsSelected && !(await _userManager.IsInRoleAsync(user, role.Name)))
-        //             {
-        //                 result = await _userManager.AddToRoleAsync(user, role.Name);
-        //             }
-        //             else if (!userRole.IsSelected && await _userManager.IsInRoleAsync(user, role.Name))
-        //             {
-        //                 result = await _userManager.RemoveFromRoleAsync(user, role.Name);
-        //             }
-        //             else
-        //             {
-        //                 continue;
-        //             }
-
-        //             if (result != null)
-        //             {
-        //                 if (i < userRoleModel.Count() - 1)
-        //                     continue;
-        //                 else
-        //                     return RedirectToAction("ListUsers", new { Id = model.Id});
-        //             }
-        //             //Increment i.
-        //             i++;
-        //         }
-        //     }
-        //     else if (action == "delete")
-        //     {
-        //         try
-        //         {
-        //             var result = _roleManager.DeleteAsync(role).GetAwaiter().GetResult();
-        //             if (result != null)
-        //             {
-        //                 return RedirectToAction("Index");
-        //             }
-        //             foreach (var error in result.Errors)
-        //             {
-        //                 ModelState.AddModelError("", error.Description);
-        //             }
-        //             return View("Index");
-
-        //         }
-        //         catch (DbUpdateException ex)
-        //         {
-        //             @ViewBag.ErrorTitle = $"{role.Name} role is in use.";
-        //             @ViewBag.ErrorMessage = $"{role.Name} role cannot be deleted as there" +
-        //                 "are users in this role.";
-        //             return View("Index");
-        //         }
-
-        //     }
-
-        //     return View(userRoleModel); // Return the list to the view, or handle as needed.
-        // }
-
+            return View(usersRoleViewModel); // Return the list to the view, or handle as needed.
+        }
 
 
         [HttpGet]
