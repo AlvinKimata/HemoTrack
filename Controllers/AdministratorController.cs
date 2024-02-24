@@ -276,6 +276,14 @@ namespace HemoTrack.Controllers
                             continue;
                         }
                     }
+
+                    var roleDashboardVM = new RoleDashboardVM 
+                    {
+                        Roles = _roleManager.Roles.ToList(),
+                        UsersRoleViewModels = new List<UsersRoleViewModel>()
+                    };
+                    
+                    roleDashboardVM.UsersRoleViewModels.Add(usersRoleViewModel);
                 }
                 else if (action == "delete")
                 {
@@ -302,18 +310,22 @@ namespace HemoTrack.Controllers
                         return View("Index");
                     }
                 }
-            
+                else if (action == "create")
+                {
+                    var roleDashboardVM = new RoleDashboardVM();
+                    var createRoleVM = new CreateRoleVM();
+                    //Create a role.
+                    IdentityRole identityRole = new IdentityRole
+                    {
+                        Name = createRoleVM.RoleName
+                    };
+                    roleDashboardVM.createRoleVM.RoleName = identityRole.Name;
+
+                    //Save the role in underlying AspNetRoles table.
+                    IdentityResult result = await _roleManager.CreateAsync(identityRole);
+                }
+
             }
-            var roleDashboardVM = new RoleDashboardVM 
-            {
-                Roles = _roleManager.Roles.ToList(),
-                UsersRoleViewModels = new List<UsersRoleViewModel>()
-            };
-
-            
-            roleDashboardVM.UsersRoleViewModels.Add(usersRoleViewModel);
-            
-
             return RedirectToAction("ListRoles"); // Return the list to the view, or handle as needed.
         }
 

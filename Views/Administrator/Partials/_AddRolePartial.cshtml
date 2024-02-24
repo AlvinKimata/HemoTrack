@@ -27,7 +27,8 @@
                                     New Role</p><br>
                             </td>
                         </tr>
-                        <form method="post" class="add-new-form">
+                        <form method="post" asp-action="CreateRole" class="add-new-form">
+                            <input type="hidden" name="action" value="create">
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <label asp-for="RoleName" class="form-label">Role name : </label>
@@ -36,7 +37,7 @@
 
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input asp-for="RoleName" type="text" name="title" class="input-text"
+                                    <input asp-for="RoleName" type="text" class="input-text"
                                         placeholder="Role name" aria-required="true"><br>
                                     <span asp-validation-for="RoleName" class="text-danger"></span>
                                 </td>
@@ -44,7 +45,7 @@
 
                             <tr>
                                 <td colspan="2">
-                                    <button type="submit" value="Create Role" class="login-btn btn-primary btn">Create Role</button>
+                                    <input type="submit" value="Create Role" class="login-btn btn-primary btn"></button>
                                 </td>
                             </tr>
 
