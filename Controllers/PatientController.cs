@@ -263,6 +263,7 @@ namespace HemoTrack.Controllers
         [HttpPost]
         public async Task<IActionResult> Settings(Patient model, string action)
         {
+            var patientDashboardVM = new PatientDashboardVM();
             if (ModelState.IsValid)
             {
                 if (action == "modify")
@@ -284,7 +285,8 @@ namespace HemoTrack.Controllers
                     }
                 }
             }
-            return View(model);
+            patientDashboardVM.Patient = model;
+            return View(patientDashboardVM);
 
         }
     }
