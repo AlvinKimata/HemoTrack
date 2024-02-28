@@ -279,11 +279,20 @@ namespace HemoTrack.Controllers
         public async Task <IActionResult> Settings()
         {
             var IdentityUser = await GetCurrentPatientAsync();
-            var patient =  await _context.User.OfType<Patient>().FirstOrDefaultAsync(m => m.Email == IdentityUser.Email);
+            var currentUser =  await _context.User.OfType<Patient>().FirstOrDefaultAsync(m => m.Email == IdentityUser.Email);
 
 
-            var patientDashboardVM = new PatientDashboardVM();
-            patientDashboardVM.Patient = await _context.User.OfType<Patient>().FirstOrDefaultAsync(m => m.Email == patient.Email);
+            // var patientDashboardVM = new PatientDashboardVM();
+            // patientDashboardVM.Patient = await _context.User.OfType<Patient>().FirstOrDefaultAsync(m => m.Email == patient.Email);
+            var patientDashboardVM = new PatientDashboardVM
+            {
+                FirstName = currentUser.FirstName + " " + currentUser.LastName,
+                // Patients = patients,
+                Email = currentUser.Email,
+                UserName = currentUser.UserName,
+                // Doctors = doctors,
+                Patient = currentUser
+            };
         
 
             return View(patientDashboardVM);
