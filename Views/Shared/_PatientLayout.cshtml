@@ -102,7 +102,7 @@
 
         <tr class="menu-row">
             <td class="menu-btn menu-icon-settings">
-                <a href="#" class="non-style-link-menu">
+                <a asp-action="Notifications" class="non-style-link-menu">
                     <div>
                         <p class="menu-text">Notifications(0)</p>
                     </div>
@@ -126,10 +126,7 @@
     </div>
 
     @RenderBody()
+    @RenderSection("Scripts", required: true)
 </body>
 
 </html>
-
-@section Scripts {
-    <script src="~/js/site.js" asp-append-version="true"></script>
-}

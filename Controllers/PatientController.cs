@@ -136,6 +136,34 @@ namespace HemoTrack.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Notifications()
+        {
+            var currentUser = await GetCurrentPatientAsync();
+            if (currentUser == null)
+            {
+                return NotFound();
+            }
+
+            var doctors = await GetAllDoctorsAsync();
+            var patients = await GetAllPatientsAsync();
+            var appointments = await GetAppointmentsAsync();
+
+            // Your appointment scheduling logic can be moved here
+
+            var patientDashboardVM = new PatientDashboardVM
+            {
+                FirstName = currentUser.FirstName + " " + currentUser.LastName,
+                Doctors = doctors,
+                Patients = patients,
+                Email = currentUser.Email,
+                UserName = currentUser.UserName,
+                Appointments = appointments
+            };
+
+            return View(patientDashboardVM);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> ListAppointments()
         {
             var IdentityUser = await GetCurrentPatientAsync();
@@ -250,8 +278,9 @@ namespace HemoTrack.Controllers
         [HttpGet]
         public async Task <IActionResult> Settings()
         {
-            string currentUserName = User.Identity.Name;
-            var patient = await _userManager.FindByNameAsync(currentUserName);
+            var IdentityUser = await GetCurrentPatientAsync();
+            var patient =  await _context.User.OfType<Patient>().FirstOrDefaultAsync(m => m.Email == IdentityUser.Email);
+
 
             var patientDashboardVM = new PatientDashboardVM();
             patientDashboardVM.Patient = await _context.User.OfType<Patient>().FirstOrDefaultAsync(m => m.Email == patient.Email);

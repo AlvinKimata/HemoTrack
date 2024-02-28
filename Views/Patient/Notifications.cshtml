@@ -1,31 +1,85 @@
 @{
-    ViewData["Title"] = "Log in";
-    Layout = "~/Views/Shared/_NotificationsLayout.cshtml";
+    ViewData["Title"] = "Notifications page";
+    Layout = "~/Views/Shared/_PatientLayout.cshtml";
 }
 
-<div class="p-3 d-flex align-items-center bg-light border-bottom osahan-post-header">
-    @* <div class="dropdown-list-image mr-3">
-        <img class="rounded-circle" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt />
-    </div> *@
-    <div class="font-weight-bold mr-3">
-        <div class="text-truncate">DAILY RUNDOWN: WEDNESDAY</div>
-        <div class="small">Income tax sops on the cards, The bias in VC funding, and other top
-            news for you</div>
-    </div>
-    <span class="ml-auto mb-auto">
-        <div class="btn-group">
-            <button type="button" class="btn btn-light btn-sm rounded" data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false">
-                <i class="mdi mdi-dots-vertical"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right">
-                <button class="dropdown-item" type="button"><i class="mdi mdi-delete"></i>
-                    Delete</button>
-                <button class="dropdown-item" type="button"><i class="mdi mdi-close"></i> Turn
-                    Off</button>
-            </div>
-        </div>
-        <br />
-        <div class="text-right text-muted pt-1">3d</div>
-    </span>
+<div class="dash-body" style="margin-top: 15px">
+    <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;">
+        <tr>
+            <td width="13%">
+                <a asp-action="Index"><button
+                        class="login-btn btn-primary-soft btn btn-icon-back"
+                        style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px">
+                        <font class="tn-in-text">Back</font>
+                    </button></a>
+            </td>
+            <td>
+                <p style="font-size: 23px;padding-left:12px;font-weight: 600;">Notifications</p>
+
+            </td>
+
+            <td width="15%">
+                <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;text-align: right;">
+                    Today's Date
+                </p>
+                <p class="heading-sub12" style="padding: 0;margin: 0;">
+                    @DateTime.Now.ToShortDateString()
+                </p>
+            </td>
+            <td width="10%">
+                <button class="btn-label" style="display: flex;justify-content: center;align-items: center;"><img
+                        src="~/img/calendar.svg" width="100%"></button>
+            </td>
+
+        </tr>
+        <tr>
+            <td colspan="4">
+
+                <center>
+                    <table class="filter-container" style="border: none;" border="0">
+                        <tr>
+                            <td colspan="4">
+                                <p style="font-size: 20px">&nbsp;</p>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="width: 25%;">
+                                <a href="#" class="non-style-link" onclick="togglePopup1()">
+                                    <div class="dashboard-items setting-tabs"
+                                        style="padding:20px;margin:auto;width:95%;display: flex;">
+                                        <div class="btn-icon-back dashboard-icons-setting "
+                                            style="background-image: url('../img/icons/view-iceblue.svg');"></div>
+                                        <div>
+                                            <div class="h1-dashboard">
+                                                Notification
+
+                                            </div><br>
+                                            <div >
+                                                You have an appointment due!
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </a>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <p style="font-size: 5px">&nbsp;</p>
+                            </td>
+                        </tr>
+                    </table>
+                </center>
+            </td>
+        </tr>
+    </table>
 </div>
+
+@section Scripts {
+    <script src="~/js/site.js"></script>
+    <script type="text/javascript">
+
+    </script>
+}
