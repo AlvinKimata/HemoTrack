@@ -1,14 +1,13 @@
 using Microsoft.AspNetCore.SignalR;
 using Quartz;
-// using HemoTrack.Models;
 
-namespace HemoTrack.Services
+namespace HemoTrack.AspNetCoreQuartz.QuartzServices
 {
     public class AppointmentJob : IJob
     {
     
         private static string _message = "Appointment message";
-        private readonly ILogger<ConconcurrentJob> _logger;
+        private readonly ILogger<AppointmentJob> _logger;
         private readonly IHubContext<JobsHub> _hubContext;
 
         public AppointmentJob(IHubContext<JobsHub> hubContext)

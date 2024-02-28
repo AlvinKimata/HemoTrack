@@ -4,6 +4,11 @@ using HemoTrack.Data;
 using HemoTrack.Models;
 using HemoTrack.Services;
 
+using Quartz;
+using HemoTrack.AspNetCoreQuartz;
+using HemoTrack.AspNetCoreQuartz.QuartzServices;
+
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<BlogStoreDatabaseSettings>(
     builder.Configuration.GetSection("BlogsStoreDataBase"));
@@ -14,6 +19,22 @@ builder.Services.AddControllers()
     .AddJsonOptions(
         options => options.JsonSerializerOptions.PropertyNamingPolicy = null
     );
+    
+builder.Services.AddSignalR();
+builder.Services.AddQuartz(
+    q => {
+        var conconcurrentJobKey = new JobKey("ConconcurrentJob");
+        q.AddJob<AppointmentJob>(opts => opts.WithIdentity(conconcurrentJobKey));
+        q.AddTrigger(opts => opts.ForJob(conconcurrentJobKey)
+            .ForJob(conconcurrentJobKey)
+            .WithIdentity("ConconcurrentJob-trigger")
+            .WithSimpleSchedule( x => x.WithIntervalInSeconds(5).RepeatForever()));
+        
+    });
+
+builder.Services.AddQuartzHostedService(
+    q => q.WaitForJobsToComplete = true
+);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("HemoTrackDbConnection");
@@ -41,6 +62,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 });
 
 builder.Services.AddRazorPages();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -67,5 +89,10 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+
+app.UseEndpoints
+(
+    endpoints => {endpoints.MapHub<JobsHub>("/jobshub");
+});
 
 app.Run();

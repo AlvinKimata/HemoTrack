@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.SignalR;
 
-namespace HemoTrack.Services;
+namespace HemoTrack.AspNetCoreQuartz;
 
 public class JobsHub : Hub
 {

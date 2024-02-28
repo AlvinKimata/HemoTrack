@@ -1,4 +1,4 @@
-@{
+@* @{
     ViewData["Title"] = "Notifications page";
     Layout = "~/Views/Shared/_PatientLayout.cshtml";
 }
@@ -90,4 +90,22 @@
     <script type="text/javascript">
 
     </script>
+} *@
+
+
+@{
+    ViewData["Title"] = "Home Page";
 }
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <ul id = "concurrentJobs"></ul>
+        </div>
+        <div class="col-6">
+            <ul id = "nonConcurrentJobs"></ul>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/microsoft-signalr/signalr.js"></script>
