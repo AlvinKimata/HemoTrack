@@ -7,6 +7,7 @@ using HemoTrack.Services;
 using Quartz;
 using HemoTrack.AspNetCoreQuartz;
 using HemoTrack.AspNetCoreQuartz.QuartzServices;
+using Quartz.Impl;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,13 +24,14 @@ builder.Services.AddControllers()
 builder.Services.AddSignalR();
 builder.Services.AddQuartz(
     q => {
+        q.UseMicrosoftDependencyInjectionJobFactory();
+
         var conconcurrentJobKey = new JobKey("ConconcurrentJob");
         q.AddJob<AppointmentJob>(opts => opts.WithIdentity(conconcurrentJobKey));
         q.AddTrigger(opts => opts.ForJob(conconcurrentJobKey)
             .ForJob(conconcurrentJobKey)
             .WithIdentity("ConconcurrentJob-trigger")
             .WithSimpleSchedule( x => x.WithIntervalInSeconds(5).RepeatForever()));
-        
     });
 
 builder.Services.AddQuartzHostedService(
@@ -41,6 +43,7 @@ var connectionString = builder.Configuration.GetConnectionString("HemoTrackDbCon
 builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddScoped<ApplicationDbContext>();
+builder.Services.AddScoped<IScheduler>(provider => StdSchedulerFactory.GetDefaultScheduler().Result);
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

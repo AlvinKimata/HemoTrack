@@ -119,3 +119,9 @@ connection.on("ConcurrentJobs", function (message) {
     document.getElementById("concurrentJobs").appendChild(li);
     li.textContent = `${message}`;
 });
+
+connection.on("NonConcurrentJobs", function (message) {
+    var li = document.createElement("li");
+    document.getElementById("nonConcurrentJobs").appendChild(li); 
+    li.textContent = `${message}`;
+});

@@ -8,18 +8,31 @@ using Microsoft.EntityFrameworkCore;
 using HemoTrack.Data;
 using HemoTrack.Models;
 using HemoTrack.ViewModels;
+using HemoTrack.AspNetCoreQuartz.QuartzServices;
+using Quartz;
+using Microsoft.AspNetCore.SignalR;
+using HemoTrack.AspNetCoreQuartz;
+using Quartz.Impl;
 
 namespace HemoTrack.Controllers
 {
     public class PatientController : Controller
     {
+        private readonly IHubContext<JobsHub> _hubContext;
+        private readonly ILogger<PatientController> _logger;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
+        private readonly IScheduler _scheduler;
 
-        public PatientController(ApplicationDbContext context, UserManager<User> userManager)
+        public PatientController(ApplicationDbContext context, UserManager<User> userManager, 
+                                IHubContext<JobsHub> hubContext, ILogger<PatientController> logger,
+                                IScheduler scheduler)
         {
             _context = context;
+            _hubContext = hubContext;
             _userManager = userManager;
+            _logger = logger;
+            _scheduler = scheduler;
         }
 
         private async Task<User> GetCurrentPatientAsync()
@@ -41,6 +54,67 @@ namespace HemoTrack.Controllers
         private async Task<List<Appointment>> GetAppointmentsAsync()
         {
             return await _context.Appointment.ToListAsync();
+        }
+
+        // private async Task TriggerAppointmentJob()
+        // {
+        //     //Get the scheduler.
+        //     ISchedulerFactory schedulerFactory = new StdSchedulerFactory();
+        //     IScheduler scheduler = await schedulerFactory.GetScheduler();
+
+        //     //Start the scheduler.
+        //     await scheduler.Start();
+
+        //     //Define the job.
+        //     IJobDetail job = JobBuilder.Create<AppointmentJob>()
+        //         .WithIdentity("myJob", "group1")
+        //         .Build();
+
+        //     //Trigger the job to run.
+        //     ITrigger trigger = TriggerBuilder.Create()
+        //         .WithIdentity("myTrigger", "group1")
+        //         .StartNow()
+        //         .Build();
+
+        //     //Schedule the job.
+        //     await scheduler.ScheduleJob(job, trigger);
+
+        //     var message = "Test message triggered when in notifications view";
+
+        //     _logger.LogInformation(message);
+        // }
+
+        private async Task TriggerAppointmentJob(Patient patient, IEnumerable<Appointment> appointments)
+        {
+            //Get the scheduler.
+            ISchedulerFactory schedulerFactory = new StdSchedulerFactory();
+            IScheduler scheduler = await schedulerFactory.GetScheduler();
+
+            //Start the scheduler.
+            await scheduler.Start();
+
+            //Define the job.
+            IJobDetail job = JobBuilder.Create<AppointmentJob>()
+                .WithIdentity("myJob", "group1")
+                .Build();
+
+
+            //Pass current ser's information to job data map.
+            job.JobDataMap["CurrentPatient"] = patient;
+            job.JobDataMap["PatientAppointments"] = appointments;
+
+            //Trigger the job to run.
+            ITrigger trigger = TriggerBuilder.Create()
+                .WithIdentity("myTrigger", "group1")
+                .StartNow()
+                .Build();
+
+            //Schedule the job.
+            await scheduler.ScheduleJob(job, trigger);
+
+            var message = "Test message triggered when in notifications view";
+
+            _logger.LogInformation(message);
         }
 
         [HttpGet]
@@ -149,8 +223,6 @@ namespace HemoTrack.Controllers
             var doctors = await GetAllDoctorsAsync();
             var appointments = await GetAppointmentsAsync();
 
-            // Your appointment scheduling logic can be moved here
-
             var patientDashboardVM = new PatientDashboardVM
             {
                 FirstName = currentUser.FirstName + " " + currentUser.LastName,
@@ -169,6 +241,11 @@ namespace HemoTrack.Controllers
                                             .Where(appointment => appointment.Patient.Id == currentUser.Id)
                                             .Distinct()
                                             .ToListAsync();
+
+            // Your appointment scheduling logic can be moved here
+            _logger.LogInformation("Calling TriggerAppointmentJob method");
+            await TriggerAppointmentJob(currentUser, patientDashboardVM.Appointments);
+
             patientDashboardVM.appointmentRegisterVM = appointmentRegisterVM; // Assign the appointmentRegisterVM to the appropriate property
 
             return View(patientDashboardVM);
