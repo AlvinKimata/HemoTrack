@@ -115,11 +115,11 @@ namespace HemoTrack.Controllers
                 //Add admin role by default if no role exists.
                 IdentityRole identityRole = new IdentityRole
                 {
-                    Name = "Admin"
+                    Name = "Administrator"
                 };
                 IdentityResult roleResult = await _roleManager.CreateAsync(identityRole);
 
-                var roleAddResult = await _userManager.AddToRoleAsync(user, "Admin");
+                var roleAddResult = await _userManager.AddToRoleAsync(user, "Administrator");
 
                 if (result.Succeeded && roleAddResult.Succeeded)
                 {
