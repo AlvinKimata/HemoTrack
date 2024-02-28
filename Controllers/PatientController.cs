@@ -138,14 +138,15 @@ namespace HemoTrack.Controllers
         [HttpGet]
         public async Task<IActionResult> Notifications()
         {
-            var currentUser = await GetCurrentPatientAsync();
+            var IdentityUser = await GetCurrentPatientAsync();
+            var currentUser =  await _context.User.OfType<Patient>().FirstOrDefaultAsync(m => m.Email == IdentityUser.Email);
+
             if (currentUser == null)
             {
                 return NotFound();
             }
 
             var doctors = await GetAllDoctorsAsync();
-            var patients = await GetAllPatientsAsync();
             var appointments = await GetAppointmentsAsync();
 
             // Your appointment scheduling logic can be moved here
@@ -154,11 +155,21 @@ namespace HemoTrack.Controllers
             {
                 FirstName = currentUser.FirstName + " " + currentUser.LastName,
                 Doctors = doctors,
-                Patients = patients,
                 Email = currentUser.Email,
                 UserName = currentUser.UserName,
                 Appointments = appointments
             };
+
+            var appointmentRegisterVM = new AppointmentRegisterVM
+            {
+                Doctors = doctors // Initialize the Doctors property with the retrieved doctors
+            };
+
+            patientDashboardVM.Appointments = await _context.Appointment
+                                            .Where(appointment => appointment.Patient.Id == currentUser.Id)
+                                            .Distinct()
+                                            .ToListAsync();
+            patientDashboardVM.appointmentRegisterVM = appointmentRegisterVM; // Assign the appointmentRegisterVM to the appropriate property
 
             return View(patientDashboardVM);
         }
