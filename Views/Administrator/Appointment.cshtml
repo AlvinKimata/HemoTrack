@@ -54,18 +54,20 @@
                             <thead>
                                 <tr>
                                     <th class="table-headin">
+
                                         Patient name
+
                                     </th>
                                     <th class="table-headin">
 
-                                        Appointment number
+                                        Doctor's name
 
                                     </th>
 
                                     <th class="table-headin">
 
 
-                                        Session Title
+                                        Session date and time
 
                                     </th>
 
@@ -107,14 +109,21 @@
                                 }
                                 @foreach (var appointment in Model.Appointments)
                                 {
+                                    var patientName = appointment.Patient.FirstName + " " + appointment.Patient.LastName;
+                                    var doctorName  = appointment.Doctor.FirstName + " " + appointment.Doctor.LastName;
+
                                     <tr>
                                         <td style="font-weight:600;">
-                                            @appointment.Title
+
+                                            @patientName
+
                                         </td>
+                                        
 
                                         <td style="text-align:center;;">
-                                            @appointment.AppointmentDate.ToShortDateString()
-                                            @appointment.AppointmentTime.ToString()
+
+                                            @doctorName
+
                                         </td>
 
                                         <td style="text-align:center;">
