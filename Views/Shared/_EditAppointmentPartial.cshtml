@@ -1,0 +1,86 @@
+@model Appointment
+
+@{
+    ViewData["Title"] = "Doctor dashboard";
+    Layout = null;
+
+    var appointment = Model;
+}
+
+
+<div id="myPopup4_@Model.Id" class="overlay">
+    <div class="popup">
+        <center>
+            <h2></h2>
+            <a class="close" href="#" onclick="toggleAppointmentPopup('@Model.Id')">&times;</a>
+            <div class="content">
+                eDoc Web App<br>
+
+                <form method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <input type="hidden" name="action" value="modify">
+                    <input type="hidden" asp-for = "@Model.Title" name="Title" value="@Model.Title">
+                    <input type="hidden" asp-for = "@Model.Doctor" name="Doctor" value="@Model.Doctor">
+                    <input type="hidden" asp-for = "@Model.Patient" name="Patient" value="@Model.Patient">
+                    <div style="display: flex;justify-content: center;">
+                        <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+
+                            <tr>
+                                <td>
+                                    <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">
+                                        Edit Details</p>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label-td" colspan="2" hidden>
+                                    <p>Title</p>
+                                    <input name="Title" asp-for="Title"  type="text" id="name"
+                                        placeholder="Title" aria-required="true">
+                                </td>
+                            </tr>
+                            <!--Id -->
+                            <tr>
+                                <td class="label-td" colspan="2" hidden>
+                                    <p>Id</p>
+                                    <input name="Id" asp-for="Id" value = "@Model.Id" type="text" id="name" aria-required="true">
+                                    
+                                </td>
+                            </tr>
+
+                            <!--Edit Appointment date -->
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <p>Date</p>
+                                    <input name="AppointmentDate" asp-for="AppointmentDate" type="date" id="name"
+                                        placeholder="Appointment Date" aria-required="true">
+                                        <span asp-validation-for="AppointmentDate" class="text-danger"></span>
+                                </td>
+                            </tr>
+
+                            <!--Edit Appointment time -->
+
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <p>Time</p>
+                                    <input name="AppointmentTime" asp-for="AppointmentTime" type="time" id="name"
+                                        placeholder="Appointment Time" aria-required="true">
+                                        <span asp-validation-for="AppointmentTime" class="text-danger"></span>
+                                </td>
+                            </tr>
+
+                            <!-- Other attributes go here -->
+
+                            <tr>
+                                <td colspan="2">
+                                    <br>
+                                    <button type="submit"  class="btn btn-primary btn">Submit</button>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </form>
+        </center>
+    </div>
+</div>

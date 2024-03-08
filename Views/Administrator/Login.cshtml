@@ -1,0 +1,89 @@
+﻿@model LoginViewModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> signInManager
+
+
+@{
+    ViewData["Title"] = "Admin Log in";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<center>
+    <h1>@ViewData["Title"]</h1>
+    <div class="container">
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <table border="0" style="margin: 0;padding: 0;width: 60%;">
+                <tr>
+                    <td>
+                        <p class="header-text">Welcome Back!</p>
+                    </td>
+                </tr>
+                <div class="form-body">
+                    <tr>
+                        <td>
+                            <p class="sub-text">Login with your details to continue</p>
+                        </td>
+                    </tr>
+                    <tr>
+
+                        <td class="label-td">
+                            <label asp-for="Email" class="form-label">Email: </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td">
+                            <input type="email" asp-for="Email" class="input-text" placeholder="Email Address"
+                                aria-required="true">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td">
+                            <label asp-for="Password" class="form-label">Password</label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label-td">
+                            <input type="Password" asp-for="Password" class="input-text" placeholder="Password"
+                                aria-required="true">
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <div class="checkbox">
+                        <tr>
+                            <td>
+                                <br>
+                                <label asp-for="RememberMe">
+                                    <input asp-for="RememberMe" />
+                                    @Html.DisplayNameFor(m => m.RememberMe)
+                                </label>
+                                <span asp-validation-for="RememberMe" class="text-danger"></span>
+                            </td>
+                        </tr>
+                    </div>
+
+                    <tr>
+                        <td>
+                            <button class="login-btn btn-primary btn" type="submit">Login</button>
+                        </td>
+                    </tr>
+                </div>
+
+                <tr>
+                    <td>
+                        <br>
+                        <label for="" class="sub-text" style="font-weight: 280;">Don't have an account&#63; </label>
+                        <a asp-controller="Administrator" asp-action="Register" class="hover-link1 non-style-link">Sign Up</a>
+                        <br><br><br>
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+    </div>
+</center>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

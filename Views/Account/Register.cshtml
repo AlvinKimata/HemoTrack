@@ -1,0 +1,178 @@
+﻿@model RegisterViewModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> signInManager
+
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/animations.css">
+    <link rel="stylesheet" href="~/css/main.css">
+    <link rel="stylesheet" href="~/css/signup.css">
+
+    <title>Sign Up</title>
+
+</head>
+
+<body>
+    <center>
+        <h1>@ViewData["Title"]</h1>
+
+        <div class="container">
+            <form id="registerForm" method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <table border="0">
+                    <tr>
+                        <td colspan="2">
+                            <p class="header-text">Let's Get Started</p>
+                            <p class="sub-text">Add Your Personal Details to Continue</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <label asp-for="UserName" class="form-label"></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <input asp-for="UserName" class="form-label input-text" aria-required="true"
+                                placeholder="Username" />
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td">
+                            <label asp-for="FirstName"></label>
+                            <input asp-for="FirstName" type="text" class="input-text" placeholder="First Name"
+                                aria-required="true" />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </td>
+                        <td class="label-td">
+                            <label asp-for="LastName"></label>
+                            <input type="text" asp-for="LastName" class="input-text" placeholder="Last Name"
+                                aria-required="true" />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <label asp-for="Address" class="form-label">Address</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <input type="text" asp-for="Address" class="input-text" placeholder="Address"
+                                aria-required="true" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <label asp-for="Nic" class="form-label">NIC</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <input type="text" asp-for="Nic" class="input-text" placeholder="NIC Number"
+                                aria-required="true" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <label asp-for="DateOfBirth" class="form-label">Date of Birth</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <input type="date" asp-for="DateOfBirth" class="input-text" aria-required="true" />
+                            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <label asp-for="Email" class="form-label">Email</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <input type="email" asp-for="Email" class="input-text" placeholder="Email Address"
+                                aria-required="true" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <label asp-for="PhoneNumber" class="form-label">Mobile Number</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <input type="tel" asp-for="PhoneNumber" class="input-text"
+                                placeholder="ex: 0712345678" pattern="[0]{1}[0-9]{9}" aria-required="true">
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <label asp-for="Password" class="form-label">Create New Password</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <input type="password" asp-for="Password" class="input-text"
+                                placeholder="New Password" aria-required="true" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <input type="password" asp-for="ConfirmPassword" class="input-text"
+                                placeholder="Confirm Password" aria-required="true" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <input type="reset" value="Reset" class="login-btn btn-primary-soft btn">
+                        </td>
+                        <td>
+                            <button class="btn login-btn btn-primary w-100" type="submit">Sign Up</button>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <br>
+                            <label class="sub-text" style="font-weight: 280;">Already have an account&#63;
+                            </label>
+                            <a asp-controller="Account" asp-action="Login" class="hover-link1 non-style-link">Login</a>
+                            <br><br><br>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </center>
+</body>
+
+</html>

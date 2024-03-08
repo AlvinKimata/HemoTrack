@@ -1,0 +1,26 @@
+@model UsersRoleViewModel
+
+@{
+    ViewData["Title"] = "Delete doctor's account";
+    Layout = null;
+}
+
+
+<div id="myPopup3_@Model.Role.Id" class="overlay">
+    <div class="popup">
+        <center>
+            <h2>Are you sure?</h2>
+            <a class="close" href="#" onclick="toggleDeletePopup(Id = '@Model.Role.Id')">&times;</a>
+            <div class="content">
+                You want to delete this record?<br>
+
+            </div>
+            <form method="post" class="add-new-form" id="registerForm">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" asp-for="@Model.Role.Id">
+                <input type="submit" value="Delete" class="login-btn btn-primary btn">
+            </form>
+        </center>
+    </div>
+</div>

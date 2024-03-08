@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/animations.css">
+    <link rel="stylesheet" href="~/css/main.css">
+    <link rel="stylesheet" href="~/css/admin.css">
+    <script src="~/js/site.js"></script>
+    <script src="~/js/CustomScript.js"></script>
+
+    <title>Dashboard</title>
+    <style>
+        .dashbord-tables,
+        .doctor-heade {
+            animation: transitionIn-Y-over 0.5s;
+        }
+
+        .filter-container {
+            animation: transitionIn-Y-bottom 0.5s;
+        }
+
+        .sub-table,
+        #anim {
+            animation: transitionIn-Y-bottom 0.5s;
+        }
+
+        .doctor-heade {
+            animation: transitionIn-Y-over 0.5s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="menu">
+            <table class="menu-container" border="0">
+                <tr>
+                    <td style="padding:10px" colspan="2">
+                        <table border="0" class="profile-container">
+                            <tr>
+                                <td width="30%" style="padding-left:20px">
+                                    <img src="~/img/user.png" alt="" width="100%" style="border-radius:50%">
+                                </td>
+                                <td style="padding:0px;margin:0px;">
+                                    <p class="profile-title">@Model.FirstName</p>
+                                    <p class="profile-subtitle">@Model.Email</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <form method="post" asp-action="logout" asp-controller="account">
+                                        <button type="submit" class="logout-btn btn-primary-soft btn">
+                                            Logout
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr class="menu-row">
+                    <td class="menu-btn menu-icon-dashbord menu-active menu-icon-dashbord-active">
+                        <a asp-controller="Doctor" asp-action="Index"
+                            class="non-style-link-menu non-style-link-menu-active">
+                            <div>
+                                <p class="menu-text">Dashboard</p>
+                        </a>
+        </div></a>
+        </td>
+        </tr>
+        <tr class="menu-row">
+            <td class="menu-btn menu-icon-appoinment">
+                <a asp-controller="Doctor" asp-action="ListAppointments" class="non-style-link-menu">
+                    <div>
+                        <p class="menu-text">My Appointments</p>
+                </a>
+    </div>
+    </td>
+    </tr>
+
+    <tr class="menu-row">
+        <td class="menu-btn menu-icon-settings">
+            <a asp-controller="Doctor" asp-action="Settings" class="non-style-link-menu">
+                <div>
+                    <p class="menu-text">Settings</p>
+            </a></div>
+        </td>
+    </tr>
+
+    <tr class="menu-row">
+        <td class="menu-btn menu-icon-appoinment btn-primary-soft">
+            <a asp-controller="Blog" asp-action="Index" class="non-style-link-menu">
+                <div>
+                    <p class="menu-text">
+                        <font>View Educational Materials</font>
+                    </p>
+            </a></div>
+        </td>
+    </tr>
+
+    </table>
+    </div>
+    @RenderBody()
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>
+
+@section Scripts {
+    <script src="~/js/site.js"></script>
+    <script src="~/js/CustomScript.js"></script>
+}

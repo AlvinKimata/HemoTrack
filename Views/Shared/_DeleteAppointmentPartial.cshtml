@@ -1,0 +1,33 @@
+@model Appointment
+
+@{
+    ViewData["Title"] = "Doctor dashboard";
+    Layout = null;
+    var appointment = Model;
+}
+
+
+<div id="myPopup3_@Model.Id" class="overlay">
+    <div class="popup">
+        <center>
+            <h2>Are you sure?</h2>
+            <a class="close" href="#" onclick="toggleDeletePopup(Id = '@Model.Id')">&times;</a>
+            <div class="content">
+                You want to delete this record?<br>
+
+            </div>
+            <form method="post" class="add-new-form" id="registerForm">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" name="Id" value="@Model.Id">
+                <input type="hidden" name="Title" value="@Model.Title">
+                <input type="hidden" name="Doctor" value="@Model.Doctor">
+                <input type="hidden" name="Patient" value="@Model.Patient">
+                
+                <input type="submit" value="Delete" class="login-btn btn-primary btn">
+
+
+            </form>
+        </center>
+    </div>
+</div>

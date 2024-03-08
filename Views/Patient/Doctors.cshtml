@@ -1,0 +1,135 @@
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<User> signInManager;
+
+@model PatientDashboardVM
+
+@{
+    ViewData["Title"] = "Patient dashboard";
+    Layout = "~/Views/Shared/_PatientLayout.cshtml";
+}
+
+<div class="dash-body">
+    <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
+        <tr>
+            <td width="13%">
+                <a asp-action="Index" asp-controller="Patient"><button class="login-btn btn-primary-soft btn btn-icon-back"
+                        style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px">
+                        <font class="tn-in-text">Back</font>
+                    </button></a>
+            </td>
+            <td>
+
+                <form action="" method="post" class="header-search">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    <input type="search" name="search" class="input-text header-searchbar"
+                        placeholder="Search Doctor name or Email" list="doctors">&nbsp;&nbsp;
+
+                        <datalist id="doctors">
+                            @foreach(var doctor in Model.Doctors)
+                            {
+                                <option value="@doctor"/>
+                                <br/>
+                            }
+
+                    <input type="Submit" value="Search" class="login-btn btn-primary btn"
+                        style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
+
+                </form>
+
+            </td>
+            <td width="15%">
+                <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;text-align: right;">
+                    Today's Date
+                </p>
+                <p class="heading-sub12" style="padding: 0;margin: 0;">
+                    @DateTime.Now.ToShortDateString()
+                </p>
+            </td>
+            <td width="10%">
+                <button class="btn-label" style="display: flex;justify-content: center;align-items: center;"><img
+                        src="~/img/calendar.svg" width="100%"></button>
+            </td>
+
+
+        </tr>
+
+
+        <tr>
+            <td colspan="4" style="padding-top:10px;">
+                <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">All Doctors (@Model.Doctors.Count())
+                </p>
+            </td>
+
+        </tr>
+
+        <tr>
+            <td colspan="4">
+                <center>
+                    <div class="abc scroll">
+                        <table width="93%" class="sub-table scrolldown" border="0">
+                            <thead>
+                                <tr>
+                                    <th class="table-headin">
+
+
+                                        Doctor Name
+
+                                    </th>
+                                    <th class="table-headin">
+                                        Email
+                                    </th>
+                                    <th class="table-headin">
+
+                                        Specialties
+
+                                    </th>
+                                    <th class="table-headin">
+
+                                        Events
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    foreach (var doctor in Model.Doctors)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @doctor.FirstName
+                                            </td>
+                                            <td>
+                                                @doctor.Email
+                                            </td>
+                                            <td>
+                                                @doctor.Speciality
+                                            </td>
+
+                                            <td>
+                                                <div style="display:flex;justify-content: center;">
+
+                                                    <a href="?action=view&id='.$docid.'" class="non-style-link"><button
+                                                            class="btn-primary-soft btn button-icon btn-view"
+                                                            style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
+                                                            <font class="tn-in-text">View</font>
+                                                        </button></a>
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <a href="?action=session&id='.$docid.'&name='.$name.'"
+                                                        class="non-style-link"><button
+                                                            class="btn-primary-soft btn button-icon menu-icon-session-active"
+                                                            style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
+                                                            <font class="tn-in-text">Sessions</font>
+                                                        </button></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </center>
+            </td>
+        </tr>
+    </table>
+</div>

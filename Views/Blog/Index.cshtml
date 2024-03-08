@@ -1,0 +1,110 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> signInManager
+
+@model IEnumerable<Blog>
+
+@{
+    ViewData["Title"] = "My Blog";
+    Layout = "~/Views/Shared/_BlogLayout.cshtml";
+}
+
+@if (Model == null || Model.Count() == 0)
+{
+    <h4>Blog is empty</h4>
+    <p>Either under development, or author is busy. Visit back again later! :-)</p>
+    <a asp-action="Create" asp-controller="Blog">Create new post</a>
+}
+else
+
+{
+    <section class="blog-posts">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="all-blog-posts">
+                        <div class="row">
+                            <div class="col-lg-12">
+
+                                @foreach (var post in Model)
+                                {
+                                    <div class="blog-post">
+                                        <div class="blog-thumb">
+                                            <img src="~/assets/images/blog-post-01.jpg" alt="">
+                                        </div>
+                                        <div class="down-content">
+                                            <span>@post.Title</span>
+                                            <a href="#">
+                                                <h4>@post.BlogName</h4>
+                                            </a>
+                                            <ul class="post-info">
+                                                <li><a href="#">Admin</a></li>
+                                                <li><a href="#">@DateTime.Now</a></li>
+                                            </ul>
+                                            <p>@post.Content</p>
+                                            <div class="post-options">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <ul class="post-tags">
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <ul class="post-share">
+                                                            <li>
+                                                                <a asp-action="ViewContent" asp-controller="Blog" asp-route-id="@post.Id"
+                                                                    style="padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px;"
+                                                                    class="login-btn btn-primary btn">View</a>
+
+                                                                @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                                                                {
+                                                                    <a asp-action="EditPost" asp-controller="Blog" asp-route-id="@post.Id"
+                                                                        style="padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px;"
+                                                                        class="login-btn btn-primary btn">Edit</a>
+
+                                                                    <form asp-action="Delete" asp-route-id="@post.Id" method="post"
+                                                                        style="display: inline-block; margin-left: 10px;">
+                                                                        <button style="padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px;"
+                                                                                class="login-btn btn-danger btn">Delete</button>
+                                                                    </form>
+                                                                }
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @await Html.PartialAsync("_RecentPosts")
+            </div>
+    </section>
+}
+@section Scripts {
+    <!-- Bootstrap core JavaScript -->
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Additional Scripts -->
+    <script src="~/assets/js/custom.js"></script>
+    <script src="~/assets/js/owl.js"></script>
+    <script src="~/assets/js/slick.js"></script>
+    <script src="~/assets/js/isotope.js"></script>
+    <script src="~/assets/js/accordions.js"></script>
+
+    <script language="text/Javascript">
+        cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
+        function clearField(t) {                   //declaring the array outside of the
+            if (!cleared[t.id]) {                      // function makes it static and global
+                cleared[t.id] = 1;  // you could use true and false, but that's more typing
+                t.value = '';         // with more chance of typos
+                t.style.color = '#fff';
+            }
+        }
+    </script>
+}

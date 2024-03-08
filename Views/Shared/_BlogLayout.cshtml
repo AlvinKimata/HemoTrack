@@ -1,0 +1,134 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> signInManager
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="TemplateMo">
+    <link
+        href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap"
+        rel="stylesheet">
+
+    <title>HemoTrack Blog</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="~/assets/css/fontawesome.css">
+    <link rel="stylesheet" href="~/assets/css/templatemo-stand-blog.css">
+    <link rel="stylesheet" href="~/assets/css/owl.css">
+
+</head>
+
+<body>
+
+    <!-- ***** Preloader Start ***** -->
+    <div id="preloader">
+        <div class="jumper">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <!-- ***** Preloader End ***** -->
+
+    <!-- Header -->
+    <header class="">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" asp-action="Index" asp-controller="Blog">
+                    <h2>HemoTrack blog</h2>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item active">
+                                <a class="nav-link" asp-action="Index" asp-controller="Administrator">Home
+                                    <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+
+                        }
+
+                        @if (signInManager.IsSignedIn(User) && User.IsInRole("Patient"))
+                        {
+                            <li class="nav-item active">
+                                <a class="nav-link" asp-action="Index" asp-controller="Patient">Home
+                                    <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+
+                        }
+
+                        @if (signInManager.IsSignedIn(User) && User.IsInRole("Doctor"))
+                        {
+                            <li class="nav-item active">
+                                <a class="nav-link" asp-action="Index" asp-controller="Doctor">Home
+                                    <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+
+                        }
+
+                        @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Blog" asp-action="Create">Add blog post</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Content -->
+    <!-- Banner Starts Here -->
+    <div class="main-banner header-text">
+        <br><br>
+    </div>
+    <!-- Banner Ends Here -->
+    <!--Main body starts here -->
+
+    @RenderBody()
+
+
+    <!--Main body ends here -->
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="social-icons">
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Linkedin</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-12">
+                    <div class="copyright-text">
+                        <p>
+                            Copyright 2024 HemoTrack blog
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

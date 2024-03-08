@@ -1,0 +1,53 @@
+@{
+    Layout = null;
+}
+
+
+
+<div id="errorPopup" class="overlay">
+    <div class="popup">
+        <center>
+            <p>@ViewData["ErrorMessage"]</p>
+            <a class="close" href = "#" onclick="closePopup()">Close</a>
+        </center>
+    </div>
+</div>
+
+
+
+
+@section Scripts
+{
+    <script>
+        function closePopup() {
+            var popup = document.getElementById('errorPopup');
+            if (popup.style.display === 'none')
+            {
+                popup.style.display = "block";
+            }
+            else
+            {
+                popup.style.display = "none";
+            }
+        }
+
+        function showErrorPopup() {
+            $.ajax({
+                url: '/Administrator/Doctor',
+                type: 'GET',
+                success: function (data) {
+                    $('#popupContainer').html(data);
+                    $('#errorPopup').show();
+                },
+                error: function () {
+                    alert('An error occurred while fetching the error message.');
+                }
+            });
+        }
+
+        showErrorPopup();
+    
+    </script>
+    <script src="~/lib/jquery/jquery.min.js"></script>
+
+}

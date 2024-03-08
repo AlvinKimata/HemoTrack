@@ -1,0 +1,63 @@
+@using Microsoft.AspNetCore.Identity
+@using HemoTrack.ViewModels;
+@model UsersRoleViewModel
+
+@{
+    Layout = null;
+}
+
+<div id="myPopup1_@Model.Role.Id" class="overlay">
+    <div class="popup">
+        <center>
+            <a class="close" href="#" onclick="toggleViewRolePopup('@Model.Role.Id')">&times;</a>
+            <div class="content">
+                Users in @Model.Role.Name
+                <br>
+            </div>
+            <div style="display: flex;justify-content: center;">
+                <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+                    <tr>
+                        <td>
+                            <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">View Details</p><br>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <label asp-for="Role.Name" class="form-label">Role Name</label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            @Model.Role.Name<br><br>
+                        </td>
+                    </tr>
+                    <br><br><br>
+
+                    <tr>
+                        <td class="label-td" colspan="2">
+                            <label class="form-label">Users in Role</label>
+                        </td>
+                    </tr>
+                    <br><br>
+
+                    @foreach(var userinrole in Model.UsersInRole)
+                    {
+                        if(userinrole.IsSelected == true)
+                        {
+                            var fullName = userinrole.user.FirstName + " " + userinrole.user.LastName;
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    @fullName<br>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
+        </center>
+    </div>
+</div>
+
+

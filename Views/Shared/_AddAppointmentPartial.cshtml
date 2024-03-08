@@ -1,0 +1,117 @@
+@model AppointmentRegisterVM
+@{
+    ViewData["Title"] = "Schedule an appointment";
+    Layout = null;
+    var patient = Model.Patient;
+}
+
+<div id="myPopup" class="overlay">
+    <div class="popup">
+        <center>
+            <a class="close" href="#" onclick = "togglePopup()">&times;</a>
+            <div style="display: flex;justify-content: center;">
+                <div class="abc">
+                    <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+                        <tr>
+                            <td class="label-td" colspan="2">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Add
+                                    New Session.</p><br>
+                            </td>
+                        </tr>
+                        <form method="post" class="add-new-form">
+                            <input type="hidden" name="action" value="create">
+
+                            @* <tr hidden>
+                                <td class="label-td" colspan="2">
+                                    <label asp-for="Patient" class="form-label">Patient Name : </label>
+                                </td>
+                            </tr>
+                            <tr hidden>
+                                <td class="label-td" colspan="2">
+                                    <input type="text" disabled name="patient" class="input-text"
+                                        placeholder="Name of patient" aria-required="true"><br>
+                                </td>
+                            </tr> *@
+                            
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label asp-for="Title" class="form-label">Session Title : </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <input type="text" name="title" class="input-text"
+                                        placeholder="Name of this Session" aria-required="true"><br>
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td class="label-td" colspan="2">
+                                    <label asp-for="@Model.Doctor.FirstName" class="form-label">Select Doctor: </label>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <select asp-for="@Model.Doctor.FirstName" id="Doctor" class="box"
+                                        aria-required="true">
+                                        <option value="" disabled selected hidden>Choose Doctor Name from the list
+                                        </option>
+                                        @foreach (var doctor in Model.Doctors)
+                                        {
+                                            var doctorName = doctor.FirstName + " " + doctor.LastName;
+                                            <option value="@doctor.FirstName">@doctorName</option>
+                                        }
+                                    </select>
+                                    <br /><br />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label asp-for="AppointmentDate" class="form-label">Session Date: </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <input type="date" asp-for="AppointmentDate" placeholder="Date" class="input-text"
+                                        aria-required="true"><br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label asp-for="AppointmentTime" class="form-label">Schedule Time: </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <input type="time" asp-for="AppointmentTime" class="input-text" placeholder="Time"
+                                        aria-required="true"><br>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2">
+                                    <input type="reset" value="Reset"
+                                        class="login-btn btn-primary-soft btn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                    <input type="submit" value="Place this Session" class="login-btn btn-primary btn"
+                                        name="shedulesubmit">
+                                </td>
+
+                            </tr>
+
+                        </form>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </center>
+        <br><br>
+    </div>
+</div>

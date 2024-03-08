@@ -1,0 +1,79 @@
+@model UsersRoleViewModel
+
+@{
+    Layout = null;
+}
+
+<div id="myPopup2_@Model.Role.Id" class="overlay">
+    <div class="popup">
+        <center>
+            <h2></h2>
+            <a class="close" href="#" onclick="toggleEditPopup(Id = '@Model.Role.Id')">&times;</a>
+            <div class="content">
+                Add or remove users from this role<br>
+            </div>
+
+            <form method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <input type="hidden" name="action" value="modify">
+                <input type="hidden" asp-for="@Model.Role.Id" name="Role.Id" />
+                
+                <div style="display: flex;justify-content: center;">
+
+                    <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+                        <tr>
+                            <td>
+                                <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;"></p>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="label-td" colspan="2">
+                                <label class="form-label">Role Name: @Model.Role.Name</label>
+                            </td>
+                        </tr>
+                        <br><br><br>
+
+                        <tr>
+                            <td class="label-td" colspan="2">
+                                <label class="form-label">Edit users in role</label>
+                            </td>
+                        </tr>
+                        <br><br><br>
+
+                        <tr>
+                        @for (var i = 0; i < Model.UsersInRole.Count(); i++)
+                        {
+                            var userinrole = Model.UsersInRole[i];
+                            var fullName = userinrole.user.FirstName + " " + userinrole.user.LastName;
+
+                            <div class="form-check m-1">
+                                <td class="label-td" colspan="2">
+                                    <label class="form-check-label">
+                                        @fullName<br>
+                                    </label>
+                                    <input type="hidden" name="UsersInRole[@i].user.Id" value="@userinrole.user.Id" />
+                                    <input type="checkbox" name="UsersInRole[@i].IsSelected" value="true" aria-required="true" @(userinrole.IsSelected ? "checked" : "") />
+
+                                    <span asp-validation-for="UsersInRole[@i].IsSelected" class="text-danger"></span>
+                                    <br><br>
+                                </td>
+                            </div> 
+                        }
+
+
+                        </tr>
+
+                        <tr>
+                            <td colspan="2">
+                                <br>
+                                <input type="submit" class="login-btn btn-primary-soft btn"></button>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </form>
+        </center>
+    </div>
+</div>

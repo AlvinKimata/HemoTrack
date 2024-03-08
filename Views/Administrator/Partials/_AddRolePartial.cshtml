@@ -1,0 +1,60 @@
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<User> signInManager;
+
+@model CreateRoleVM
+
+@{
+    ViewData["Title"] = "Create new role";
+    Layout = null;
+}
+
+
+<div id="popup1" class="overlay">
+    <div class="popup">
+        <center>
+            <a class="close" href="#">&times;</a>
+            <div style="display: flex;justify-content: center;">
+                <div class="abc">
+                    <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+                        <tr>
+                            <td class="label-td" colspan="2">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Add
+                                    New Role</p><br>
+                            </td>
+                        </tr>
+                        <form method="post" asp-action="CreateRole" class="add-new-form">
+                            <input type="hidden" name="action" value="create">
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label asp-for="RoleName" class="form-label">Role name : </label>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <input asp-for="RoleName" type="text" class="input-text"
+                                        placeholder="Role name" aria-required="true"><br>
+                                    <span asp-validation-for="RoleName" class="text-danger"></span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2">
+                                    <input type="submit" value="Create Role" class="login-btn btn-primary btn"></button>
+                                </td>
+                            </tr>
+
+                        </form>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </center>
+        <br><br>
+    </div>
+</div>
