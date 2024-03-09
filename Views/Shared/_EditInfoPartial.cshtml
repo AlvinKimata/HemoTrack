@@ -23,6 +23,8 @@
                         <form method="post" class="add-new-form" id="registerForm">
                             <div asp-validation-summary="All" class="text-danger"></div>
                             <input type="hidden" name="action" value="modify">
+                            <input type="hidden" class="input-text" asp-for="@Model.Email" value = "@Model.Email" name = "Email">
+
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <label asp-for="FirstName" class="form-label">First Name: </label>
@@ -59,7 +61,7 @@
 
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="email" name="email" class="input-text" asp-for="Email" placeholder="Email Address"
+                                    <input type="email" name="email" disabled class="input-text" asp-for="Email" placeholder="Email Address"
                                         aria-required="true"><br>
                                     <span asp-validation-for="Email" class="text-danger"></span>
                                 </td>

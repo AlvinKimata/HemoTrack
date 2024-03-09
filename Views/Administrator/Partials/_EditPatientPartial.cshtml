@@ -12,6 +12,7 @@
             <form method="post" action="">
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div style="display: flex;justify-content: center;">
+                <input type="hidden" class="input-text" asp-for="@Model.Email" value = "@Model.Email" name = "Email">
 
                     <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
 
@@ -47,7 +48,7 @@
                         <tr>
                             <td class="label-td" colspan="2">
                                 <br>
-                                <label asp-for="Email" class="form-label">Email: </label> <br>
+                                <label asp-for="Email" disabled class="form-label">Email: </label> <br>
                                 <input class="label-td" colspan="2" asp-for="Email" aria-required="true">
                                 </input>
                             </td>

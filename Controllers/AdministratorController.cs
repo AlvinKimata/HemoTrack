@@ -542,9 +542,9 @@ namespace HemoTrack.Controllers
                     existingDoctor.Speciality = model.Speciality;
 
                     _context.Update(existingDoctor);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChanges();
 
-                    doctorDashboardVM.Doctor = existingDoctor;
+                    model.Doctor = existingDoctor;
                     model.Doctors = _context.User.OfType<Doctor>().ToList();
 
                     return RedirectToAction("Doctors");
