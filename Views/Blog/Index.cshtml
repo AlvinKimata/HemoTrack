@@ -12,7 +12,6 @@
 {
     <h4>Blog is empty</h4>
     <p>Either under development, or author is busy. Visit back again later! :-)</p>
-    <a asp-action="Create" asp-controller="Blog">Create new post</a>
 }
 else
 
@@ -54,7 +53,7 @@ else
                                                                     style="padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px;"
                                                                     class="login-btn btn-primary btn">View</a>
 
-                                                                @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                                                                @if (signInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
                                                                 {
                                                                     <a asp-action="EditPost" asp-controller="Blog" asp-route-id="@post.Id"
                                                                         style="padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px;"

@@ -163,32 +163,29 @@ namespace HemoTrack.Controllers
             doctorDashboardVM.Doctor = await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.Email == doctor.Email);
         
 
-            return View(doctorDashboardVM);
+            return View(doctorDashboardVM.Doctor);
         }
         
         [HttpPost]
         public async Task<IActionResult> Settings(Doctor model, string action)
         {
-            if (ModelState.IsValid)
+            if (action == "modify")
             {
-                if (action == "modify")
+                //Modify doctor's details.
+                string currentUserName = User.Identity.Name;
+                var doctor = await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.Email == model.Email);
+                if (doctor != null)
                 {
-                    //Modify doctor's details.
-                    string currentUserName = User.Identity.Name;
-                    var doctor = await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.Email == model.Email);
-                    if (doctor != null)
-                    {
-                        doctor.FirstName = model.FirstName;
-                        doctor.LastName = model.LastName;
-                        doctor.Email = model.Email;
-                        doctor.Nic = model.Nic;
-                        doctor.PhoneNumber = model.PhoneNumber;
-                        doctor.Speciality = model.Speciality;
+                    doctor.FirstName = model.FirstName;
+                    doctor.LastName = model.LastName;
+                    doctor.Email = model.Email;
+                    doctor.Nic = model.Nic;
+                    doctor.PhoneNumber = model.PhoneNumber;
+                    doctor.Speciality = model.Speciality;
 
-                        _context.Update(doctor);
-                        await _context.SaveChangesAsync();
-                        return RedirectToAction("Index");
-                    }
+                    _context.Update(doctor);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
                 }
             }
             return View(model);
