@@ -1,4 +1,9 @@
-@model Patient
+@model Patient;
+
+@{
+    ViewData["Title"] = "Edit doctor's details";
+    Layout = null;
+}
 
 <div id="myPopup2_@Model.Id" class="overlay">
     <div class="popup">
@@ -12,7 +17,8 @@
             <form method="post" action="">
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div style="display: flex;justify-content: center;">
-                <input type="hidden" class="input-text" asp-for="@Model.Email" value = "@Model.Email" name = "Email">
+                <input type="hidden" name="action" value="modify">
+                <input type="hidden" class="input-text" asp-for="@Model.Email" value = "@Model.Email">
 
                     <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
 
@@ -22,34 +28,30 @@
                                     Details</p>
                             </td>
                         </tr>
+
                         <tr>
-                            <div class="row">
-                                <div class="col-md-6 col-sm-12">
-
-                                    <td class="label-td" colspan="2">
-                                        <p>First Name</p>
-                                        <input name="name" asp-for="FirstName" type="text" id="name"
+                            <td class="label-td" colspan="2">
+                                <p>First Name</p>
+                                <input asp-for="FirstName" type="text" id="name" class="input-text"
                                             placeholder="First name" aria-required="true">
-                                    </td>
-                                </div>
+                            </td>
+                        </tr>
+                                
 
-                                <div class="col-md-6 col-sm-12">
-                                    <td class="label-td" colspan="2">
-                                        <p>Last Name</p>
-                                        <input name="name" asp-for="LastName" type="text" id="name"
-                                            placeholder="Last name" aria-required="true">
-                                    </td>
-                                </div>
-                                <br>
-                            </div>
-
+                        <tr>
+                            <td class="label-td" colspan="2">
+                                <p>Last Name</p>
+                                <input asp-for="LastName" type="text" class="input-text" id="name"
+                                    placeholder="Last name" aria-required="true">
+                            </td>
+                            <br>
                         </tr>
 
                         <tr>
                             <td class="label-td" colspan="2">
                                 <br>
                                 <label asp-for="Email" disabled class="form-label">Email: </label> <br>
-                                <input class="label-td" colspan="2" asp-for="Email" aria-required="true">
+                                <input class="input-text" disabled colspan="2" asp-for="Email" aria-required="true">
                                 </input>
                             </td>
                         </tr>
@@ -58,16 +60,31 @@
                             <td class="label-td" colspan="2">
                                 <br>
                                 <label asp-for="PhoneNumber" class="form-label">Telephone: </label><br>
-                                <input class="label-td" colspan="2" asp-for="PhoneNumber" aria-required="true"><br>
+                                <input class="input-text" colspan="2" asp-for="PhoneNumber" aria-required="true"><br>
                                 </input>
                             </td>
                         </tr>
 
                         <tr>
                             <td class="label-td" colspan="2">
+                                <label class="form-label">NIC: </label>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="label-td" colspan="2">
+                                <input type="text" name="Nic" class="input-text" asp-for="Nic"
+                                    aria-required="true"><br>
+                                <span asp-validation-for="Nic" class="text-danger"></span>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td class="label-td" colspan="2">
                                 <br>
                                 <label asp-for="DateOfBirth" class="form-label">Date Of Birth: </label><br>
-                                <input class="label-td" colspan="2" asp-for="DateOfBirth" aria-required="true">
+                                <input class="input-text" type = "date" colspan="2" asp-for="DateOfBirth" aria-required="true">
                                 <br>
                             </td>
                             <br>

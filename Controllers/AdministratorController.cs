@@ -343,51 +343,70 @@ namespace HemoTrack.Controllers
         [HttpGet]
         public IActionResult Patient()
         {
-            var administratorDashboardVM = new AdministratorDashboardVM();
-            administratorDashboardVM.Patients = _context.User.OfType<Patient>().ToList();
-            return View(administratorDashboardVM);
+            var patientDashboardVM = new PatientDashboardVM();
+            patientDashboardVM.Patients = _context.User.OfType<Patient>().ToList();
+            return View(patientDashboardVM);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Patient(Patient model, string action)
+        public async Task<IActionResult> Patient(PatientDashboardVM model, string action)
         {
-            if (!ModelState.IsValid)
-            {
-                // Check the action parameter to determine the desired action
-    
-                if (action == "delete")
-                {
-                    // Handle doctor deletion logic here
-                    // Example:
-                    var patientToDelete = await _context.User.OfType<Patient>().FirstOrDefaultAsync(m => m.Email == model.Email);
-                    if (patientToDelete != null)
-                    {
-                        _context.Patient.Remove(patientToDelete);
-                        await _context.SaveChangesAsync();
-                        return RedirectToAction("Index");
-                    }
-                }
-                else if (action == "modify")
-                {
-                    // Handle doctor modification logic here
-                    // Example:
-                    var existingPatient = await _context.User.OfType<Doctor>().FirstOrDefaultAsync(m => m.Email == model.Email);
-                    if (existingPatient != null)
-                    {
-                        // Update doctor details based on the provided model
-                        existingPatient.FirstName = model.FirstName;
-                        existingPatient.LastName = model.LastName;
-                        existingPatient.Email = model.Email;
-                        existingPatient.Nic = model.Nic;
-                        existingPatient.PhoneNumber = model.PhoneNumber;
 
-                        _context.Update(existingPatient);
-                        await _context.SaveChangesAsync();
-                        return RedirectToAction("Index");
+            // Check the action parameter to determine the desired action
+
+            if (action == "delete")
+            {
+                var patientToDelete = await _context.User.OfType<Patient>().FirstOrDefaultAsync(m => m.Email == model.Email);
+                if (patientToDelete != null)
+                {
+                    //Get all appointments associated with the patient.
+                    var appointmentsAssociatedWithPatient =  _context.Appointment.Where(m => m.Patient.Id == patientToDelete.Id).Distinct().ToList();
+
+                    //Loop through appointments deleting them.
+                    foreach (var appointment in appointmentsAssociatedWithPatient)
+                    {
+                        //Delete individual appointment.
+                        if (appointment != null)
+                        {
+                            _context.Appointment.Remove(appointment);
+                            _context.SaveChanges();
+                        }
                     }
+
+                    _context.Patient.Remove(patientToDelete);
+                    _context.SaveChanges();
+                    return RedirectToAction("Patient");
+                }
+
+                model.Patients = _context.User.OfType<Patient>().ToList();            
+
+            }
+            else if (action == "modify")
+            {
+                // Handle doctor modification logic here
+                // Example:
+                var existingPatient = await _context.User.OfType<Patient>().FirstOrDefaultAsync(m => m.Email == model.Email);
+                if (existingPatient != null)
+                {
+                    // Update doctor details based on the provided model
+                    existingPatient.FirstName = model.FirstName;
+                    existingPatient.LastName = model.LastName;
+                    existingPatient.Email = model.Email;
+                    existingPatient.Nic = model.Nic;
+                    existingPatient.PhoneNumber = model.PhoneNumber;
+
+                    _context.Update(existingPatient);
+                    await _context.SaveChangesAsync();
+
+                    model.Patient = existingPatient;
+                    model.Patients = _context.User.OfType<Patient>().ToList();
+
+                    return RedirectToAction("Index");
                 }
             }
 
+            model.Patients = _context.User.OfType<Patient>().ToList();  
+            
             return View(model);
         }
 
