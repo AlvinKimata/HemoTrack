@@ -126,7 +126,7 @@ namespace HemoTrack.Controllers
                     if (user != null)
                     {
                         // Check user's role and redirect accordingly
-                        if (await _userManager.IsInRoleAsync(user, "Admin"))
+                        if (await _userManager.IsInRoleAsync(user, "Administrator"))
                         {
                             await _signInManager.SignInAsync(user, isPersistent: false);
                             return RedirectToAction("Index", "Administrator");
