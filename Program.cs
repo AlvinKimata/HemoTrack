@@ -4,6 +4,7 @@ using HemoTrack.Data;
 using HemoTrack.Models;
 using HemoTrack.Services;
 
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<BlogStoreDatabaseSettings>(
     builder.Configuration.GetSection("BlogsStoreDataBase"));
@@ -18,7 +19,9 @@ builder.Services.AddControllers()
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("HemoTrackDbConnection");
 builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+// builder.Services.AddMySqlDataSource(connectionString);
 builder.Services.AddScoped<ApplicationDbContext>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
