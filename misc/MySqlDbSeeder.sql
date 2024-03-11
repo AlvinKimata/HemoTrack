@@ -101,7 +101,7 @@ CREATE INDEX `IX_Appointment_PatientId` ON `Appointment` (`PatientId`);
 -- Seed data for Roles table
 INSERT INTO Roles (Id, Name, NormalizedName, ConcurrencyStamp)
 VALUES ('72c5c746-1b34-423a-b474-58bc9d268279', 'Doctor', 'DOCTOR', 'c914c3ca-87be-4500-956e-85fecf66e52d'),
-       ('d40be4cc-b67f-429a-8bc8-483ce89e314e', 'Administrator', 'ADMIN', '289ef3a1-9595-4606-bb90-82001c1df934'),
+       ('d40be4cc-b67f-429a-8bc8-483ce89e314e', 'Administrator', 'ADMINISTRATOR', '289ef3a1-9595-4606-bb90-82001c1df934'),
        ('dd8d68cd-786a-47c6-a191-7811c9bcb580', 'Patient', 'PATIENT', 'f559ae1e-3046-488a-8b0d-410e1b2b82ab');
 
 
@@ -121,3 +121,12 @@ VALUES
 (2, 'Second session', '2024-02-29', '06:00:00.0000000', 'e153c902-e30f-4329-acbd-70e64676f76b', '601cc81c-1811-4e78-81ea-aa3d7c29c137'), 
 (3, 'First appointment', '2024-02-29', '10:00:00.0000000', '6e32c966-2a53-48f0-be72-d24e309382cd', 'f8659bd9-7d6f-48a4-816b-b4bd55c975cd'), 
 (4, 'Second appointment', '2024-03-01', '10:00:00.0000000', '6e32c966-2a53-48f0-be72-d24e309382cd', '601cc81c-1811-4e78-81ea-aa3d7c29c137');
+
+
+INSERT INTO UserRoles (UserId,RoleId) VALUES
+	 (N'601cc81c-1811-4e78-81ea-aa3d7c29c137',N'72c5c746-1b34-423a-b474-58bc9d268279'),
+	 (N'6e32c966-2a53-48f0-be72-d24e309382cd',N'dd8d68cd-786a-47c6-a191-7811c9bcb580'),
+	 (N'd1a16a19-891a-437f-8d03-90b2de2fed70',N'd40be4cc-b67f-429a-8bc8-483ce89e314e'),
+	 (N'e153c902-e30f-4329-acbd-70e64676f76b',N'dd8d68cd-786a-47c6-a191-7811c9bcb580'),
+	 (N'f8659bd9-7d6f-48a4-816b-b4bd55c975cd',N'72c5c746-1b34-423a-b474-58bc9d268279'),
+	 (N'f9150d2c-d8d8-4a86-86d4-4a66fe963087',N'd40be4cc-b67f-429a-8bc8-483ce89e314e');

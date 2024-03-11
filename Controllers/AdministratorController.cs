@@ -196,7 +196,6 @@ namespace HemoTrack.Controllers
             }
             return View(model);
         }
-
         [HttpGet]
         public async Task<IActionResult> ListRoles()
         {
@@ -209,38 +208,87 @@ namespace HemoTrack.Controllers
 
             foreach(var role in roles)
             {
-                var usersInRole = _userManager.Users;
-                var usersRoleViewModel = new UsersRoleViewModel
+                // Using statement to ensure proper connection management
+                using (var usersInRole = _userManager.Users)
                 {
-                    Role = role,
-                    UsersInRole = new List<UserVM>()
-                };
-
-                foreach (var user in usersInRole)
-                {
-                    var userVM = new UserVM
+                    var usersRoleViewModel = new UsersRoleViewModel
                     {
-                        user = user,
-                        UserName = user.UserName
+                        Role = role,
+                        UsersInRole = new List<UserVM>()
                     };
 
-                    if (await _userManager.IsInRoleAsync(user, role.Name))
+                    foreach (var user in usersInRole)
                     {
-                        userVM.IsSelected = true;
-                    }
+                        var userVM = new UserVM
+                        {
+                            user = user,
+                            UserName = user.UserName
+                        };
 
-                    else
-                    {
-                        userVM.IsSelected = false;
+                        if (await _userManager.IsInRoleAsync(user, role.Name))
+                        {
+                            userVM.IsSelected = true;
+                        }
+                        else
+                        {
+                            userVM.IsSelected = false;
+                        }
+                        
+                        usersRoleViewModel.UsersInRole.Add(userVM);
                     }
-                    
-                    usersRoleViewModel.UsersInRole.Add(userVM);
+                    roleDashboardVM.UsersRoleViewModels.Add(usersRoleViewModel);
                 }
-                roleDashboardVM.UsersRoleViewModels.Add(usersRoleViewModel);
             }
 
             return View(roleDashboardVM);
         }
+
+
+        // [HttpGet]
+        // public async Task<IActionResult> ListRoles()
+        // {
+        //     // var roles =  _roleManager.Roles.ToList();
+        //     var roles = _context.Roles.ToList();
+        //     var roleDashboardVM = new RoleDashboardVM 
+        //     {
+        //         Roles = roles,
+        //         UsersRoleViewModels = new List<UsersRoleViewModel>()
+        //     };
+
+        //     foreach(var role in roles)
+        //     {
+        //         var usersInRole = _userManager.Users;
+        //         var usersRoleViewModel = new UsersRoleViewModel
+        //         {
+        //             Role = role,
+        //             UsersInRole = new List<UserVM>()
+        //         };
+
+        //         foreach (var user in usersInRole)
+        //         {
+        //             var userVM = new UserVM
+        //             {
+        //                 user = user,
+        //                 UserName = user.UserName
+        //             };
+
+        //             if (await _userManager.IsInRoleAsync(user, role.Name))
+        //             {
+        //                 userVM.IsSelected = true;
+        //             }
+
+        //             else
+        //             {
+        //                 userVM.IsSelected = false;
+        //             }
+                    
+        //             usersRoleViewModel.UsersInRole.Add(userVM);
+        //         }
+        //         roleDashboardVM.UsersRoleViewModels.Add(usersRoleViewModel);
+        //     }
+
+        //     return View(roleDashboardVM);
+        // }
 
         [HttpPost]
         public async Task<IActionResult> ListRoles(UsersRoleViewModel usersRoleViewModel, string action)
