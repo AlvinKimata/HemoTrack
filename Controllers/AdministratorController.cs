@@ -16,10 +16,11 @@ using Microsoft.AspNetCore.Authorization;
 using HemoTrack.Data;
 using HemoTrack.Models;
 using HemoTrack.ViewModels;
+using MySqlConnector;
+
 
 namespace HemoTrack.Controllers
 {   
-    // [Authorize(Roles = "Admin")]
     public class AdministratorController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -196,6 +197,54 @@ namespace HemoTrack.Controllers
             }
             return View(model);
         }
+        // [HttpGet]
+        // public async Task<IActionResult> ListRoles()
+        // {
+        //     var roles = await _roleManager.Roles.ToListAsync();
+        //     var roleDashboardVM = new RoleDashboardVM 
+        //     {
+        //         Roles = roles,
+        //         UsersRoleViewModels = new List<UsersRoleViewModel>()
+        //     };
+
+        //     foreach(var role in roles)
+        //     {
+        //         // Using statement to ensure proper connection management
+        //         using (var usersInRole = _userManager.Users)
+        //         {
+        //             var usersRoleViewModel = new UsersRoleViewModel
+        //             {
+        //                 Role = role,
+        //                 UsersInRole = new List<UserVM>()
+        //             };
+
+        //             foreach (var user in usersInRole)
+        //             {
+        //                 var userVM = new UserVM
+        //                 {
+        //                     user = user,
+        //                     UserName = user.UserName
+        //                 };
+
+        //                 if (await _userManager.IsInRoleAsync(user, role.Name))
+        //                 {
+        //                     userVM.IsSelected = true;
+        //                 }
+        //                 else
+        //                 {
+        //                     userVM.IsSelected = false;
+        //                 }
+                        
+        //                 usersRoleViewModel.UsersInRole.Add(userVM);
+        //             }
+        //             roleDashboardVM.UsersRoleViewModels.Add(usersRoleViewModel);
+        //         }
+        //     }
+
+        //     return View(roleDashboardVM);
+        // }
+
+
         [HttpGet]
         public async Task<IActionResult> ListRoles()
         {
@@ -206,11 +255,12 @@ namespace HemoTrack.Controllers
                 UsersRoleViewModels = new List<UsersRoleViewModel>()
             };
 
-            foreach(var role in roles)
+            // Create a new MySqlConnection object for each iteration
+            using (var connection = await _context.OpenConnectionAsync())
             {
-                // Using statement to ensure proper connection management
-                using (var usersInRole = _userManager.Users)
+                foreach(var role in roles)
                 {
+                    var usersInRole = _userManager.Users;
                     var usersRoleViewModel = new UsersRoleViewModel
                     {
                         Role = role,
@@ -236,59 +286,13 @@ namespace HemoTrack.Controllers
                         
                         usersRoleViewModel.UsersInRole.Add(userVM);
                     }
+
                     roleDashboardVM.UsersRoleViewModels.Add(usersRoleViewModel);
                 }
             }
-
             return View(roleDashboardVM);
         }
 
-
-        // [HttpGet]
-        // public async Task<IActionResult> ListRoles()
-        // {
-        //     // var roles =  _roleManager.Roles.ToList();
-        //     var roles = _context.Roles.ToList();
-        //     var roleDashboardVM = new RoleDashboardVM 
-        //     {
-        //         Roles = roles,
-        //         UsersRoleViewModels = new List<UsersRoleViewModel>()
-        //     };
-
-        //     foreach(var role in roles)
-        //     {
-        //         var usersInRole = _userManager.Users;
-        //         var usersRoleViewModel = new UsersRoleViewModel
-        //         {
-        //             Role = role,
-        //             UsersInRole = new List<UserVM>()
-        //         };
-
-        //         foreach (var user in usersInRole)
-        //         {
-        //             var userVM = new UserVM
-        //             {
-        //                 user = user,
-        //                 UserName = user.UserName
-        //             };
-
-        //             if (await _userManager.IsInRoleAsync(user, role.Name))
-        //             {
-        //                 userVM.IsSelected = true;
-        //             }
-
-        //             else
-        //             {
-        //                 userVM.IsSelected = false;
-        //             }
-                    
-        //             usersRoleViewModel.UsersInRole.Add(userVM);
-        //         }
-        //         roleDashboardVM.UsersRoleViewModels.Add(usersRoleViewModel);
-        //     }
-
-        //     return View(roleDashboardVM);
-        // }
 
         [HttpPost]
         public async Task<IActionResult> ListRoles(UsersRoleViewModel usersRoleViewModel, string action)

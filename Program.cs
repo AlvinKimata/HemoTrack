@@ -21,6 +21,7 @@ var connectionString = builder.Configuration.GetConnectionString("HemoTrackDbCon
 builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
+
 builder.Services.AddScoped<ApplicationDbContext>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();

@@ -2,11 +2,20 @@
 using Microsoft.EntityFrameworkCore;
 using HemoTrack.Models;
 using Microsoft.AspNetCore.Identity;
+using MySqlConnector;
 
 namespace HemoTrack.Data;
 
-public class ApplicationDbContext :  IdentityDbContext<Patient>
+public class ApplicationDbContext :  IdentityDbContext<User>
 {
+    public async Task<MySqlConnection> OpenConnectionAsync()
+    {
+        var connectionString = "server=localhost;user id=root; password=; Database=HemoTrack;";
+        var connection = new MySqlConnection(connectionString);
+        await connection.OpenAsync();
+        return connection;
+    }
+
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
