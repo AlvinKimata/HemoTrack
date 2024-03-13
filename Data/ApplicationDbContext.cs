@@ -2,29 +2,22 @@
 using Microsoft.EntityFrameworkCore;
 using HemoTrack.Models;
 using Microsoft.AspNetCore.Identity;
-using MySqlConnector;
+using MySql.EntityFrameworkCore.Extensions;
 
 namespace HemoTrack.Data;
 
+
 public class ApplicationDbContext :  IdentityDbContext<User>
 {
-    public async Task<MySqlConnection> OpenConnectionAsync()
-    {
-        var connectionString = "server=localhost;user id=root; password=; Database=HemoTrack;";
-        var connection = new MySqlConnection(connectionString);
-        await connection.OpenAsync();
-        return connection;
-    }
-
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
     }
 
         public DbSet<Appointment> Appointment {get; set;}
-        public DbSet<Doctor> Doctor {get; set;}
         public DbSet<Administrator> Administrator {get; set;}
         public DbSet<Patient> Patient {get; set;}
+        public DbSet<Doctor> Doctor {get; set;}
         public DbSet<User> User { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)

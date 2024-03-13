@@ -16,7 +16,6 @@ using Microsoft.AspNetCore.Authorization;
 using HemoTrack.Data;
 using HemoTrack.Models;
 using HemoTrack.ViewModels;
-using MySqlConnector;
 
 
 namespace HemoTrack.Controllers
@@ -24,6 +23,7 @@ namespace HemoTrack.Controllers
     public class AdministratorController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IConfiguration _configuration;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -31,12 +31,14 @@ namespace HemoTrack.Controllers
         public AdministratorController(ApplicationDbContext context, 
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            IConfiguration configuration)
         {
             _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -145,12 +147,7 @@ namespace HemoTrack.Controllers
             return View(model);
         }
         
-        [HttpGet]
-        public IActionResult CreateRole()
-        {
-            return View();
-        }
-        
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model)
@@ -172,125 +169,80 @@ namespace HemoTrack.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateRole(CreateRoleVM model)
-        {
-            if(ModelState.IsValid)
-            {
-                //Specify unique role name to create a new role.
-                IdentityRole identityRole = new IdentityRole
-                {
-                    Name = model.RoleName
-                };
-
-                //Save the role in underlying AspNetRoles table.
-                IdentityResult result = await _roleManager.CreateAsync(identityRole);
-
-                if(result.Succeeded)
-                {
-                    return RedirectToAction("Index", "Administrator");
-                }
-                foreach(IdentityError error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-            }
-            return View(model);
-        }
-        // [HttpGet]
-        // public async Task<IActionResult> ListRoles()
-        // {
-        //     var roles = await _roleManager.Roles.ToListAsync();
-        //     var roleDashboardVM = new RoleDashboardVM 
-        //     {
-        //         Roles = roles,
-        //         UsersRoleViewModels = new List<UsersRoleViewModel>()
-        //     };
-
-        //     foreach(var role in roles)
-        //     {
-        //         // Using statement to ensure proper connection management
-        //         using (var usersInRole = _userManager.Users)
-        //         {
-        //             var usersRoleViewModel = new UsersRoleViewModel
-        //             {
-        //                 Role = role,
-        //                 UsersInRole = new List<UserVM>()
-        //             };
-
-        //             foreach (var user in usersInRole)
-        //             {
-        //                 var userVM = new UserVM
-        //                 {
-        //                     user = user,
-        //                     UserName = user.UserName
-        //                 };
-
-        //                 if (await _userManager.IsInRoleAsync(user, role.Name))
-        //                 {
-        //                     userVM.IsSelected = true;
-        //                 }
-        //                 else
-        //                 {
-        //                     userVM.IsSelected = false;
-        //                 }
-                        
-        //                 usersRoleViewModel.UsersInRole.Add(userVM);
-        //             }
-        //             roleDashboardVM.UsersRoleViewModels.Add(usersRoleViewModel);
-        //         }
-        //     }
-
-        //     return View(roleDashboardVM);
-        // }
 
 
         [HttpGet]
         public async Task<IActionResult> ListRoles()
         {
-            var roles = await _roleManager.Roles.ToListAsync();
-            var roleDashboardVM = new RoleDashboardVM 
-            {
-                Roles = roles,
-                UsersRoleViewModels = new List<UsersRoleViewModel>()
-            };
+            List<IdentityRole> roles;
 
-            // Create a new MySqlConnection object for each iteration
-            using (var connection = await _context.OpenConnectionAsync())
+            using (_context)
             {
+                roles = _context.Roles.ToList();
+                var users = _context.User.ToList();
+                var userRoles = _context.UserRoles.ToList();
+                var userRolesDictionary = userRoles
+                    .GroupBy(ur => ur.RoleId)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => g.Select(ur => ur.UserId).ToList()
+                    );
+
+                var roleDashboardVM = new RoleDashboardVM 
+                {
+                    Roles = roles,
+                    UsersRoleViewModels = new List<UsersRoleViewModel>()
+                };
+
                 foreach(var role in roles)
                 {
-                    var usersInRole = _userManager.Users;
-                    var usersRoleViewModel = new UsersRoleViewModel
-                    {
-                        Role = role,
-                        UsersInRole = new List<UserVM>()
-                    };
-
-                    foreach (var user in usersInRole)
-                    {
-                        var userVM = new UserVM
-                        {
-                            user = user,
-                            UserName = user.UserName
-                        };
-
-                        if (await _userManager.IsInRoleAsync(user, role.Name))
-                        {
-                            userVM.IsSelected = true;
-                        }
-                        else
-                        {
-                            userVM.IsSelected = false;
-                        }
+                    var usersRoleViewModel = new UsersRoleViewModel();
+                    
+                        //Select users in this role from `userRolesDictionary` dictionary.
+                        // var usersInRoleIds = userRolesDictionary[role.Id];
+                        // var usersInRole = users.Where(m => m.Id == role.Id).ToList();
                         
-                        usersRoleViewModel.UsersInRole.Add(userVM);
-                    }
+                        usersRoleViewModel.Role = role;
+                        usersRoleViewModel.UsersInRole = new List<UserVM>();
+
+                        //Get all users in this role from rolelist.
+
+                        foreach (var user in usersInRole)
+                        {
+                            if (user != null)
+                            {
+                                 var userVM = new UserVM
+                                {
+                                    user = user,
+                                    UserName = user.UserName
+                                };
+
+                                var isSelected = _context.UserRoles.Where(m => m.UserId == user.Id);
+                                // GEt the role by id
+                                // if (role.Id == )
+
+                                // if (await _userManager.IsInRoleAsync(user, role.Name))
+                                // {
+                                //     userVM.IsSelected = true;
+                                // }
+                                // else
+                                // {
+                                //     userVM.IsSelected = false;
+                                // }
+                                
+                                usersRoleViewModel.UsersInRole.Add(userVM);
+                            }
+                           
+
+
+                        }
 
                     roleDashboardVM.UsersRoleViewModels.Add(usersRoleViewModel);
                 }
-            }
+            
+
             return View(roleDashboardVM);
+            }
         }
 
 
@@ -306,13 +258,7 @@ namespace HemoTrack.Controllers
                     var role = await _roleManager.FindByIdAsync(usersRoleViewModel.Role.Id);
 
                     foreach(var userVm in usersRoleViewModel.UsersInRole)
-                    // foreach(var identityUser in _userManager.Users)
                     {
-                        // var userVm = new UserVM
-                        // {
-                        //     user = identityUser
-                        // };
-
                         IdentityResult result = null;
                         var user = await _userManager.FindByIdAsync(userVm.user.Id);
                         

@@ -4,6 +4,9 @@ using HemoTrack.Data;
 using HemoTrack.Models;
 using HemoTrack.Services;
 
+using System;
+using System.Text;
+using MySql.EntityFrameworkCore.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<BlogStoreDatabaseSettings>(
