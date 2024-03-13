@@ -198,48 +198,49 @@ namespace HemoTrack.Controllers
                 {
                     var usersRoleViewModel = new UsersRoleViewModel();
                     
-                        //Select users in this role from `userRolesDictionary` dictionary.
-                        // var usersInRoleIds = userRolesDictionary[role.Id];
-                        // var usersInRole = users.Where(m => m.Id == role.Id).ToList();
-                        
-                        usersRoleViewModel.Role = role;
-                        usersRoleViewModel.UsersInRole = new List<UserVM>();
+                    //Select users in this role from `userRolesDictionary` dictionary.
+                    var usersInRoleIds = userRolesDictionary[role.Id];
+                    var usersInRole = users.Where(m => usersInRoleIds.Contains(m.Id)).ToList();
+                    
+                    usersRoleViewModel.Role = role;
+                    usersRoleViewModel.UsersInRole = new List<UserVM>();
 
-                        //Get all users in this role from rolelist.
+                    //Get all users in this role from rolelist.
 
-                        foreach (var user in usersInRole)
+                    foreach (var user in users)
+                    {
+                        if (user != null)
                         {
-                            if (user != null)
+                            if (usersInRole.Contains(user))
                             {
-                                 var userVM = new UserVM
+                                var userVM = new UserVM
                                 {
                                     user = user,
-                                    UserName = user.UserName
+                                    UserName = user.UserName,
+                                    IsSelected = true
                                 };
 
-                                var isSelected = _context.UserRoles.Where(m => m.UserId == user.Id);
-                                // GEt the role by id
-                                // if (role.Id == )
-
-                                // if (await _userManager.IsInRoleAsync(user, role.Name))
-                                // {
-                                //     userVM.IsSelected = true;
-                                // }
-                                // else
-                                // {
-                                //     userVM.IsSelected = false;
-                                // }
+                                usersRoleViewModel.UsersInRole.Add(userVM);
+                            }
+                            else
+                            {
+                                var userVM = new UserVM
+                                {
+                                    user = user,
+                                    UserName = user.UserName,
+                                    IsSelected = false
+                                };
                                 
                                 usersRoleViewModel.UsersInRole.Add(userVM);
                             }
-                           
-
-
+                            
+                            
                         }
+
+                    }
 
                     roleDashboardVM.UsersRoleViewModels.Add(usersRoleViewModel);
                 }
-            
 
             return View(roleDashboardVM);
             }
