@@ -106,8 +106,6 @@ namespace HemoTrack.Controllers
         {
             return View();
         }
-
-
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model)
@@ -115,53 +113,58 @@ namespace HemoTrack.Controllers
             if (ModelState.IsValid)
             {
                 User signedUser = await _userManager.FindByEmailAsync(model.Email);
-                var result = await _signInManager.PasswordSignInAsync(signedUser.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
-
-                if (result.Succeeded)
+                if (signedUser != null)
                 {
-                    // Get the user
-                    var user = await _userManager.FindByEmailAsync(model.Email);
-
-                    //By default set the user's role to a patient.
-
-                    if (user != null)
+                    var result = await _signInManager.PasswordSignInAsync(signedUser.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
+                
+                    if (result.Succeeded)
                     {
-                        // Check user's role and redirect accordingly
-                        if (await _userManager.IsInRoleAsync(user, "Administrator"))
-                        {
-                            await _signInManager.SignInAsync(user, isPersistent: false);
-                            return RedirectToAction("Index", "Administrator");
-                        }
-                        else if (await _userManager.IsInRoleAsync(user, "Doctor"))
-                        {
-                            await _signInManager.SignInAsync(user, isPersistent: false);
-                            return RedirectToAction("Index", "Doctor");
-                        }
-                        else if (await _userManager.IsInRoleAsync(user, "Patient"))
-                        {   
-                            await _signInManager.SignInAsync(user, isPersistent: false);
-                            return RedirectToAction("Index", "Patient");
-                        }
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                        // Get the user
+                        var user = await _userManager.FindByEmailAsync(model.Email);
 
-                    // If the user's role doesn't match any expected roles, handle accordingly
-                    return RedirectToAction("Index", "Home");
+                        //By default set the user's role to a patient.
+
+                        if (user != null)
+                        {
+                            // Check user's role and redirect accordingly
+                            if (await _userManager.IsInRoleAsync(user, "Administrator"))
+                            {
+                                await _signInManager.SignInAsync(user, isPersistent: false);
+                                return RedirectToAction("Index", "Administrator");
+                            }
+                            else if (await _userManager.IsInRoleAsync(user, "Doctor"))
+                            {
+                                await _signInManager.SignInAsync(user, isPersistent: false);
+                                return RedirectToAction("Index", "Doctor");
+                            }
+                            else if (await _userManager.IsInRoleAsync(user, "Patient"))
+                            {   
+                                await _signInManager.SignInAsync(user, isPersistent: false);
+                                return RedirectToAction("Index", "Patient");
+                            }
+
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+
+                            // If the user's role doesn't match any expected roles, handle accordingly
+                            ModelState.AddModelError("", "User is not assigned to a role.");
+                        }
+
 
                     }
                     // If the user does not exist.
-                    ModelState.AddModelError("", "User not registered yet.");
+                    ModelState.AddModelError("", "Invalid password.");
 
-                    return RedirectToAction("Account", "Register");
+
                 }
-
-                // If password is incorrect.
-                ModelState.AddModelError("", "Invalid login attempt");
+                else 
+                {
+                    // If password is incorrect.
+                    ModelState.AddModelError("", "User is not registered");
+                }
             }
 
             return View(model);
         }
 
     }
-
-
 }
