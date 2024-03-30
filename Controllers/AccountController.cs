@@ -143,15 +143,13 @@ namespace HemoTrack.Controllers
                                 return RedirectToAction("Index", "Patient");
                             }
 
-                            await _signInManager.SignInAsync(user, isPersistent: false);
-
                             // If the user's role doesn't match any expected roles, handle accordingly
                             ModelState.AddModelError("", "User is not assigned to a role.");
                         }
 
 
                     }
-                    // If the user does not exist.
+                    // If the user logs in with wrong credentials.
                     ModelState.AddModelError("", "Invalid password.");
 
 
