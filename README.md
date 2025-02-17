@@ -20,6 +20,9 @@ Sickle cell anemia is a chronic genetic blood disorder characterized by abnormal
 - **Educational Resources:** An integrated blog and resource center that offers the latest information on disease management and lifestyle recommendations.
 - **Role-based Interactions:** Customized dashboards for patients, doctors, and administrators to ensure that each user accesses the features most relevant to them.
 
+### ER Diagram for the web application database
+![ER Diagram for the web application database](https://github.com/user-attachments/assets/07008ae4-0ffd-48bd-884f-531af5cb04ff)
+
 ## Features
 
 - **Appointment Management**
@@ -38,6 +41,9 @@ Sickle cell anemia is a chronic genetic blood disorder characterized by abnormal
 - **Security & Privacy**
   - Role-based access control (RBAC) ensures that each user sees only the data pertinent to their role.
   - Robust login mechanisms with error handling (e.g., “Invalid login attempt” and “User is not registered” notifications) to safeguard sensitive healthcare data.
+
+### Use-case diagram for the web application
+![Use-case diagram for the web application](https://github.com/user-attachments/assets/0c47f8ff-589e-4547-abe6-72df5dba8a7e)
 
 ## Architecture & Technology Stack
 
